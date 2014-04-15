@@ -1,0 +1,26 @@
+#First Add the Main repo as a remote repo to your linux box
+git remote add mainQE git@git.corp.yahoo.com:OpenStack/QE.git
+
+#Get the content from the main repo which you want to rebase it
+git fetch mainQE
+
+#Run the Rebase the command to sync your local repo with main one
+git rebase mainQE/folsom
+
+#It will fail if git runs into conflict, resolve the comflict add the file and continue rebasing
+git add scripts/test_runner.sh
+git rebase --continue
+git add yopenstackqe_tests/yopenstackqe_tests/services/osNative/opParser.py
+git rebase --continue
+
+#Once the rebase is done, push the change to your repo on git 
+git push
+
+#If you had push before, then your push will fail. In which case, you have to delete your repo on git and recreate a fresh one, then push the changes there
+git-delete-branch folsom
+git checkout -b folsom
+git push origin folsom
+
+#Once your repo is synced with your and main repo changes submit the pull request using UI
+
+
