@@ -6,10 +6,10 @@ from functools import wraps
 __version__ = '0.7.1'
 
 # These attributes will not conflict with any real python attribute
-# They are added to the decorated test method and processed later
+# They are added to the decorated tests method and processed later
 # by the `ddt` class decorator.
 
-DATA_ATTR = '%values'           # store the data the test must run with
+DATA_ATTR = '%values'           # store the data the tests must run with
 FILE_ATTR = '%file_path'        # store the path to JSON file
 UNPACK_ATTR = '%unpack'         # remember that we have to unpack values
 DDT_LIST_ATTR = '%ddt_list'     # remember that we have to unpack values
@@ -35,7 +35,7 @@ def ddt_list(func):
 
 def data(*values):
     """
-    Method decorator to add to your test methods.
+    Method decorator to add to your tests methods.
 
     Should be added to methods of instances of ``unittest.TestCase``.
 
@@ -48,7 +48,7 @@ def data(*values):
 
 def file_data(value):
     """
-    Method decorator to add to your test methods.
+    Method decorator to add to your tests methods.
 
     Should be added to methods of instances of ``unittest.TestCase``.
 
@@ -58,11 +58,11 @@ def file_data(value):
     dict.
 
     In case of a list, each value in the list will correspond to one
-    test case, and the value will be concatenated to the test method
+    tests case, and the value will be concatenated to the tests method
     name.
 
     In case of a dict, keys will be used as suffixes to the name of the
-    test case, and values will be fed as test data.
+    tests case, and values will be fed as tests data.
 
     """
     def wrapper(func):
@@ -73,7 +73,7 @@ def file_data(value):
 
 def mk_test_name(name, value):
     """
-    Generate a new name for the test named ``name``, appending ``value`` according to value type
+    Generate a new name for the tests named ``name``, appending ``value`` according to value type
 
     """
     try:
@@ -83,7 +83,7 @@ def mk_test_name(name, value):
                 value_name += str(item) + "_"  # make func name contain all data in the list or tuple
             value_name = value_name[:-1]  # ignore last '_'
         elif isinstance(value, dict):
-            # in case of test dict add only first key+value to the test name
+            # in case of tests dict add only first key+value to the tests name
             value_name = "%s" % str(value.keys()[0])
         else:
             # in case of any other type use value as a string
@@ -100,15 +100,15 @@ def data_driven_test(cls):
     """
     Class decorator for subclasses of ``unittest.TestCase``.
 
-    Apply this decorator to the test case class, and then
-    decorate test methods with ``@data``.
+    Apply this decorator to the tests case class, and then
+    decorate tests methods with ``@data``.
 
     For each method decorated with ``@data``, this will effectively create as
     many methods as data items are passed as parameters to ``@data``.
 
-    The names of the test methods follow the pattern ``test_func_name
+    The names of the tests methods follow the pattern ``test_func_name
     + "_" + str(data)``. If ``data.__name__`` exists, it is used
-    instead for the test method name.
+    instead for the tests method name.
 
     For each method decorated with ``@file_data('test_data.json')``, the
     decorator will try to load the test_data.json file located relative
@@ -116,14 +116,14 @@ def data_driven_test(cls):
     for each ``test_name`` key create as many methods in the list of values
     from the ``data`` key.
 
-    The names of these test methods follow the pattern of
+    The names of these tests methods follow the pattern of
     ``test_name`` + str(data)``
 
     """
 
     def feed_data(func, new_name, *args, **kwargs):
         """
-        This internal method decorator feeds the test data item to the test.
+        This internal method decorator feeds the tests data item to the tests.
 
         """
         @wraps(func)
@@ -134,9 +134,9 @@ def data_driven_test(cls):
 
     def add_test(test_name, func, *args, **kwargs):
         """
-        Add a test case to this class.
+        Add a tests case to this class.
 
-        The test will be based on an existing function but will give it a new
+        The tests will be based on an existing function but will give it a new
         name.
 
         """

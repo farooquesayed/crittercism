@@ -645,7 +645,7 @@ class NovaBootTestSuite(baseTest.BaseCliTest):
         TEST_DATA_FILE_NAME = "/tmp/file_to_scp_to_VM_and_back.txt"
         FILE_SIZE = "2GB"
 
-        #Create a local file to run the test for SCP
+        #Create a local file to run the tests for SCP
         cmd_to_create_test_file = []
         cmd_to_create_test_file.append("truncate")
         cmd_to_create_test_file.append("-s")
@@ -653,7 +653,7 @@ class NovaBootTestSuite(baseTest.BaseCliTest):
         cmd_to_create_test_file.append(TEST_DATA_FILE_NAME)
 
         resp = ExecuteCommands.LocalCommands(cmd_to_create_test_file).execute()
-        self.assertEqual(resp['retCode'], 0, "Unable to create the test data file " \
+        self.assertEqual(resp['retCode'], 0, "Unable to create the tests data file " \
                                              + str(resp['stdErr']) + '\n' + str(resp['stdOut']))
         logger.debug("Created File of size = " + FILE_SIZE)
         # From local host to VM
@@ -917,7 +917,7 @@ class NovaBootTestSuite(baseTest.BaseCliTest):
         valHdlr.Validator(novaBootBO=novaBootBO).validateAfterDelete()
 
     @attr(interface='OS-NATIVE', group='POST-INSTALL', genre='NOVA-BOOT')
-    @unittest.skip("Skipping the test as this is covered in boot with all images and flavor testcases")
+    @unittest.skip("Skipping the tests as this is covered in boot with all images and flavor testcases")
     def test_nova_boot_all_images(self):
         """[Test] test_nova_boot_all_images """
         logger.info("[Test]test_nova_boot_all_images ")
@@ -1677,7 +1677,7 @@ class NovaBootTestSuite(baseTest.BaseCliTest):
         self.assertNotEqual(resp['retCode'], 0)
         self.assertTrue("ERROR: No flavor with a name or ID of" in resp['stdErr'])
 
-    @unittest.skip("Skipping due to new data-driven approach applied to this test")
+    @unittest.skip("Skipping due to new data-driven approach applied to this tests")
     @attr(interface='OS-NATIVE', group='POST-INSTALL', genre='NOVA-BOOT', allImage='TRUE')
     def test_nova_boot_all_flavor_and_images(self):
         """[Test] test_nova_boot_all_images_with_all_flavors  \n .. \n"""

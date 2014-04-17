@@ -4,10 +4,9 @@ import inspect
 import sys
 
 import unittest2 as unittest
-from yopenstackqe_tests.common.utils import yLogger
+from src import logger
 
-
-logger = yLogger.setup_custom_logger(__name__)
+logger = logger.setup_custom_logger(__name__)
 
 
 class MultipleAssertionError(AssertionError):
@@ -59,7 +58,7 @@ class TestCaseWithMultipleAssertions(unittest.TestCase):
     @contextlib.contextmanager
     def multiple_assertions(self):
         """
-        Creates the context manager to handle multiple assertions in test cases
+        Creates the context manager to handle multiple assertions in tests cases
         """
         self._suppress_assertions = True
         self._suppressed_assertions = []
