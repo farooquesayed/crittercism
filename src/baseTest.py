@@ -2,24 +2,16 @@ from datetime import datetime
 import os
 import re
 from string import join
-import sys
-sys.path.append('~/PycharmProjects/crittercism')
-
-
-import threading
 import inspect
-from random import randrange
+import sys
 
 import unittest2 as unittest
-
+from selenium.webdriver.firefox.webdriver import WebDriver
+from selenium.webdriver.support import ui as selenium_ui
 
 from src import  multiple_assertions
 from src import logger
 from src import config
-
-
-from selenium.webdriver.firefox.webdriver import WebDriver
-from selenium.webdriver.support import ui as selenium_ui
 
 
 logger = logger.setup_custom_logger(__name__)
@@ -48,7 +40,7 @@ class BaseCliTest(multiple_assertions.TestCaseWithMultipleAssertions):
             logger.error("Fail:" + str(inspect.stack()[1][3]) + " : " + str(message))
 
         assert expected == actual, message
-        
+
     def tearDown(self):
         logger.info(">> BASE:TEARDOWN Override me in the tests suite <<")
         pass
@@ -74,21 +66,22 @@ class SeleniumTestCase(BaseCliTest):
     @classmethod
     def setUpClass(cls):
         super(SeleniumTestCase, cls).setUpClass()
-        os.environ["webdriver.chrome.driver"] = \
-            config.BrowserConfig().browser.chromeDriverPath
+        #os.environ["webdriver.chrome.driver"] = config.BrowserConfig().login.chrome_driver_path
+        os.environ["webdriver.chrome.driver"] = config.CliConfig().common.chrome_driver_path
 
-        cls.selenium = WebDriver()
-        cls.selenium.implicitly_wait(5)
+        cls.browser = WebDriver()
+        cls.browser.implicitly_wait(5)
 
         #======= login to portal =========
-        cls.selenium.get('https://app.crittercism.com/developers/login')
-        cls.selenium.find_element_by_id('email').send_keys("nsolaiappan@login.com")
-        cls.selenium.find_element_by_name('password').send_keys("CritPass123")
-        cls.selenium.find_element_by_id('commit').submit()
+        cls.browser.get(config.CliConfig().login.login_url)
+        cls.browser.find_element_by_id('email').send_keys(config.CliConfig().login.username)
+        cls.browser.find_element_by_name('password').send_keys(config.CliConfig().login.password)
+        cls.browser.find_element_by_id('commit').submit()
+        pass
 
     @classmethod
     def tearDownClass(cls):
-        cls.selenium.quit()
+        cls.browser.quit()
         super(SeleniumTestCase, cls).tearDownClass()
 
     def setUp(self):
@@ -97,10 +90,10 @@ class SeleniumTestCase(BaseCliTest):
 
     def tearDown(self):
         if sys.exc_info()[0]:
-            filename = "./logs" + '/screenshots/' + \
+            filename = os.environ.get('LOG_DIR','/Users/farooque/PycharmProjects/crittercism/logs') + "/screenshots/" + \
                        self._testMethodName + \
-                       datetime.now().strftime('%Y-%m-%d_%H-%M-%S-%ss')
-            self.selenium.get_screenshot_as_file(filename)
+                       datetime.now().strftime('%Y-%m-%d_%H-%M-%S-%ss') + ".png"
+            self.browser.get_screenshot_as_file(filename)
             logger.error("Screenshot on failure saved: %s", filename)
 
 
@@ -131,9 +124,9 @@ class Initialization:
         """Load data from known_failure File"""
         fH = None
         try:
-            logger.info("Loading Known Failures from : " + str(config.CliConfig().common.knownBugsFilename))
-            if os.path.isfile(config.CliConfig().common.knownBugsFilename):
-                with open(config.CliConfig().common.knownBugsFilename) as fH:
+            logger.info("Loading Known Failures from : " + str(config.CliConfig().common.known_bugs_filename))
+            if os.path.isfile(config.CliConfig().common.known_bugs_filename):
+                with open(config.CliConfig().common.known_bugs_filename) as fH:
                     for line in fH:
                         if re.search('^#', line):
                             continue

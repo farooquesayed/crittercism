@@ -4,7 +4,9 @@ import inspect
 import sys
 
 import unittest2 as unittest
+
 from src import logger
+
 
 logger = logger.setup_custom_logger(__name__)
 

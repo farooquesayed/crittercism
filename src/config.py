@@ -1,5 +1,6 @@
 import os
 import ConfigParser
+
 from src import logger
 
 
@@ -24,37 +25,35 @@ class LoginConfig(BaseConfig):
 
     SECTION_NAME = "login"
 
-    @property
-    def chromeDriverPath(self):
-        return self.get("chromedriver_path", "./bin/chromedriver")
 
     @property
-    def loginUrl(self):
-        return self.get("loginUrl", "https://app.crittercism.com/developers/login")
+    def login_url(self):
+        return self.get("login_url", "https://app.crittercism.com/developers/login")
 
 
     @property
     def username(self):
-        return self.get("username", "nsolaiappan@login.com")
+        return self.get("username", "nsolaiappan@crittercism.com")
 
     @property
     def password(self):
         return self.get("password", "CritPass123")
 
     @property
-    def testUser1(self):
-        return self.get("testUser1", "crittercismTest1")
-
-
+    def test_user1(self):
+        return self.get("test_user1", "crittercismTest1")
 
     @property
-    def testUser2(self):
-        return self.get("testUser1", "crittercismTest2")
+    def test_user2(self):
+        return self.get("test_user2", "crittercismTest2")
 
     @property
-    def testUser3(self):
-        return self.get("testUser1", "crittercismTest3")
+    def test_user3(self):
+        return self.get("test_user3", "crittercismTest3")
 
+    @property
+    def test_user_password(self):
+        return self.get("test_user_password", "testUserPassword123")
 
 
 class CommonConfig(BaseConfig):
@@ -63,9 +62,13 @@ class CommonConfig(BaseConfig):
     SECTION_NAME = "common"
 
     @property
-    def knownBugsFilename(self):
+    def chrome_driver_path(self):
+        return self.get("chromedriver_path", "./bin/chromedriver")
+
+    @property
+    def known_bugs_filename(self):
         """Log file to capture tests output """
-        return self.get("knownBugsFilename", "./conf/knownBugs.txt")
+        return self.get("known_bugs_filename", "./conf/knownBugs.txt")
 
 
     @property
@@ -95,8 +98,8 @@ class CliConfig:
     def __init__(self):
         """Initialize a configuration from a conf directory and conf file."""
 
-        #path = os.environ['CONFIG_FILE'] or "../../config/webtesting.conf"
-        path =  "../../config/webtesting.conf"
+        path = os.environ.get('CONFIG_FILE','../../config/webtesting.conf')
+        #path =  "../../config/webtesting.conf"
 
         if path is None or not os.path.exists(path):
             msg = "Config file %(path)s not found" % locals()
@@ -122,8 +125,8 @@ class BrowserConfig:
     """ Provides OpenStack Horizon configuration information """
 
     def __init__(self):
-        #path = os.environ['CONFIG_FILE'] or "../../config/webtesting.conf"
-        path =  "../../config/webtesting.conf"
+        path = os.environ.get('CONFIG_FILE','/Users/farooque/PycharmProjects/crittercism/config/webtesting.conf')
+        #path =  "../../config/webtesting.conf"
         if path is None or not os.path.exists(path):
             msg = "Config file %(path)s not found" % locals()
             raise RuntimeError(msg)
@@ -132,7 +135,8 @@ class BrowserConfig:
 
         self._conf = self.load_config(path)
 
-        self.browser = LoginConfig(self._conf)
+        self.login = LoginConfig(self._conf)
+
 
     def load_config(self, path):
         """Read configuration from given path and return a config object."""
