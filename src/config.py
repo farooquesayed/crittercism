@@ -76,6 +76,10 @@ class CommonConfig(BaseConfig):
         """ Data used while Running test """
         return self.get("data_location", "./data/")
 
+    @property
+    def url(self):
+        """ Data used while Running test """
+        return self.get("url", "https://app.crittercism.com/developers")
 
 
 

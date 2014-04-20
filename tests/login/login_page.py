@@ -8,21 +8,22 @@ from src import baseTest
 
 __author__ = 'farooque'
 
-#import unittest
-#from selenium import webdriver
+
+page_url = "https://app.crittercism.com/developers/logout"
 
 class LoginPageSuite(baseTest.SeleniumTestCase):
 
     def setUp(self):
-        page_url = "https://app.crittercism.com/developers/logout"
         self.browser.get(page_url)
 
     def getLoginPage(self):
         self.browser.get(self.config.login.login_url)
         self.assertIn("Crittercism - Login", self.browser.title)
+        time.sleep(2)
 
     def gotoGoogleSignin(self):
         self.getLoginPage()
+        self.browser.get(page_url)
         self.browser.find_element_by_id("google-openid-2").click()
         self.assertIn('Sign in - Google Accounts', self.browser.title)
 
@@ -63,7 +64,7 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
         self.browser.find_element_by_id("password").send_keys(self.config.login.password)
 
         self.browser.find_element_by_id("commit").click()
-        time.sleep(1)
+        time.sleep(5)
 
     def isLoginSucceed(self):
         self.browser.get("https://app.crittercism.com/developers")
@@ -82,7 +83,7 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
         self.assertEquals(self.isLoginSucceed(), True, "Login Failed")
 
     @attr(genre="login")
-    @unittest.skip("Skipping temporarily")
+    #@unittest.skip("Skipping temporarily")
     def test_google_sign_in_by_username_and_password(self):
         #FIXME : Need to either run this test first or spawn a new browser for this test
         self.signInFromGoogle()

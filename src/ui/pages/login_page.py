@@ -1,7 +1,7 @@
 from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support.ui import Select
-from yopenstackqe_tests import config
-from yopenstackqe_tests.common.utils.ui.wait_utils import Waiter
+from src import config
+from src.wait_utils import Waiter
 
 
 class LoginPage(object):

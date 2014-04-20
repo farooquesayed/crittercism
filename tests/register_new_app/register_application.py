@@ -1,9 +1,17 @@
+import random
+from selenium.webdriver.support.wait import WebDriverWait
 import unittest2 as unittest
 from nose.plugins.attrib import attr
 from src import baseTest
-from src.baseTest import logger
+from src import logger
+
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC # available since 2.26.0
+
 
 __author__ = 'farooque'
+
+mylogger = logger.setup_custom_logger(__name__)
 
 class RegisterApplication(baseTest.SeleniumTestCase):
 
@@ -41,17 +49,77 @@ class RegisterApplication(baseTest.SeleniumTestCase):
         count = table.find_elements_by_xpath ("./*[@class='disabled']")
         self.assertEquals(count.__len__(),2,"Only Admin should be checked")
 
-    @attr(genre='register_application', smoke='TRUE')
-    def test_register_new_app_with_default_parameters(self):
+
+    @attr(genre='register_application')
+    def test_register_new_app_with_default_parameters_ios(self):
         __name__ + """[Test] Registering a new parameters """
-        self.browser.find_element_by_id("app-name").send_keys("auto-1")
+
+        app_name = "IOS-" + str(random.random())
+        self.browser.find_element_by_id("app-name").send_keys(app_name)
         self.browser.find_element_by_id("commit").click()
+        web_element = self.browser.find_element_by_xpath('//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
+        self.assertEquals(web_element.text, app_name, "App creation failed")
+
+
+    @attr(genre='register_application')
+    def test_register_new_app_with_default_parameters_android(self):
+        __name__ + """[Test] Registering a new parameters """
+
+        app_name = "Android-" + str(random.random())
+        self.browser.find_element_by_id("app-name").send_keys(app_name)
+        self.browser.find_element_by_xpath('//*[@id="all-platforms"]/label[2]').click()
+        self.browser.find_element_by_id("commit").click()
+        web_element = self.browser.find_element_by_xpath('//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
+        self.assertEquals(web_element.text, app_name, "App creation failed")
+
+    @attr(genre='register_application')
+    def test_register_new_app_with_default_parameters_html5(self):
+        __name__ + """[Test] Registering a new parameters """
+
+        app_name = "HTML5-" + str(random.random())
+        self.browser.find_element_by_id("app-name").send_keys(app_name)
+        self.browser.find_element_by_xpath('//*[@id="all-platforms"]/label[3]').click()
+        self.browser.find_element_by_id("commit").click()
+        web_element = self.browser.find_element_by_xpath('//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
+        self.assertEquals(web_element.text, app_name, "App creation failed")
+
+    @attr(genre='register_application')
+    def test_register_new_app_with_default_parameters_win8(self):
+        __name__ + """[Test] Registering a new parameters """
+
+        app_name = "HTML5-" + str(random.random())
+        self.browser.find_element_by_id("app-name").send_keys(app_name)
+        self.browser.find_element_by_xpath('//*[@id="all-platforms"]/label[4]').click()
+        self.browser.find_element_by_id("commit").click()
+        web_element = self.browser.find_element_by_xpath('//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
+        self.assertEquals(web_element.text, app_name, "App creation failed")
+
+    @attr(genre='register_application', smoke=True)
+    def test_delete_all_app(self):
+        __name__ + """[Test] Registering a new parameters """
+
+        self.browser.get("https://app.crittercism.com/developers")
+
+        table = self.browser.find_element_by_id("app-table")
+
+        app_list = table.find_elements_by_xpath('//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"App-")]')
+        app_ids = []
+        for app in app_list:
+            id = app.get_attribute("href").split('/')
+            app_ids.append(id[id.__len__() - 1 ])
+
+        for app_id in app_ids:
+            url = self.config.common.url + '/app-settings/' + app_id + '#delete-app'
+            self.browser.get( url )
+            self.browser.find_element_by_id('delete-app-' + app_id).click()
+            alert = self.browser.switch_to_alert()
+            alert.accept()
 
 
     @classmethod
     def tearDownClass(cls):
         cls.browser.quit()
-        logger.info("Finished teardownClass RegisterApplication")
+        mylogger.info("Finished teardownClass RegisterApplication")
         pass
     if __name__ == '__main__':
         unittest.main(verbosity=2)
