@@ -10,11 +10,11 @@ from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support import ui as selenium_ui
 
 from src import  multiple_assertions
-from src import logger
+from src import clogger
 from src import config
 
 
-logger = logger.setup_custom_logger(__name__)
+logger = clogger.setup_custom_logger(__name__)
 
 
 class BaseCliTest(multiple_assertions.TestCaseWithMultipleAssertions):
@@ -72,11 +72,13 @@ class SeleniumTestCase(BaseCliTest):
         cls.browser = WebDriver()
         cls.browser.implicitly_wait(5)
 
+        """
         #======= login to portal =========
         cls.browser.get(config.CliConfig().login.login_url)
         cls.browser.find_element_by_id('email').send_keys(config.CliConfig().login.username)
         cls.browser.find_element_by_name('password').send_keys(config.CliConfig().login.password)
         cls.browser.find_element_by_id('commit').submit()
+        """
         pass
 
     @classmethod

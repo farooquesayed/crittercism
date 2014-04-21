@@ -1,22 +1,30 @@
+from logging import config
+import os
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.safari.webdriver import WebDriver
 import unittest2 as unittest
 
 
 #from nose.tools import with_setup
 from nose.plugins.attrib import attr
-from src import  logger
-#from src.data_driven_test_wrapper import data_driven_test, ddt_list, data
+from src import  clogger
 from src import baseTest
 
+#from src.data_driven_test_wrapper import ddt_list, data, data_driven_test
 
-logger = logger.setup_custom_logger(__name__)
+from ddt import ddt, data, file_data, unpack
+
+
+
+logger = clogger.setup_custom_logger(__name__)
 
 def generate_list_of_data():
-    row_list = []
+    row_list = [1,2,3]
     return row_list
 
 
-#@data_driven_test
-class SampleTestSuite(baseTest.BaseCliTest):
+@ddt
+class SampleTestSuite(baseTest.SeleniumTestCase):
 
     @classmethod
     def setUpClass(self):
@@ -36,16 +44,27 @@ class SampleTestSuite(baseTest.BaseCliTest):
             self.assertEquals(0,1,"Continue on assert again")
             pass
 
+    def test_login(self):
+        url = "https://www.irctc.co.in/"
 
-    """
-    @data(generate_list_of_data())
-    @ddt_list
-    def test_sample_ddt(self, *args, **kwargs):
+        #======= login to portal =========
+        self.browser.get(url)
+        self.browser.find_element_by_name('userName').send_keys("nasirhere")
+        self.browser.find_element_by_name('password').send_keys("123456")
+        self.browser.find_element_by_name('button').submit()
 
-        first_argument = kwargs.values()[0][0]
-        second_argument = kwargs.values()[0][1]
-        self.assertEquals(first_argument,second_argument,"Argument didn't matched")
-    """
+        self.browser.find_element_by_name('stationFrom').send_keys("MUMBAI CST (CSTM)" + Keys.RETURN)
+        self.browser.find_element_by_name('stationTo').send_keys("AJMER JN (AII)" + Keys.RETURN)
+        self.browser.find_element_by_xpath('//*[@value="Find Trains"]').submit()
+
+
+
+
+    @attr(genre="ddt")
+    @data(1,2,3,4)
+    # @ddt_list
+    def test_larger_than_two(self, value):
+        self.assertEquals(1,value,"Argument didn't matched")
 
     def tearDown(self):
         #Can override the base class setUp here
@@ -53,6 +72,7 @@ class SampleTestSuite(baseTest.BaseCliTest):
 
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(self):
+        super(SampleTestSuite, self).tearDownClass()
         logger.info("Finished executing SampleTestSuite")
         pass

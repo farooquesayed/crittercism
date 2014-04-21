@@ -1,5 +1,6 @@
 import time
-from yopenstackqe_tests.exceptions import TimeoutException
+
+from src.exception.exceptions import TimeoutException
 
 
 def wait_for_event(timeout, period, timeout_message, func, *args, **kwargs):

@@ -3,15 +3,16 @@ from selenium.webdriver.support.wait import WebDriverWait
 import unittest2 as unittest
 from nose.plugins.attrib import attr
 from src import baseTest
-from src import logger
+from src import clogger
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC # available since 2.26.0
+from src.page_helpers import team
 
 
 __author__ = 'farooque'
 
-mylogger = logger.setup_custom_logger(__name__)
+logger = clogger.setup_custom_logger(__name__)
 
 class RegisterApplication(baseTest.SeleniumTestCase):
 
@@ -98,28 +99,13 @@ class RegisterApplication(baseTest.SeleniumTestCase):
     def test_delete_all_app(self):
         __name__ + """[Test] Registering a new parameters """
 
-        self.browser.get("https://app.crittercism.com/developers")
-
-        table = self.browser.find_element_by_id("app-table")
-
-        app_list = table.find_elements_by_xpath('//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"App-")]')
-        app_ids = []
-        for app in app_list:
-            id = app.get_attribute("href").split('/')
-            app_ids.append(id[id.__len__() - 1 ])
-
-        for app_id in app_ids:
-            url = self.config.common.url + '/app-settings/' + app_id + '#delete-app'
-            self.browser.get( url )
-            self.browser.find_element_by_id('delete-app-' + app_id).click()
-            alert = self.browser.switch_to_alert()
-            alert.accept()
-
+        app_ids = team.get_id_from_app_name(browser=self.browser,app_name="IOS-")
+        self.assertEquals(True, team.delete_app_given_ids(browser=self.browser, app_ids=app_ids, config=self.config), "Deleting App failed")
 
     @classmethod
     def tearDownClass(cls):
         cls.browser.quit()
-        mylogger.info("Finished teardownClass RegisterApplication")
+        logger.info("Finished teardownClass RegisterApplication")
         pass
     if __name__ == '__main__':
         unittest.main(verbosity=2)

@@ -1,10 +1,10 @@
 import os
 import ConfigParser
 
-from src import logger
+from src import clogger
 
 
-logger = logger.setup_custom_logger(__name__)
+logger = clogger.setup_custom_logger(__name__)
 
 
 class BaseConfig(object):
@@ -40,16 +40,16 @@ class LoginConfig(BaseConfig):
         return self.get("password", "CritPass123")
 
     @property
-    def test_user1(self):
-        return self.get("test_user1", "crittercismTest1")
+    def test_user_engg(self):
+        return self.get("test_user_engg", "critterrism.eng@gmail.com")
 
     @property
-    def test_user2(self):
-        return self.get("test_user2", "crittercismTest2")
+    def test_user_manager(self):
+        return self.get("test_user_man", "critterrism.manager@gmail.com")
 
     @property
-    def test_user3(self):
-        return self.get("test_user3", "crittercismTest3")
+    def test_user_admin(self):
+        return self.get("test_user_admin", "critterrism.eng@gmail.com")
 
     @property
     def test_user_password(self):

@@ -5,10 +5,10 @@ import sys
 
 import unittest2 as unittest
 
-from src import logger
+from src import clogger
 
 
-logger = logger.setup_custom_logger(__name__)
+logger = clogger.setup_custom_logger(__name__)
 
 
 class MultipleAssertionError(AssertionError):
@@ -27,7 +27,7 @@ def _suppress_log_assertion_errors(assertion_method):
             assertion_method(self, *args, **kwargs)
         except AssertionError:
             exc_info = sys.exc_info()
-            logger.error('Assertion error:\n %s', exc_info[1])
+            clogger.error('Assertion error:\n %s', exc_info[1])
             if not self._suppress_assertions or always_raise:
                 raise exc_info[0], exc_info[1], exc_info[2]
             else:
