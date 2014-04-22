@@ -5,25 +5,25 @@ from selenium.webdriver.safari.webdriver import WebDriver
 import unittest2 as unittest
 
 
-#from nose.tools import with_setup
 from nose.plugins.attrib import attr
 from src import  clogger
 from src import baseTest
 
-#from src.data_driven_test_wrapper import ddt_list, data, data_driven_test
-
-from ddt import ddt, data, file_data, unpack
-
+from src.data_driven_test_wrapper import ddt_list, data, data_driven_test
 
 
 logger = clogger.setup_custom_logger(__name__)
 
 def generate_list_of_data():
-    row_list = [1,2,3]
+    row_list = []
+    row_list.append(1)
+    row_list.append(2)
+    row_list.append(3)
+    row_list.append(4)
     return row_list
 
 
-@ddt
+@data_driven_test
 class SampleTestSuite(baseTest.SeleniumTestCase):
 
     @classmethod
@@ -61,10 +61,21 @@ class SampleTestSuite(baseTest.SeleniumTestCase):
 
 
     @attr(genre="ddt")
-    @data(1,2,3,4)
-    # @ddt_list
-    def test_larger_than_two(self, value):
-        self.assertEquals(1,value,"Argument didn't matched")
+    @data(generate_list_of_data())
+    @ddt_list
+    #@unpack
+    def test_data_driven_test(self, value):
+        __name__ + " Data driven test example"
+
+        self.assertGreater(value,1,"Argument didn't matched")
+
+    @attr(genre="ma")
+    def test_multiple_assertion(self):
+        __name__ + " Multiple Assertion example"
+        with self.multiple_assertions():
+            self.assertEquals(1,0, "Continue on Failure")
+            self.assertEquals(1,0, "Continue on Failure")
+            self.assertEquals(1,0, "Continue on Failure")
 
     def tearDown(self):
         #Can override the base class setUp here

@@ -27,7 +27,7 @@ def _suppress_log_assertion_errors(assertion_method):
             assertion_method(self, *args, **kwargs)
         except AssertionError:
             exc_info = sys.exc_info()
-            clogger.error('Assertion error:\n %s', exc_info[1])
+            logger.error('Assertion error:\n %s', exc_info[1])
             if not self._suppress_assertions or always_raise:
                 raise exc_info[0], exc_info[1], exc_info[2]
             else:
