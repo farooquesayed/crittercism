@@ -95,17 +95,12 @@ class RegisterApplication(baseTest.SeleniumTestCase):
         web_element = self.browser.find_element_by_xpath('//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
         self.assertEquals(web_element.text, app_name, "App creation failed")
 
-    @attr(genre='register_application', smoke=True)
+    @attr(genre='register_application', smoke1=True)
     def test_delete_all_app(self):
         __name__ + """[Test] Registering a new parameters """
 
         app_ids = team.get_id_from_app_name(browser=self.browser,app_name="IOS-")
         self.assertEquals(True, team.delete_app_given_ids(browser=self.browser, app_ids=app_ids, config=self.config), "Deleting App failed")
 
-    @classmethod
-    def tearDownClass(cls):
-        cls.browser.quit()
-        logger.info("Finished teardownClass RegisterApplication")
-        pass
     if __name__ == '__main__':
         unittest.main(verbosity=2)

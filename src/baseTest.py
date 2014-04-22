@@ -72,13 +72,13 @@ class SeleniumTestCase(BaseCliTest):
         cls.browser = WebDriver()
         cls.browser.implicitly_wait(5)
 
-        """
+
         #======= login to portal =========
         cls.browser.get(config.CliConfig().login.login_url)
         cls.browser.find_element_by_id('email').send_keys(config.CliConfig().login.username)
         cls.browser.find_element_by_name('password').send_keys(config.CliConfig().login.password)
         cls.browser.find_element_by_id('commit').submit()
-        """
+
         pass
 
     @classmethod

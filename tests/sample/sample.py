@@ -44,6 +44,7 @@ class SampleTestSuite(baseTest.SeleniumTestCase):
             self.assertEquals(0,1,"Continue on assert again")
             pass
 
+    @unittest.skip("Sample test hence skipped")
     def test_login(self):
         url = "https://www.irctc.co.in/"
 
@@ -67,15 +68,7 @@ class SampleTestSuite(baseTest.SeleniumTestCase):
     def test_data_driven_test(self, value):
         __name__ + " Data driven test example"
 
-        self.assertGreater(value,1,"Argument didn't matched")
-
-    @attr(genre="ma")
-    def test_multiple_assertion(self):
-        __name__ + " Multiple Assertion example"
-        with self.multiple_assertions():
-            self.assertEquals(1,0, "Continue on Failure")
-            self.assertEquals(1,0, "Continue on Failure")
-            self.assertEquals(1,0, "Continue on Failure")
+        self.assertGreater(value,0,"Argument didn't matched")
 
     def tearDown(self):
         #Can override the base class setUp here

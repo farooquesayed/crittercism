@@ -18,8 +18,8 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
 
     def getLoginPage(self):
         self.browser.get(self.config.login.login_url)
-        self.assertIn("Crittercism - Login", self.browser.title)
         time.sleep(2)
+        self.assertIn("Crittercism - Login", self.browser.title)
 
     def gotoGoogleSignin(self):
         self.getLoginPage()
@@ -103,7 +103,7 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
         count = table.find_elements_by_xpath ("./*[@class='disabled']")
         self.assertEquals(count.__len__(),2,"Expecting Disabled found Enabled")
 
-    @attr(genre="login")
+    @attr(genre="login", smoke=True)
     def test_signin_from_crittercism_account(self):
         self.loginFromCrittercism()
         self.assertEquals(self.isLoginSucceed(), True, "Login Failed -- New App Button Not found")
