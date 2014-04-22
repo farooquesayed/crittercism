@@ -50,7 +50,7 @@ class AddTeamMemberSuite(baseTest.SeleniumTestCase):
 
     def test_add_team_member_admin(self):
 
-        app_name = "crittercism.admin"
+        app_name1 = "crittercism.admin"
 
         self.browser.find_element_by_id("team_email").send_keys(self.config.login.test_user_engg)
         select = Select(self.browser.find_element_by_id("team_role"))

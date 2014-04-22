@@ -1,10 +1,15 @@
+from logging import config
+import os
 import time
+from selenium.webdriver.safari.webdriver import WebDriver
 
 import unittest2 as unittest
 from nose.plugins.attrib import attr
 
 from src import baseTest
+from src import clogger
 
+logger = clogger.setup_custom_logger(__name__)
 
 __author__ = 'farooque'
 
@@ -13,8 +18,10 @@ page_url = "https://app.crittercism.com/developers/logout"
 
 class LoginPageSuite(baseTest.SeleniumTestCase):
 
+    @classmethod
     def setUp(self):
         self.browser.get(page_url)
+        pass
 
     def getLoginPage(self):
         self.browser.get(self.config.login.login_url)
@@ -23,7 +30,7 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
 
     def gotoGoogleSignin(self):
         self.getLoginPage()
-        self.browser.get(page_url)
+        #self.browser.get(page_url)
         self.browser.find_element_by_id("google-openid-2").click()
         self.assertIn('Sign in - Google Accounts', self.browser.title)
 
@@ -83,25 +90,12 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
         self.assertEquals(self.isLoginSucceed(), True, "Login Failed")
 
     @attr(genre="login")
-    #@unittest.skip("Skipping temporarily")
+    @unittest.skip("Skipping temporarily Once sign in, google keep logged in even if you open new window")
     def test_google_sign_in_by_username_and_password(self):
         #FIXME : Need to either run this test first or spawn a new browser for this test
         self.signInFromGoogle()
         self.assertEquals(self.isLoginSucceed(), True, "Login Failed")
 
-    @attr(genre="login")
-    def test_FAQ(self):
-        self.loginFromCrittercism()
-        self.browser.find_element_by_link_text("Billing FAQ").click()
-
-    @attr(genre="login")
-    def test_check_table_content_crash_data(self):
-        self.loginFromCrittercism()
-        self.browser.get("https://app.crittercism.com/developers/register_application")
-        time.sleep(3)
-        table = self.browser.find_element_by_xpath('//*[contains(text(),"View Crash Data")]/..')
-        count = table.find_elements_by_xpath ("./*[@class='disabled']")
-        self.assertEquals(count.__len__(),2,"Expecting Disabled found Enabled")
 
     @attr(genre="login", smoke=True)
     def test_signin_from_crittercism_account(self):

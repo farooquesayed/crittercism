@@ -1,5 +1,6 @@
 import random
 from selenium.webdriver.support.wait import WebDriverWait
+import time
 import unittest2 as unittest
 from nose.plugins.attrib import attr
 from src import baseTest
@@ -72,6 +73,15 @@ class RegisterApplication(baseTest.SeleniumTestCase):
         self.browser.find_element_by_id("commit").click()
         web_element = self.browser.find_element_by_xpath('//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
         self.assertEquals(web_element.text, app_name, "App creation failed")
+
+    @attr(genre="register_application")
+    def test_register_new_app_default_check_table_content_crash_data(self):
+        self.browser.get("https://app.crittercism.com/developers/register_application")
+        time.sleep(3)
+        table = self.browser.find_element_by_xpath('//*[contains(text(),"View Crash Data")]/..')
+        count = table.find_elements_by_xpath ("./*[@class='disabled']")
+        self.assertEquals(count.__len__(),2,"Expecting Disabled found Enabled")
+
 
     @attr(genre='register_application')
     def test_register_new_app_with_default_parameters_html5(self):
