@@ -7,21 +7,23 @@ from src import clogger
 
 logger = clogger.setup_custom_logger(__name__)
 
-page_url = "https://app.crittercism.com/account/billing_faq"
 
-class FAQSuite(baseTest.SeleniumTestCase):
+class FAQSuite(baseTest.CrittercismTestCase):
 
     @classmethod
-    def setUpClass(self):
-        super(FAQSuite, self).setUpClass()
+    def setUpClass(cls):
+        super(FAQSuite, cls).setUpClass()
         pass
 
     def setUp(self):
+        page_url = "https://app.crittercism.com/account/billing_faq"
+        self.browser.get(page_url)
         pass
 
     @attr(genre="faq")
     def test_FAQ(self):
-        self.browser.find_element_by_link_text("Billing FAQ").click()
+        #Need Assert statement here
+        pass
 
     def tearDown(self):
         #Can override the base class setUp here

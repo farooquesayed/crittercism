@@ -3,11 +3,11 @@ from nose.plugins.attrib import attr
 __author__ = 'farooque'
 
 from src import baseTest
-class NetworkTestSuite(baseTest.SeleniumTestCase):
+class NetworkTestSuite(baseTest.CrittercismTestCase):
     page_url = 'https://app.crittercism.com/developers/network/52fb0fdb8b2e3365c6000008/location/world/service/youtube/latency'
     @classmethod
-    def setUpClass(self):
-        super(NetworkTestSuite, self).setUpClass()
+    def setUpClass(cls):
+        super(NetworkTestSuite, cls).setUpClass()
 
     def setUp(self):
         page_url = "https://app.crittercism.com/developers/register_application"

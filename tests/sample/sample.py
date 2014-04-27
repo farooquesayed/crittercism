@@ -1,20 +1,24 @@
-from logging import config
-import os
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.safari.webdriver import WebDriver
+import selenium.webdriver.common.keys
 import unittest2 as unittest
 
-
-from nose.plugins.attrib import attr
-from src import  clogger
+import nose.plugins.attrib
+import src
 from src import baseTest
 
 from src.data_driven_test_wrapper import ddt_list, data, data_driven_test
 
 
-logger = clogger.setup_custom_logger(__name__)
+logger = src.clogger.setup_custom_logger(__name__)
+
 
 def generate_list_of_data():
+    """
+
+
+
+    :rtype : object
+    :return:
+    """
     row_list = []
     row_list.append(1)
     row_list.append(2)
@@ -25,27 +29,43 @@ def generate_list_of_data():
 
 @data_driven_test
 class SampleTestSuite(baseTest.SeleniumTestCase):
-
     @classmethod
-    def setUpClass(self):
-        super(SampleTestSuite, self).setUpClass()
+    def setUpClass(cls):
+        """
+
+
+        """
+        super(SampleTestSuite, cls).setUpClass()
 
     def setUp(self):
-        #Can override the base class setUp here
+        """
+        Setup for the testcase
+
+
+        """
         pass
 
 
-    @attr(genre='sample')
+    @nose.plugins.attrib.attr(genre='sample')
     @unittest.skip("Reason : why it is skipped")
     def test_sample(self):
+        """
+            1) Sample to test multiple assertion
+
+        """
         __name__ + """[Test] test_quick_check """
         with self.multiple_assertions():
-            self.assertEquals(0,1,"Continue on assert")
-            self.assertEquals(0,1,"Continue on assert again")
+            self.assertEquals(0, 1, "Continue on assert")
+            self.assertEquals(0, 1, "Continue on assert again")
             pass
 
-    @unittest.skip("Sample test hence skipped")
+    @nose.plugins.attrib.attr(genre='sample')
+    @unittest.skip("Reason : why it is skipped")
     def test_login(self):
+        """
+        1) Sample for Skip
+
+        """
         url = "https://www.irctc.co.in/"
 
         #======= login to portal =========
@@ -54,29 +74,44 @@ class SampleTestSuite(baseTest.SeleniumTestCase):
         self.browser.find_element_by_name('password').send_keys("123456")
         self.browser.find_element_by_name('button').submit()
 
-        self.browser.find_element_by_name('stationFrom').send_keys("MUMBAI CST (CSTM)" + Keys.RETURN)
-        self.browser.find_element_by_name('stationTo').send_keys("AJMER JN (AII)" + Keys.RETURN)
+        self.browser.find_element_by_name('stationFrom').send_keys(
+            "MUMBAI CST (CSTM)" + selenium.webdriver.common.keys.Keys.RETURN)
+        self.browser.find_element_by_name('stationTo').send_keys(
+            "AJMER JN (AII)" + selenium.webdriver.common.keys.Keys.RETURN)
         self.browser.find_element_by_xpath('//*[@value="Find Trains"]').submit()
 
 
-
-
-    @attr(genre="ddt")
+    @nose.plugins.attrib.attr(sample=True, genre="sample")
     @data(generate_list_of_data())
     @ddt_list
     #@unpack
     def test_data_driven_test(self, value):
+        """
+        1) Example test for data driven test
+        2) Data are coming the generate_list_of_data methods
+        :param value:
+            generated from the functions
+        """
         __name__ + " Data driven test example"
 
-        self.assertGreater(value,0,"Argument didn't matched")
+        self.assertGreater(value, 0, "Argument didn't matched")
 
     def tearDown(self):
-        #Can override the base class setUp here
+
+        """
+        Can override the base class setUp here
+        Cleanup code for every testcase
+
+        """
         pass
 
 
     @classmethod
-    def tearDownClass(self):
-        super(SampleTestSuite, self).tearDownClass()
+    def tearDownClass(cls):
+        """
+        Cleanup code for the entire class
+
+        """
+        super(SampleTestSuite, cls).tearDownClass()
         logger.info("Finished executing SampleTestSuite")
         pass

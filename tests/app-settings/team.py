@@ -1,3 +1,4 @@
+from nose.plugins.attrib import attr
 from selenium.webdriver.support.select import Select
 import time
 
@@ -13,7 +14,7 @@ app_name = "zakirtest"
 
 logger = clogger.setup_custom_logger(__name__)
 
-class AddTeamMemberSuite(baseTest.SeleniumTestCase):
+class AddTeamMemberSuite(baseTest.CrittercismTestCase):
 
     @classmethod
     def setUpClass(self):
@@ -25,10 +26,19 @@ class AddTeamMemberSuite(baseTest.SeleniumTestCase):
         logger.debug("Found the ID = %s" % app_id[0])
         self.browser.get(page_url + app_id[0] + "#team-members")
 
+        # Remove existing permissions
 
+        for item in self.browser.find_elements_by_xpath("//*[contains(text(),'Remove')]"):
+            item.click()
+
+        for item in self.browser.find_elements_by_xpath("//*[contains(text(),'Revoke Invite')]"):
+            item.click()
+
+
+    @attr(genre="invite-member1")
     def test_add_team_member_engg(self):
 
-        app_name = "crittercism.engg"
+        #app_name = "crittercism.engg"
 
         self.browser.find_element_by_id("team_email").send_keys(self.config.login.test_user_engg)
         select = Select(self.browser.find_element_by_id("team_role"))
@@ -46,8 +56,17 @@ class AddTeamMemberSuite(baseTest.SeleniumTestCase):
         self.browser.find_element_by_xpath('//*[contains(text(),"Added as a team member for ' + app_name + '")]').click()
         time.sleep(5) # wait for email to open
         self.browser.find_element_by_xpath('//*[contains(text(),"Click Here to Activate Your Crittercism Account")]').click()
-        pass
 
+        self.browser.find_element_by_id('email').send_keys(self.config.login.test_user_engg)
+        self.browser.find_element_by_name('password').send_keys(self.config.login.password)
+        self.browser.find_element_by_id('commit').submit()
+
+        with self.multiple_assertions():
+            self.assertIn ("developers/app-settings/", self.browser.current_url, "Not able to redirect to App-Setting page")
+            self.assertEqual(self.browser.find_element_by_name("name").get_attribute("value"), app_name, "Not able to see the correct App name")
+
+
+    @attr(genre="invite-member")
     def test_add_team_member_admin(self):
 
         app_name1 = "crittercism.admin"
@@ -67,9 +86,18 @@ class AddTeamMemberSuite(baseTest.SeleniumTestCase):
         time.sleep(10) # login to yahoo mail
         self.browser.find_element_by_xpath('//*[contains(text(),"Added as a team member for ' + app_name + '")]').click()
         time.sleep(5) # wait for email to open
-        self.browser.find_element_by_xpath('//*[contains(text(),"Click Here to Activate Your Crittercism Account")]').click()
-        pass
+        self.browser.find_element_by_xpath('//*[contains(text(),"Click Here to ")]').click()
+        with self.multiple_assertions():
+            self.assertIn ("developers/app-settings/", self.browser.current_url, "Not able to redirect to App-Setting page")
+            self.assertIn(self.browser.find_element_by_xpath('//*[contains(text(),"You are now added to ' + app_name + '")]').is_displayed(),
+                          True,"Not able to see the correct App name")
 
+            self.assertIn(self.browser.find_element_by_xpath('//*[contains(text(),"You have been granted Admin access.")]').is_displayed(),
+                          True,"Not able to see the message")
+
+
+
+    @attr(genre="invite-member1")
     def test_add_team_member_manager(self):
 
         app_name = "crittercism.manager"
@@ -94,5 +122,5 @@ class AddTeamMemberSuite(baseTest.SeleniumTestCase):
 
     @classmethod
     def tearDownClass(self):
-        super(AddTeamMemberSuite, self).tearDownClass()
+        #super(AddTeamMemberSuite, self).tearDownClass()
         pass

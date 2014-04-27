@@ -14,20 +14,20 @@ Test 1 : Register A New App
    4) With and without collaborator
    4) Negative testing --
 
-Verification : App Management to see Register App showed up
+Verification : App Management to see Register App showed up -- Done
 
-Test 2 : Click on Register App should land into Crash Reports page
+Test 2 : Click on Register App should land into Crash Reports page -- Done
 
 Test 3: Click on all links on side bar does not throw 404
 
-Test 4: App-Setting --> Team invite:
+Test 4: App-Setting --> Team invite: -- Done
 
-Prerequisite : Create 3 emails address to run this tests
+Prerequisite : Create 3 emails address to run this tests -- Done
     Invite as an engineer
     Invite as an Manager
     Invite as an Admin
 
-Verify : Everyone should be able to login
+Verify : Everyone should be able to login -- Done
 
 
 Test 5: Crash Report :

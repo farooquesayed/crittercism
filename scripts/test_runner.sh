@@ -7,7 +7,7 @@
 CONFIG_FILE=
 export TEST_TYPE=
 export LOG_DIR=
-export DEPLOYMENT="VM"
+export BROWSER="firefox"
 
 #Constants
 DIR=/home/y/lib/python2.6/site-packages/crittercism-test
@@ -60,7 +60,7 @@ if [ -e ./tests/ ]; then
   DIR=./tests/*/*py
 fi
 
-set -- `getopt "s:x:f:t:d:p:g:h" "$@"`
+set -- `getopt "s:x:f:t:d:p:g:b:h" "$@"`
 
 #############################################################################
 #                      Function to print usage                              #
@@ -74,6 +74,7 @@ usage () {
   echo "         -d log directory default /home/y/logs/yopenstackqe_tests/"
   echo "         -p Parallel process count. Nosetest does not generate noseunit.xml file when shoose this option"
   echo "         -g To run a specific group or genre"
+  echo "         -b To run a specific browser. default is firefox. other options are firefox/chrome/safari/etc"
   echo ""
   echo "  -h"
   echo "     Print this help"
@@ -91,11 +92,7 @@ do
     -d) LOG_DIR="$2";;
     -p) PARALLEL_PROCESS="$2";;
     -g) GENRE="$2";;
-    -n) TEST_DURATION_HOURS="$2";;
-    -c) COVERAGE="$2";;
-    -i) IMAGE_UPLOADED="$2";;
-    -v) CLOUDINIT_VERSION="$2";;
-    -e) DEPLOYMENT="$2";;
+    -b) BROWSER="$2";;
     -h) usage ; exit 0;;
   esac
   shift
@@ -133,6 +130,10 @@ if [ "X${TEST_DURATION_HOURS}" = "X" ] ; then
        TEST_DURATION_HOURS=0.002
 fi
 
+if [ "X${BROWSER}" = "X" ] ; then
+       BROWSER="firefox"
+fi
+
 #Constructing executing command line
 
 BIN="/usr/local/bin/nosetests-2.7  --nocapture --with-id --id-file ${LOG_DIR}/failed-test.txt "
@@ -144,7 +145,7 @@ BIN="/usr/local/bin/nosetests-2.7  --nocapture --with-id --id-file ${LOG_DIR}/fa
 export CONFIG_FILE
 export TEST_TYPE
 export LOG_DIR
-
+export BROWSER
 
 removeOldLogFiles
 runTest
@@ -156,5 +157,4 @@ runTest
 #reRunFailedTest
 
 # Masking the return code from nose test as we want the test failure to be yellow in hudson instead of RED
-
-exit 0;
+#exit 0;

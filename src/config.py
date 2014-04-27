@@ -62,13 +62,13 @@ class CommonConfig(BaseConfig):
     SECTION_NAME = "common"
 
     @property
-    def chrome_driver_path(self):
-        return self.get("chromedriver_path", "./bin/chromedriver")
+    def driver_path(self):
+        return self.get("driver_path", "./bin/chromedriver")
 
     @property
     def known_bugs_filename(self):
         """Log file to capture tests output """
-        return self.get("known_bugs_filename", "./conf/knownBugs.txt")
+        return self.get("known_bugs_filename", "./config/knownBugs.txt")
 
 
     @property
@@ -81,6 +81,10 @@ class CommonConfig(BaseConfig):
         """ Data used while Running test """
         return self.get("url", "https://app.crittercism.com/developers")
 
+    @property
+    def selenium_hub_url(self):
+        """ Data used while Running test """
+        return self.get("selenium_hub_url", "http://localhost:4444/wd/hub")
 
 
 def Singleton(self):
@@ -115,7 +119,7 @@ class CliConfig:
 
         self.common = CommonConfig(self._conf)
         self.login = LoginConfig(self._conf)
-        self.knownBugList = []
+        self.knownFailureList = []
 
 
     def load_config(self, path):
