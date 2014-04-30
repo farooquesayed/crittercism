@@ -1,12 +1,9 @@
 __author__ = 'farooque'
 
-import selenium.webdriver.common.keys
-import unittest2 as unittest
-
 import nose.plugins.attrib
+
 import src
 from src import baseTest
-
 from src.data_driven_test_wrapper import ddt_list, data, data_driven_test
 
 
@@ -36,8 +33,7 @@ class CrashReportTestSuite(baseTest.CrittercismTestCase):
         super(CrashReportTestSuite, cls).setUpClass()
 
     def setUp(self):
-        page_url = "https://app.crittercism.com/developers/crash-summary/52fb0fdb8b2e3365c6000008"
-        self.browser.get(page_url)
+        self.browser.get(self.config.common.url + "/developers/crash-summary/52fb0fdb8b2e3365c6000008")
 
 
 

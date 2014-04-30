@@ -28,7 +28,7 @@ class LoginConfig(BaseConfig):
 
     @property
     def login_url(self):
-        return self.get("login_url", "https://app.crittercism.com/developers/login")
+        return self.get("login_url", "https://app-staging.crittercism.com/")
 
 
     @property
@@ -79,7 +79,7 @@ class CommonConfig(BaseConfig):
     @property
     def url(self):
         """ Data used while Running test """
-        return self.get("url", "https://app.crittercism.com/developers")
+        return self.get("url", "https://app-staging.crittercism.com/developers")
 
     @property
     def selenium_hub_url(self):

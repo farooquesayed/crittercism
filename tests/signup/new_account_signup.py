@@ -1,17 +1,17 @@
-from random import random
-
 __author__ = 'farooque'
+import random
+
 from nose.plugins.attrib import attr
+
 from src import clogger
 from src import baseTest
-import random
+
 
 logger = clogger.setup_custom_logger(__name__)
 
-page_url = "https://app.crittercism.com/signup"
-
 
 class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
+
     @classmethod
     def setUpClass(cls):
         super(NewAccountSignUpTestSuite, cls).setUpClass()
@@ -19,8 +19,9 @@ class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
 
     def setUp(self):
         #Can override the base class setUp here
-        self.browser.get("https://app.crittercism.com/developers/logout")
-        self.browser.get(page_url)
+
+        self.browser.get(self.config.common.url + "/developers/logout")
+        self.browser.get(self.config.common.url + "/signup")
         pass
 
 

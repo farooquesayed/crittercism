@@ -4,9 +4,11 @@ __author__ = 'farooque'
 
 from src import baseTest
 from src import clogger
+from src import config
 
 logger = clogger.setup_custom_logger(__name__)
 
+page_url = config.CliConfig().common.url + "/account/billing_faq"
 
 class FAQSuite(baseTest.CrittercismTestCase):
 
@@ -16,7 +18,6 @@ class FAQSuite(baseTest.CrittercismTestCase):
         pass
 
     def setUp(self):
-        page_url = "https://app.crittercism.com/account/billing_faq"
         self.browser.get(page_url)
         pass
 

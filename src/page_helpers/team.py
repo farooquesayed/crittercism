@@ -1,8 +1,10 @@
 __author__ = 'farooque'
 
+from src import config
+
 def get_id_from_app_name(browser=None, app_name=None):
 
-    browser.get("https://app.crittercism.com/developers")
+    browser.get(config.CliConfig().common.url + "/developers")
 
     table = browser.find_element_by_id("app-table")
 
@@ -14,10 +16,10 @@ def get_id_from_app_name(browser=None, app_name=None):
 
     return app_ids
 
-def delete_app_given_ids(browser=None, app_ids=None, config=None):
+def delete_app_given_ids(browser=None, app_ids=None):
 
     for app_id in app_ids:
-        url = config.common.url + '/app-settings/' + app_id + '#delete-app'
+        url = config.CliConfig().common.url + '/developers/app-settings/' + app_id + '#delete-app'
         browser.get( url )
         browser.find_element_by_id('delete-app-' + app_id).click()
         alert = browser.switch_to_alert()

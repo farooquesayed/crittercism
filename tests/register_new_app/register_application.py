@@ -1,16 +1,20 @@
 import random
 import time
+
 import unittest2 as unittest
 from nose.plugins.attrib import attr
+
 from src import baseTest
 from src import clogger
 from src.page_helpers import team
+from src import config
 
 
 __author__ = 'farooque'
 
 logger = clogger.setup_custom_logger(__name__)
 
+page_url = config.CliConfig().common.url + "/developers/register-application"
 
 class RegisterApplication(baseTest.CrittercismTestCase):
     @classmethod
@@ -18,7 +22,6 @@ class RegisterApplication(baseTest.CrittercismTestCase):
         super(RegisterApplication, cls).setUpClass()
 
     def setUp(self):
-        page_url = "https://app.crittercism.com/developers/register-application"
         self.browser.get(page_url)
 
     @attr(genre='register-application')
@@ -78,7 +81,7 @@ class RegisterApplication(baseTest.CrittercismTestCase):
 
     @attr(genre="register-application")
     def test_register_new_app_default_check_table_content_crash_data(self):
-        self.browser.get("https://app.crittercism.com/developers/register-application")
+        self.browser.get(page_url)
         time.sleep(3)
         table = self.browser.find_element_by_xpath('//*[contains(text(),"View Crash Data")]/..')
         count = table.find_elements_by_xpath("./*[@class='disabled']")
@@ -114,7 +117,7 @@ class RegisterApplication(baseTest.CrittercismTestCase):
         __name__ + """[Test] Registering a new parameters """
 
         app_ids = team.get_id_from_app_name(browser=self.browser, app_name="IOS-")
-        self.assertEquals(True, team.delete_app_given_ids(browser=self.browser, app_ids=app_ids, config=self.config),
+        self.assertEquals(True, team.delete_app_given_ids(browser=self.browser, app_ids=app_ids),
                           "Deleting App failed")
 
     if __name__ == '__main__':

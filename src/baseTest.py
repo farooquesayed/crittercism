@@ -1,15 +1,12 @@
-from datetime import datetime
 import os
 import re
 from string import join
 import inspect
-import sys
 #from selenium.webdriver.remote import webdriver
 
 from selenium import webdriver
 
 import unittest2 as unittest
-from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support import ui as selenium_ui
 
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
@@ -72,35 +69,14 @@ class SeleniumTestCase(BaseCliTest):
     def setUpClass(cls):
         super(SeleniumTestCase, cls).setUpClass()
 
-        #os.environ["webdriver.chrome.driver "] = config.CliConfig().common.driver_path
-
-
-
-        #cls.browser = webdriver.Chrome()
-
-
-        #cls.browser = webdriver.Remote(
-        #   command_executor='http://127.0.0.1:4444/wd/hub',
-        #   desired_capabilities=DesiredCapabilities.CHROME)
-
-
         if os.environ.get("BROWSER","firefox") == "firefox":
-            cls.browser = webdriver.Remote(config.CliConfig().common.selenium_hub_url, DesiredCapabilities.FIREFOX);
+            cls.browser = webdriver.Remote(config.CliConfig().common.selenium_hub_url, DesiredCapabilities.FIREFOX)
         elif os.environ.get("BROWSER","firefox") == "chrome":
-            cls.browser = webdriver.Remote(config.CliConfig().common.selenium_hub_url, DesiredCapabilities.CHROME);
+            cls.browser = webdriver.Remote(config.CliConfig().common.selenium_hub_url, DesiredCapabilities.CHROME)
         elif os.environ.get("BROWSER","firefox") == "safari":
-            cls.browser = webdriver.Remote(config.CliConfig().common.selenium_hub_url, DesiredCapabilities.SAFARI);
+            cls.browser = webdriver.Remote(config.CliConfig().common.selenium_hub_url, DesiredCapabilities.SAFARI)
 
         cls.browser.implicitly_wait(5)
-
-        """
-        #======= login to portal =========
-        cls.browser.get(config.CliConfig().login.login_url)
-        cls.browser.find_element_by_id('email').send_keys(config.CliConfig().login.username)
-        cls.browser.find_element_by_name('password').send_keys(config.CliConfig().login.password)
-        cls.browser.find_element_by_id('commit').submit()
-        """
-        pass
 
     @classmethod
     def tearDownClass(cls):
@@ -124,7 +100,6 @@ class CrittercismTestCase(SeleniumTestCase):
         cls.browser.find_element_by_id('email').send_keys(config.CliConfig().login.username)
         cls.browser.find_element_by_name('password').send_keys(config.CliConfig().login.password)
         cls.browser.find_element_by_id('commit').submit()
-        pass
 
 
     @classmethod
