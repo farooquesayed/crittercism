@@ -4,6 +4,7 @@ import random
 from nose.plugins.attrib import attr
 from selenium.webdriver.support.select import Select
 
+
 __author__ = 'farooque'
 
 from src import clogger
@@ -28,14 +29,16 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
         self.browser.find_element_by_id(".save").click()
 
         while counter < 10 :
-            if self.browser.find_element_by_xpath('//*[contains(text(),"Added as a team member for ' + app_name + '")]'):
+            if self.browser.find_elements_by_xpath('//*[contains(text(),"Added as a team member for ' + app_name + '")]').__len__():
                 self.browser.find_element_by_xpath('//*[contains(text(),"Added as a team member for ' + app_name + '")]').click()
                 self.browser.find_element_by_xpath('//a[contains(text(),"Click Here to")]').click()
-                break
+                return True
             logger.debug("Email  not arrived. will try again after 10 seconds. So far %d seconds spent" % (counter * 10))
             time.sleep(10) # Sleeping for email to arrive
             counter += 1
             self.browser.refresh()
+
+        return False
 
 
     @classmethod
@@ -125,7 +128,7 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
     def tearDown(self):
 
         app_ids = team.get_id_from_app_name(browser=self.browser, app_name=app_name)
-        self.assertEquals(True, team.delete_app_given_ids(browser=self.browser, app_ids=app_ids, config=self.config),
+        self.assertEquals(True, team.delete_app_given_ids(browser=self.browser, app_ids=app_ids),
                           "Deleting App failed")
         pass
 
