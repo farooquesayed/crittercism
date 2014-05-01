@@ -1,10 +1,11 @@
+from datetime import time
+
 import selenium.webdriver.common.keys
 import unittest2 as unittest
-
 import nose.plugins.attrib
+
 import src
 from src import baseTest
-
 from src.data_driven_test_wrapper import ddt_list, data, data_driven_test
 
 
@@ -96,6 +97,20 @@ class SampleTestSuite(baseTest.SeleniumTestCase):
 
         self.assertGreater(value, 0, "Argument didn't matched")
 
+    @nose.plugins.attrib.attr(sample=True)
+    def test_switch_between_windows(self):
+        self.wait_for_email()
+        for handle in self.browser.window_handles:
+            self.browser.switch_to_window(handle)
+
+        self.browser.find_element_by_id('email').send_keys(self.config.login.test_user_engg)
+        self.browser.find_element_by_name('password').send_keys(self.config.login.password)
+        self.browser.find_element_by_id('commit').submit()
+
+        with self.multiple_assertions():
+            self.assertIn ("developers/app-settings/", self.browser.current_url, "Not able to redirect to App-Setting page")
+            self.assertEqual(self.browser.find_element_by_name("name").get_attribute("value"), app_name, "Not able to see the correct App name")
+
     def tearDown(self):
 
         """
@@ -115,3 +130,22 @@ class SampleTestSuite(baseTest.SeleniumTestCase):
         super(SampleTestSuite, cls).tearDownClass()
         logger.info("Finished executing SampleTestSuite")
         pass
+
+    def wait_for_email(self):
+        counter = 0
+        self.browser.get("https://mail.yahoo.com")
+        self.browser.find_element_by_id("username").send_keys(self.config.login.test_user_engg)
+        self.browser.find_element_by_id("passwd").send_keys(self.config.login.password)
+        self.browser.find_element_by_id(".save").click()
+        app_name = "IOS-0.292169889366"
+        while counter < 10 :
+            if self.browser.find_elements_by_xpath('//*[contains(text(),"Added as a team member for ' + app_name + '")]').__len__():
+                self.browser.find_element_by_xpath('//*[contains(text(),"Added as a team member for ' + app_name + '")]').click()
+                self.browser.find_element_by_xpath('//a[contains(text(),"Click Here to")]').click()
+                return True
+            logger.debug("Email  not arrived. will try again after 10 seconds. So far %d seconds spent" % (counter * 10))
+            time.sleep(10) # Sleeping for email to arrive
+            counter += 1
+            self.browser.refresh()
+
+        return False

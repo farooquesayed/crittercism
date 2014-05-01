@@ -1,8 +1,11 @@
 import time
 import random
 
+import unittest2 as unittest
 from nose.plugins.attrib import attr
 from selenium.webdriver.support.select import Select
+
+from src.data_driven_test_wrapper import ddt_list, data, data_driven_test
 
 
 __author__ = 'farooque'
@@ -19,6 +22,12 @@ app_name = "IOS-" + str(random.random())
 
 logger = clogger.setup_custom_logger(__name__)
 
+def generate_list_of_members_types():
+    member_types = ["Engineer", "Manager", "Admin"]
+    return member_types
+
+
+@data_driven_test
 class AddTeamMemberSuite(baseTest.CrittercismTestCase):
 
     def wait_for_email(self):
@@ -40,6 +49,16 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
 
         return False
 
+    def validate_team_member_got_subscribed(self,role=None):
+
+        for handle in self.browser.window_handles:
+            self.browser.switch_to_window(handle)
+            if "Crittercism " in self.browser.title :
+                break # Got the window we are looking for
+
+        with self.multiple_assertions():
+            self.assertIn ("developers/app-settings/", self.browser.current_url, ("Not able to redirect to App-Setting page for role = %s" % role))
+            self.assertEqual(self.browser.find_element_by_name("name").get_attribute("value"), app_name, ("Not able to see the correct App name for role = %s" % role))
 
     @classmethod
     def setUpClass(cls):
@@ -70,7 +89,8 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
             item.click()
 
 
-    @attr(genre="invite-member1")
+    @attr(genre="invite-member")
+    @unittest.skip("Covered in DDT")
     def test_add_team_member_engg(self):
 
         #app_name = "crittercism.engg"
@@ -81,17 +101,13 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
         self.browser.find_element_by_name("add-team-member").click()
 
         #Get to yahoo mail to activate the link
-        self.wait_for_email()
-        self.browser.find_element_by_id('email').send_keys(self.config.login.test_user_engg)
-        self.browser.find_element_by_name('password').send_keys(self.config.login.password)
-        self.browser.find_element_by_id('commit').submit()
-
-        with self.multiple_assertions():
-            self.assertIn ("developers/app-settings/", self.browser.current_url, "Not able to redirect to App-Setting page")
-            self.assertEqual(self.browser.find_element_by_name("name").get_attribute("value"), app_name, "Not able to see the correct App name")
+        self.assertEqual(self.wait_for_email(), True, "Email not received waited until 10 mins")
+        self.validate_team_member_got_subscribed("Engineer")
 
 
-    @attr(genre="invite-member2")
+
+    @attr(genre="invite-member")
+    @unittest.skip("Covered in DDT")
     def test_add_team_member_admin(self):
 
         self.browser.find_element_by_id("team_email").send_keys(self.config.login.test_user_engg)
@@ -100,31 +116,37 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
         self.browser.find_element_by_name("add-team-member").click()
 
         #Goto to yahoo mail to activate the link
-        self.wait_for_email()
-        with self.multiple_assertions():
-            self.assertIn ("developers/app-settings/", self.browser.current_url, "Not able to redirect to App-Setting page")
-            self.assertIn(self.browser.find_element_by_xpath('//*[contains(text(),"You are now added to ' + app_name + '")]').is_displayed(),
-                          True,"Not able to see the correct App name")
-            self.assertIn(self.browser.find_element_by_xpath('//*[contains(text(),"You have been granted Admin access.")]').is_displayed(),
-                          True,"Not able to see the message")
+        self.assertEqual(self.wait_for_email(), True, "Email not received waited until 10 mins")
+        self.validate_team_member_got_subscribed("Admin")
 
 
-
-    @attr(genre="invite-member1")
+    @attr(genre="invite-member")
+    @unittest.skip("Covered in DDT")
     def test_add_team_member_manager(self):
-
-        app_name = "crittercism.manager"
 
         self.browser.find_element_by_id("team_email").send_keys(self.config.login.test_user_engg)
         select = Select(self.browser.find_element_by_id("team_role"))
         select.select_by_visible_text("Manager")
         self.browser.find_element_by_name("add-team-member").click()
 
-        #Goto to yahoo mail to activate the link
-        self.wait_for_email()
-        pass
+        #Get to yahoo mail to activate the link
+        self.assertEqual(self.wait_for_email(), True, "Email not received waited until 10 mins")
+        self.validate_team_member_got_subscribed("Manager")
 
-    @classmethod
+
+    @attr(genre="invite-member")
+    @data(generate_list_of_members_types())
+    @ddt_list
+    def test_add_team_members(self, value):
+        self.browser.find_element_by_id("team_email").send_keys(self.config.login.test_user_engg)
+        select = Select(self.browser.find_element_by_id("team_role"))
+        select.select_by_visible_text(value)
+        self.browser.find_element_by_name("add-team-member").click()
+
+        #Get to yahoo mail to activate the link
+        self.assertEqual(self.wait_for_email(), True, "Email not received waited until 10 mins")
+        self.validate_team_member_got_subscribed(value)
+
     def tearDown(self):
 
         app_ids = team.get_id_from_app_name(browser=self.browser, app_name=app_name)
