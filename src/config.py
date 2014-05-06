@@ -86,6 +86,11 @@ class CommonConfig(BaseConfig):
         """ Data used while Running test """
         return self.get("selenium_hub_url", "http://localhost:4444/wd/hub")
 
+    @property
+    def selenium_hub_port(self):
+        """ Data used while Running test """
+        return self.get("selenium_hub_port", "4444")
+
 
 def Singleton(self):
     """Simple wrapper for classes that should only have a single instance"""

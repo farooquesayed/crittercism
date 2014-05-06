@@ -69,11 +69,11 @@ class SeleniumTestCase(BaseCliTest):
     def setUpClass(cls):
         super(SeleniumTestCase, cls).setUpClass()
 
-        if os.environ.get("BROWSER","firefox") == "firefox":
+        if os.environ.get("BROWSER", "firefox") == "firefox":
             cls.browser = webdriver.Remote(config.CliConfig().common.selenium_hub_url, DesiredCapabilities.FIREFOX)
-        elif os.environ.get("BROWSER","firefox") == "chrome":
+        elif os.environ.get("BROWSER", "firefox") == "chrome":
             cls.browser = webdriver.Remote(config.CliConfig().common.selenium_hub_url, DesiredCapabilities.CHROME)
-        elif os.environ.get("BROWSER","firefox") == "safari":
+        elif os.environ.get("BROWSER", "firefox") == "safari":
             cls.browser = webdriver.Remote(config.CliConfig().common.selenium_hub_url, DesiredCapabilities.SAFARI)
 
         cls.browser.implicitly_wait(5)

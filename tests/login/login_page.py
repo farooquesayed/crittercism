@@ -23,7 +23,7 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
         pass
 
     def get_login_page(self):
-        self.browser.get(self.config.login.login_url)
+        self.browser.get(self.config.common.url)
         #time.sleep(2)
         self.browser.get(page_url)
         #self.assertIn("Crittercism - Login", self.browser.title)

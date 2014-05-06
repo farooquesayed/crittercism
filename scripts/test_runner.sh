@@ -23,19 +23,34 @@ function removeOldLogFiles() {
     $(rm -f ${LOG_DIR}/*${TEST_TYPE}.log ${LOG_DIR}/failed-test.txt )
 }
 
+function startSeleniumHub() {
+     #Read the port number from config file to start the hub
+     port=$(grep selenium_hub_port ${CONFIG_FILE} | sed 's/selenium_hub_port=//')
+     java -jar ${DIR}/bin/selenium-server-standalone-2.41.0.jar -port ${port} -Dwebdriver.chrome.driver=${DIR}/bin/chromedriver 2>&1 > ${LOG_DIR}/seleniumhub_${port}_${TEST_TYPE}.log &
+     sleep 5
+}
+
 function runTest() {
     # Create the log folder incase it is not present
     mkdir -p ${LOG_DIR}
     
-    #EXEC_CMD="$BIN $DIR --with-xunit --xunit-file=$LOG_DIR/nosetests.xml $TEST_TYPE_ARG  ${PARALLEL_PROCESS_ARG} -v --debug-log=$LOG_DIR/debug.log"
-    EXEC_CMD="$BIN $DIR --with-xunit --xunit-file=$LOG_DIR/nosetests.xml $TEST_TYPE_ARG  ${PARALLEL_PROCESS_ARG} -v "
-    echo "Executing command : ${EXEC_CMD}"
+    #EXEC_CMD="${BIN} ${DIR} --with-xunit --xunit-file=$LOG_DIR/nosetests.xml $TEST_TYPE_ARG  ${PARALLEL_PROCESS_ARG} -v --debug-log=$LOG_DIR/debug.log"
+    EXEC_CMD="${BIN} ${DIR}/tests/*/*py --with-xunit --xunit-file=$LOG_DIR/nosetests.xml $TEST_TYPE_ARG  ${PARALLEL_PROCESS_ARG} -v "
+    echo "Executing test on ${BROWSER} : ${EXEC_CMD}"
     echo "${OUTPUT_STRING} [${TEST_TYPE} test] ..."
     
     # Actually Executing the test and redirecting stdout to stderr as shell buffer stdout making it non-interactive
     output=$(${EXEC_CMD} 1>&2)
     exitCode=$?
 }
+
+function stopSeleniumHub() {
+
+     #Read the port number from config file to start the hub
+     port=$(grep selenium_hub_port ${CONFIG_FILE} | sed 's/selenium_hub_port=//')
+     ps aux |grep java.*${port}|grep -v grep|awk '{print $2}' | xargs kill
+}
+
 
 function reRunFailedTest() {
     local RETRY_NUMBER=$1
@@ -57,7 +72,8 @@ function generateResultFile() {
 }
 
 if [ -e ./tests/ ]; then
-  DIR=./tests/*/*py
+  #DIR=./tests/*/*py
+  DIR=./
 fi
 
 set -- `getopt "s:x:f:t:d:p:g:b:h" "$@"`
@@ -148,7 +164,12 @@ export LOG_DIR
 export BROWSER
 
 removeOldLogFiles
+#Start the Selenium Hub
+startSeleniumHub
+#Execute the test
 runTest
+# Terminate the hub. Not able to find a graceful way of killing it
+stopSeleniumHub
 
 
 # Trying to re-run the failed test to see if they pass in this attempt
