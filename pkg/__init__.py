@@ -12,5 +12,6 @@ setuptools (2.2)
 unittest2 (0.5.1)
 wsgiref (0.1.2)
 httplib2
+requests
 
 """
