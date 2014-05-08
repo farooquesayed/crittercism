@@ -1,3 +1,5 @@
+import unittest
+
 __author__ = 'farooque'
 
 import nose.plugins.attrib
@@ -65,3 +67,6 @@ class CrashReportTestSuite(baseTest.CrittercismTestCase):
     def tearDownClass(cls):
         super(CrashReportTestSuite, cls).tearDownClass()
         pass
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)

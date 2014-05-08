@@ -120,5 +120,5 @@ class RegisterApplication(baseTest.CrittercismTestCase):
         self.assertEquals(True, team.delete_app_given_ids(browser=self.browser, app_ids=app_ids),
                           "Deleting App failed")
 
-    if __name__ == '__main__':
-        unittest.main(verbosity=2)
+if __name__ == '__main__':
+    unittest.main(verbosity=2)

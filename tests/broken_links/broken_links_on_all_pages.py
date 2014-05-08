@@ -1,4 +1,7 @@
+import unittest
+
 from requests.exceptions import InvalidSchema, MissingSchema, ConnectionError
+
 
 __author__ = 'farooque'
 
@@ -17,16 +20,17 @@ page_url = config.CliConfig().common.url + "/developers/"
 
 visited = set()
 
-class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
 
+class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
     def assert_on_broken_links(self):
         session = requests.session()
         with self.multiple_assertions():
             for link in utils.get_all_links(self.browser):
-                if link in visited:
+                # This means either we are out of portal or already visited the link
+                if "crittercism.com" not in link or link in visited:
+                    logger.debug("Skipping link %s because it is either visited or not a crittercism link" % link)
                     continue
-                if "login" in self.browser.current_url and self.browser.find_elements_by_id('email').__len__() > 1:
-                    utils.login()
+
                 visited.add(link)
                 logger.debug("Going to  '%s'" % link)
                 try:
@@ -35,15 +39,17 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
                                     ("Return code %s URL %s" % (resp.status_code, link)))
 
                     self.browser.get(link)
+                    #Needs to login instead any of the link redirect us to login page
+                    if "login" in self.browser.current_url and self.browser.find_elements_by_id('email').__len__() > 1:
+                        utils.login()
+
                     element = self.browser.find_elements_by_xpath(
                         '//*[contains(text(),"Well, this is embarrassing - you found a broken link.")]').__len__()
                     self.assertGreater(1, element, "Found a broken Link : " + link)
-                    if link not in visited and "crittercism" in link :
-                        self.assert_on_broken_links()
-
+                    # call itself if the link contains crittercism else it will crawl the entire web :)
+                    self.assert_on_broken_links()
                 except (InvalidSchema, MissingSchema, ConnectionError):
                     continue
-
 
     @classmethod
     def setUpClass(cls):
@@ -76,3 +82,5 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
         logger.info("Finished executing BrokenLinkTestSuite")
         pass
 
+if __name__ == '__main__':
+    unittest.main(verbosity=2)

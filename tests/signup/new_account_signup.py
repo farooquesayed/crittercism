@@ -1,3 +1,5 @@
+import unittest
+
 __author__ = 'farooque'
 import random
 
@@ -108,3 +110,6 @@ class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
         super(NewAccountSignUpTestSuite, self).tearDownClass()
         logger.info("Finished executing NewAccountSignUpTestSuite")
         pass
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)

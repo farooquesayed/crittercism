@@ -1,1 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?><testsuite name="nosetests" tests="10" errors="0" failures="0" skip="0"><testcase classname="register_application.RegisterApplication" name="test_delete_all_app" time="15.524"></testcase><testcase classname="register_application.RegisterApplication" name="test_register_new_app_default_check_table_content_crash_data" time="3.063"></testcase><testcase classname="register_application.RegisterApplication" name="test_register_new_app_with_default_parameters_android" time="3.082"></testcase><testcase classname="register_application.RegisterApplication" name="test_register_new_app_with_default_parameters_html5" time="3.221"></testcase><testcase classname="register_application.RegisterApplication" name="test_register_new_app_with_default_parameters_ios" time="3.263"></testcase><testcase classname="register_application.RegisterApplication" name="test_register_new_app_with_default_parameters_win8" time="3.378"></testcase><testcase classname="register_application.RegisterApplication" name="test_verify_new_app_page_default_parameter_employee_facing" time="0.659"></testcase><testcase classname="register_application.RegisterApplication" name="test_verify_new_app_page_default_parameter_in_app_store" time="0.672"></testcase><testcase classname="register_application.RegisterApplication" name="test_verify_new_app_page_default_parameter_platform" time="0.819"></testcase><testcase classname="register_application.RegisterApplication" name="test_verify_new_app_page_default_permission" time="0.675"></testcase></testsuite>
+<?xml version="1.0" encoding="UTF-8"?><testsuite name="nosetests" tests="1" errors="1" failures="0" skip="0"><testcase classname="&lt;nose.suite" name="ContextSuite context=BrokenLinkTestSuite&gt;:teardown" time="724.197"><error type="urllib2.URLError" message='&lt;urlopen error [Errno 61] Connection refused&gt;&#10;-------------------- &gt;&gt; begin captured logging &lt;&lt; --------------------&#10;selenium.webdriver.remote.remote_connection: DEBUG: DELETE http://127.0.0.1:4444/wd/hub/session/7b015e0a-f004-4c20-ab7f-712c004cc52f {"sessionId": "7b015e0a-f004-4c20-ab7f-712c004cc52f"}&#10;--------------------- &gt;&gt; end captured logging &lt;&lt; ---------------------'><![CDATA[  File "/usr/local/lib/python2.7/site-packages/nose/suite.py", line 227, in run
+    self.tearDown()
+  File "/usr/local/lib/python2.7/site-packages/nose/suite.py", line 350, in tearDown
+    self.teardownContext(ancestor)
+  File "/usr/local/lib/python2.7/site-packages/nose/suite.py", line 366, in teardownContext
+    try_run(context, names)
+  File "/usr/local/lib/python2.7/site-packages/nose/util.py", line 469, in try_run
+    return func()
+  File "/Users/farooque/PycharmProjects/crittercism/tests/broken_links/broken_links_on_all_pages.py", line 78, in tearDownClass
+    def tearDownClass(cls):
+  File "/Users/farooque/PycharmProjects/crittercism/src/baseTest.py", line 107, in tearDownClass
+    super(CrittercismTestCase, cls).tearDownClass()
+  File "/Users/farooque/PycharmProjects/crittercism/src/baseTest.py", line 83, in tearDownClass
+    cls.browser.quit()
+  File "/Library/Python/2.7/site-packages/selenium-2.41.0-py2.7.egg/selenium/webdriver/remote/webdriver.py", line 448, in quit
+    self.execute(Command.QUIT)
+  File "/Library/Python/2.7/site-packages/selenium-2.41.0-py2.7.egg/selenium/webdriver/remote/webdriver.py", line 164, in execute
+    response = self.command_executor.execute(driver_command, params)
+  File "/Library/Python/2.7/site-packages/selenium-2.41.0-py2.7.egg/selenium/webdriver/remote/remote_connection.py", line 347, in execute
+    return self._request(command_info[0], url, body=data)
+  File "/Library/Python/2.7/site-packages/selenium-2.41.0-py2.7.egg/selenium/webdriver/remote/remote_connection.py", line 415, in _request
+    resp = opener.open(request)
+  File "/usr/local/Cellar/python/2.7.6/Frameworks/Python.framework/Versions/2.7/lib/python2.7/urllib2.py", line 404, in open
+    response = self._open(req, data)
+  File "/usr/local/Cellar/python/2.7.6/Frameworks/Python.framework/Versions/2.7/lib/python2.7/urllib2.py", line 422, in _open
+    '_open', req)
+  File "/usr/local/Cellar/python/2.7.6/Frameworks/Python.framework/Versions/2.7/lib/python2.7/urllib2.py", line 382, in _call_chain
+    result = func(*args)
+  File "/usr/local/Cellar/python/2.7.6/Frameworks/Python.framework/Versions/2.7/lib/python2.7/urllib2.py", line 1214, in http_open
+    return self.do_open(httplib.HTTPConnection, req)
+  File "/usr/local/Cellar/python/2.7.6/Frameworks/Python.framework/Versions/2.7/lib/python2.7/urllib2.py", line 1184, in do_open
+    raise URLError(err)
+'<urlopen error [Errno 61] Connection refused>\n-------------------- >> begin captured logging << --------------------\nselenium.webdriver.remote.remote_connection: DEBUG: DELETE http://127.0.0.1:4444/wd/hub/session/7b015e0a-f004-4c20-ab7f-712c004cc52f {"sessionId": "7b015e0a-f004-4c20-ab7f-712c004cc52f"}\n--------------------- >> end captured logging << ---------------------']]></error></testcase></testsuite>

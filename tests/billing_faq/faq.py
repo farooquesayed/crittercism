@@ -1,4 +1,7 @@
+import unittest
+
 from nose.plugins.attrib import attr
+
 
 __author__ = 'farooque'
 
@@ -37,4 +40,5 @@ class FAQSuite(baseTest.CrittercismTestCase):
         logger.info("Finished executing SampleTestSuite")
         pass
 
-
+if __name__ == '__main__':
+    unittest.main(verbosity=2)

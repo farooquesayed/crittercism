@@ -1,4 +1,7 @@
+import unittest
+
 from nose.plugins.attrib import attr
+
 
 __author__ = 'farooque'
 
@@ -19,3 +22,7 @@ class NetworkTestSuite(baseTest.CrittercismTestCase):
     @attr(genre='latency-check')
     def test_verify_new_app_page_default_parameter_platform(self):
         pass
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)
+

@@ -137,6 +137,7 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
     @attr(genre="invite-member")
     @data(generate_list_of_members_types())
     @ddt_list
+    @unittest.skip("Needs correct setup to run this test")
     def test_add_team_members(self, value):
         self.browser.find_element_by_id("team_email").send_keys(self.config.login.test_user_engg)
         select = Select(self.browser.find_element_by_id("team_role"))
@@ -158,3 +159,6 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
     def tearDownClass(cls):
         super(AddTeamMemberSuite, cls).tearDownClass()
         pass
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)

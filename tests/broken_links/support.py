@@ -1,7 +1,9 @@
+import unittest
+
 from src.page_helpers import utils
 
-__author__ = 'farooque'
 
+__author__ = 'farooque'
 
 import nose.plugins.attrib
 import requests
@@ -52,3 +54,5 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
         logger.info("Finished executing BrokenLinkTestSuite")
         pass
 
+if __name__ == '__main__':
+    unittest.main(verbosity=2)
