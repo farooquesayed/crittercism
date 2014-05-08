@@ -1,4 +1,4 @@
-from requests.exceptions import InvalidSchema
+from requests.exceptions import InvalidSchema, MissingSchema, ConnectionError
 
 __author__ = 'farooque'
 
@@ -15,16 +15,19 @@ logger = src.clogger.setup_custom_logger(__name__)
 
 page_url = config.CliConfig().common.url + "/developers/"
 
-
+visited = set()
 
 class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
 
-
     def assert_on_broken_links(self):
-
         session = requests.session()
         with self.multiple_assertions():
             for link in utils.get_all_links(self.browser):
+                if link in visited:
+                    continue
+                if "login" in self.browser.current_url and self.browser.find_elements_by_id('email').__len__() > 1:
+                    utils.login()
+                visited.add(link)
                 logger.debug("Going to  '%s'" % link)
                 try:
                     resp = session.get(link)
@@ -34,8 +37,11 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
                     self.browser.get(link)
                     element = self.browser.find_elements_by_xpath(
                         '//*[contains(text(),"Well, this is embarrassing - you found a broken link.")]').__len__()
-                    self.assertGreater(1, element, "Found a broken LInk ar URL " + link)
-                except InvalidSchema:
+                    self.assertGreater(1, element, "Found a broken Link : " + link)
+                    if link not in visited and "crittercism" in link :
+                        self.assert_on_broken_links()
+
+                except (InvalidSchema, MissingSchema, ConnectionError):
                     continue
 
 
