@@ -27,14 +27,16 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
         with self.multiple_assertions():
             for link in utils.get_all_links(self.browser):
                 # This means either we are out of portal or already visited the link
-                if "crittercism.com" not in link or link in visited:
-                    logger.debug("Skipping link %s because it is either visited or not a crittercism link" % link)
+                # Short Circuiting if we get more then 500 links in total
+                if "crittercism.com" not in link or link in visited or visited.__len__() > 5:
+                    logger.debug("Skipping link %s because it is either visited or not a crittercism link or exceeded the threshold value of 500 in crawling" % link)
                     continue
 
                 visited.add(link)
                 logger.debug("Going to  '%s'" % link)
                 try:
                     resp = session.get(link)
+                    logger.debug("Got the response code %s from ursl %s" % (resp.status_code, link))
                     self.assertTrue((resp.status_code not in [500, 404]),
                                     ("Return code %s URL %s" % (resp.status_code, link)))
 
@@ -45,7 +47,7 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
 
                     element = self.browser.find_elements_by_xpath(
                         '//*[contains(text(),"Well, this is embarrassing - you found a broken link.")]').__len__()
-                    self.assertGreater(1, element, "Found a broken Link : " + link)
+                    self.assertNotEqual(element, 0, "Found a broken Link : " + link)
                     # call itself if the link contains crittercism else it will crawl the entire web :)
                     self.assert_on_broken_links()
                 except (InvalidSchema, MissingSchema, ConnectionError):
@@ -65,9 +67,10 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
         self.browser.get(page_url)
         self.assert_on_broken_links()
 
-    @nose.plugins.attrib.attr(genre='links')
+    @nose.plugins.attrib.attr(genre='links2')
     def test_broken_links_support_page(self):
-        page_url = "http://support.crittercism.com/"
+        #page_url = "http://support.crittercism.com/"
+        page_url = "https://app-staging.crittercism.com/account/billing"
         self.browser.get(page_url)
         self.assert_on_broken_links()
 

@@ -7,6 +7,7 @@ logger = clogger.setup_custom_logger(__name__)
 
 def get_all_links(browser=None):
     links = set()
+    links.add(browser.current_url)
     for link in browser.find_elements_by_xpath('//a'):
         try:
             url = link.get_attribute("href")
