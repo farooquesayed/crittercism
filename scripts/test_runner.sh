@@ -32,7 +32,7 @@ function startSeleniumHub() {
 
 function runTest() {
     # Create the log folder incase it is not present
-    mkdir -p ${LOG_DIR}
+    mkdir -p ${LOG_DIR}/screenshots
     
     #EXEC_CMD="${BIN} ${DIR} --with-xunit --xunit-file=$LOG_DIR/nosetests.xml $TEST_TYPE_ARG  ${PARALLEL_PROCESS_ARG} -v --debug-log=$LOG_DIR/debug.log"
     EXEC_CMD="${BIN} ${DIR}/tests/*/*py --with-xunit --xunit-file=$LOG_DIR/nosetests.xml $TEST_TYPE_ARG  ${PARALLEL_PROCESS_ARG} -v "

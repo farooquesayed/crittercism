@@ -69,8 +69,7 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
 
     @nose.plugins.attrib.attr(genre='links2')
     def test_broken_links_support_page(self):
-        #page_url = "http://support.crittercism.com/"
-        page_url = "https://app-staging.crittercism.com/account/billing"
+        page_url = "http://support.crittercism.com/"
         self.browser.get(page_url)
         self.assert_on_broken_links()
 

@@ -2,6 +2,8 @@ import unittest
 
 from nose.plugins.attrib import attr
 
+from src.page_helpers import utils
+
 
 __author__ = 'farooque'
 
@@ -25,8 +27,10 @@ class FAQSuite(baseTest.CrittercismTestCase):
         pass
 
     @attr(genre="faq")
-    def test_FAQ(self):
-        #Need Assert statement here
+    def test_billing_FAQ(self):
+        page_url = config.CliConfig().common.url + "/account/billing/"
+        self.assertFalse(utils.is_url_broken(browser=self.browser,link=page_url))
+
         pass
 
     def tearDown(self):

@@ -1,5 +1,7 @@
 __author__ = 'farooque'
 
+from requests.exceptions import InvalidSchema, MissingSchema, ConnectionError
+
 from src import clogger, config
 
 logger = clogger.setup_custom_logger(__name__)
@@ -18,6 +20,22 @@ def get_all_links(browser=None):
             links.add(url)
 
     return links
+
+
+def is_url_broken(browser=None, link=None):
+
+    try:
+        browser.get(link)
+        #Needs to login instead any of the link redirect us to login page
+        if "login" in browser.current_url and browser.find_elements_by_id('email').__len__() > 1:
+            login()
+
+        element = browser.find_elements_by_xpath(
+            '//*[contains(text(),"Well, this is embarrassing - you found a broken link.")]').__len__()
+        return element
+    except (InvalidSchema, MissingSchema, ConnectionError):
+        return True
+
 
 def login(browser=None):
     browser.get(config.CliConfig().login.login_url)
