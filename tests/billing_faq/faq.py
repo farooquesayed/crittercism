@@ -26,10 +26,10 @@ class FAQSuite(baseTest.CrittercismTestCase):
         self.browser.get(page_url)
         pass
 
-    @attr(genre="faq")
+    @attr(genre="faq", smoke=True)
     def test_billing_FAQ(self):
         page_url = config.CliConfig().common.url + "/account/billing/"
-        self.assertFalse(utils.is_url_broken(browser=self.browser,link=page_url))
+        self.assertFalse(utils.is_url_broken(browser=self.browser,link=page_url), " Oops page was found at " + page_url)
 
         pass
 
