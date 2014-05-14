@@ -96,7 +96,7 @@ class CrittercismTestCase(SeleniumTestCase):
     def setUpClass(cls):
         super(CrittercismTestCase, cls).setUpClass()
         #======= login to portal =========
-        cls.browser.get(config.CliConfig().login.login_url)
+        cls.browser.get(config.CliConfig().common.url + "/developers/login")
         cls.browser.find_element_by_id('email').send_keys(config.CliConfig().login.username)
         cls.browser.find_element_by_name('password').send_keys(config.CliConfig().login.password)
         cls.browser.find_element_by_id('commit').submit()

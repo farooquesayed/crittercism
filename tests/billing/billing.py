@@ -13,7 +13,7 @@ from src import config
 
 logger = clogger.setup_custom_logger(__name__)
 
-page_url = config.CliConfig().common.url + "/account/billing_faq"
+page_url = config.CliConfig().common.url + "/account/billing"
 
 class FAQSuite(baseTest.CrittercismTestCase):
 
@@ -27,11 +27,14 @@ class FAQSuite(baseTest.CrittercismTestCase):
         pass
 
     @attr(genre="faq", smoke=True)
-    def test_billing_FAQ(self):
-        page_url = config.CliConfig().common.url + "/account/billing/"
+    def test_billing_page(self):
         self.assertFalse(utils.is_url_broken(browser=self.browser,link=page_url), " Oops page was found at " + page_url)
 
-        pass
+    @attr(genre="faq", smoke=True)
+    def test_billing_plan(self):
+        plan_type = self.browser.find_element_by_xpath('//*[contains(text(),"Your Plan:")]').text
+        self.assertIn("Enterprise", plan_type, " Expecting Entripise but found " + plan_type)
+
 
     def tearDown(self):
         #Can override the base class setUp here

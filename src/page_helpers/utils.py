@@ -38,7 +38,7 @@ def is_url_broken(browser=None, link=None):
 
 
 def login(browser=None):
-    browser.get(config.CliConfig().login.login_url)
+    browser.get(config.CliConfig().common.url + "/developers/login")
     browser.find_element_by_id('email').send_keys(config.CliConfig().login.username)
     browser.find_element_by_name('password').send_keys(config.CliConfig().login.password)
     browser.find_element_by_id('commit').submit()

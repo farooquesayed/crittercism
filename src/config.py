@@ -25,12 +25,6 @@ class LoginConfig(BaseConfig):
 
     SECTION_NAME = "login"
 
-
-    @property
-    def login_url(self):
-        return self.get("login_url", "https://app-staging.crittercism.com/")
-
-
     @property
     def username(self):
         return self.get("username", "nsolaiappan@crittercism.com")
