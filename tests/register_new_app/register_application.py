@@ -24,7 +24,7 @@ class RegisterApplication(baseTest.CrittercismTestCase):
     def setUp(self):
         self.browser.get(page_url)
 
-    @attr(genre='register-application')
+    @attr(genre='register-application', smoke=True)
     def test_verify_new_app_page_default_parameter_platform(self):
         __name__ + "[Test] Verifing default option platform on New App register page"
         platform_checked = self.browser.find_element_by_id("platform-ios").get_attribute("value")
@@ -51,7 +51,7 @@ class RegisterApplication(baseTest.CrittercismTestCase):
         self.assertEquals(count.__len__(), 2, "Only Admin should be checked")
 
 
-    @attr(genre='register-application')
+    @attr(genre='register-application', smoke=True)
     def test_register_new_app_with_default_parameters_ios(self):
         __name__ + """[Test] Registering a new parameters """
 
