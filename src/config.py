@@ -85,6 +85,10 @@ class CommonConfig(BaseConfig):
         """ Data used while Running test """
         return self.get("selenium_hub_port", "4444")
 
+    @property
+    def plan_type(self):
+        """ Data used while Running test """
+        return self.get("plan_type", "Basic")
 
 def Singleton(self):
     """Simple wrapper for classes that should only have a single instance"""

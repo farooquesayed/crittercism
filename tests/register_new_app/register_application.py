@@ -8,6 +8,7 @@ from src import baseTest
 from src import clogger
 from src.page_helpers import team
 from src import config
+from src.page_helpers import utils
 
 
 __author__ = 'farooque'
@@ -20,6 +21,10 @@ class RegisterApplication(baseTest.CrittercismTestCase):
     @classmethod
     def setUpClass(cls):
         super(RegisterApplication, cls).setUpClass()
+        for app_prefix in ["IOS-", "Android-", "HTML5-", "Win8-" ] :
+            app_ids = team.get_id_from_app_name(browser=cls.browser, app_name=app_prefix)
+            team.delete_app_given_ids(browser=cls.browser, app_ids=app_ids)
+
 
     def setUp(self):
         self.browser.get(page_url)
@@ -104,7 +109,7 @@ class RegisterApplication(baseTest.CrittercismTestCase):
     def test_register_new_app_with_default_parameters_win8(self):
         __name__ + """[Test] Registering a new parameters """
 
-        app_name = "HTML5-" + str(random.random())
+        app_name = "Win8-" + str(random.random())
         self.browser.find_element_by_id("app-name").send_keys(app_name)
         self.browser.find_element_by_xpath('//*[@id="all-platforms"]/label[4]').click()
         self.browser.find_element_by_id("commit").click()
@@ -119,6 +124,23 @@ class RegisterApplication(baseTest.CrittercismTestCase):
         app_ids = team.get_id_from_app_name(browser=self.browser, app_name="IOS-")
         self.assertEquals(True, team.delete_app_given_ids(browser=self.browser, app_ids=app_ids),
                           "Deleting App failed")
+
+    @attr(genre='register-application',p1=True)
+    def test_privacy_link(self):
+        __name__ + """[Test] Verify privacy link while Registering a new app """
+
+        privacy_link = config.CliConfig().common.url + "/privacy.html"
+        self.assertFalse(utils.is_url_broken(browser=self.browser,link=privacy_link), " Broken link at " + privacy_link)
+
+    @attr(genre='register-application',p1=True)
+    def test_tos_link(self):
+        __name__ + """[Test] Verify privacy link while Registering a new app """
+
+        tos_link = config.CliConfig().common.url + "/tos-v3.html"
+        self.assertFalse(utils.is_url_broken(browser=self.browser,link=tos_link), " Broken link at " + tos_link)
+
+
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

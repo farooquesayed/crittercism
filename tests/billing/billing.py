@@ -1,6 +1,7 @@
 import unittest
 
 from nose.plugins.attrib import attr
+from selenium.webdriver.common.keys import Keys
 
 from src.page_helpers import utils
 
@@ -33,7 +34,30 @@ class BillingSuite(baseTest.CrittercismTestCase):
     @attr(genre="billing", smoke=True)
     def test_billing_plan(self):
         plan_type = self.browser.find_element_by_xpath('//*[contains(text(),"Your Plan:")]').text
-        self.assertIn("Enterprise", plan_type, " Expecting Entripise but found " + plan_type)
+        self.assertIn(self.config.common.plan_type, plan_type,  (" Expecting %s but found %s " % (plan_type , self.config.common.plan_type)))
+
+    @attr(genre="billing", smoke=True)
+    def test_billing_search_by_email(self):
+        search_page_url = config.CliConfig().common.url +  "/admin/search"
+        email_id = "nsolaiappan+finarcbasicsignup@crittercism.com"
+        self.browser.get(search_page_url)
+        self.browser.find_element_by_id("search-email").send_keys(email_id + Keys.ENTER)
+
+        email_link = self.browser.find_element_by_xpath("//a[contains(text(),'" + email_id + "')]").get_attribute("href")
+        self.browser.get(email_link)
+
+        #/html/body/div[3]/div/div/div/div/table/tbody/tr[3]/td[2]
+        #actual_email = self.browser.find_element_by_id("//div/*/*[contains(text()," + email_id + ")]").text
+        actual_email = self.browser.find_element_by_xpath("//table//*/*[contains(text(),'nsolaiappan+finarcbasicsignup@crittercism.com')]").text
+        self.assertEqual(actual_email, email_id, ("Expecting %s email but found %s instead" % (actual_email, email_id)))
+
+        billed_plan_caption = self.browser.find_element_by_xpath('//*[@id="admin-portal"]/div/table[1]/tbody/tr[13]/td[1]/strong').text
+        billed_plan_value = self.browser.find_element_by_xpath('//*[@id="admin-portal"]/div/table[1]/tbody/tr[13]/td[2]').text
+        self.assertEqual("Basic", billed_plan_value, ("Expecting Basic but found %s" % billed_plan_value) )
+
+        pay_via_caption = self.browser.find_element_by_xpath('//*[@id="admin-portal"]/div/table[1]/tbody/tr[16]/td[1]/strong').text
+        pay_via_value = self.browser.find_element_by_xpath('//*[@id="admin-portal"]/div/table[1]/tbody/tr[16]/td[2]').text
+        self.assertEqual("Credit Card", pay_via_value, ("Expecting Credit Card but found %s" % pay_via_value) )
 
 
     def tearDown(self):
