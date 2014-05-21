@@ -98,6 +98,7 @@ class SampleTestSuite(baseTest.SeleniumTestCase):
         self.assertGreater(value, 0, "Argument didn't matched")
 
     @nose.plugins.attrib.attr(sample=True)
+    @unittest.skip("Skipping because it is a test method")
     def test_switch_between_windows(self):
         self.wait_for_email()
         for handle in self.browser.window_handles:
