@@ -37,7 +37,7 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
                 try:
                     resp = session.get(link)
                     logger.debug("Got the response code %s from ursl %s" % (resp.status_code, link))
-                    self.assertTrue((resp.status_code not in [500, 404]),
+                    self.assertTrue((resp.status_code not in [500, 404, 403]),
                                     ("Return code %s URL %s" % (resp.status_code, link)))
 
                     self.browser.get(link)
@@ -63,12 +63,16 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
 
     @nose.plugins.attrib.attr(genre='links')
     def test_broken_links_developers_page(self):
+        __name__ + """ [Test] Find all Broken Links from Developers landing page """
+
         page_url = config.CliConfig().common.url + "/developers/"
         self.browser.get(page_url)
         self.assert_on_broken_links()
 
-    @nose.plugins.attrib.attr(genre='links2')
+    @nose.plugins.attrib.attr(genre='links')
     def test_broken_links_support_page(self):
+        __name__ + """[Test] Find all Broken Links from support landing page """
+
         page_url = "http://support.crittercism.com/"
         self.browser.get(page_url)
         self.assert_on_broken_links()
