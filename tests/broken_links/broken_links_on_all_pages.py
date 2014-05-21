@@ -28,7 +28,7 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
             for link in utils.get_all_links(self.browser):
                 # This means either we are out of portal or already visited the link
                 # Short Circuiting if we get more then 500 links in total
-                if "crittercism.com" not in link or link in visited or visited.__len__() > 5:
+                if "crittercism.com" not in link or link in visited or visited.__len__() > 5000:
                     logger.debug("Skipping link %s because it is either visited or not a crittercism link or exceeded the threshold value of 500 in crawling" % link)
                     continue
 
@@ -37,10 +37,11 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
                 try:
                     resp = session.get(link)
                     logger.debug("Got the response code %s from ursl %s" % (resp.status_code, link))
-                    self.assertTrue((resp.status_code not in [500, 404, 403]),
+                    self.assertTrue((resp.status_code not in [500, 404]),
                                     ("Return code %s URL %s" % (resp.status_code, link)))
 
-                    self.browser.get(link)
+                    if link != self.browser.current_url:
+                        self.browser.get(link)
                     #Needs to login instead any of the link redirect us to login page
                     if "login" in self.browser.current_url and self.browser.find_elements_by_id('email').__len__() > 1:
                         utils.login()
