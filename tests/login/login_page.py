@@ -100,12 +100,16 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
 
     @nose.plugins.attrib. attr(genre="login", smoke=True)
     def test_crittercism_sign_in(self):
+        __name__ + """[Test] Login using Crittercism info """
+
         self.login_from_crittercism()
         self.assertEquals(self.is_login_succeed(), True, "Login Failed -- New App Button Not found")
         pass
 
     @nose.plugins.attrib. attr(genre="login")
     def test_google_sign_in(self):
+        __name__ + """[Test] Login using google credential """
+
         self.signIn_from_google()
         self.assertEquals(self.is_login_succeed(), True, "Login Failed")
 

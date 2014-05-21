@@ -58,7 +58,7 @@ class RegisterApplication(baseTest.CrittercismTestCase):
 
     @attr(genre='register-application', smoke=True)
     def test_register_new_app_with_default_parameters_ios(self):
-        __name__ + """[Test] Registering a new parameters """
+        __name__ + """ [Test] Registering a new parameters """
 
         app_name = "IOS-" + str(random.random())
         self.browser.find_element_by_id("app-name").send_keys(app_name)
@@ -67,14 +67,13 @@ class RegisterApplication(baseTest.CrittercismTestCase):
             '//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
         self.assertEquals(web_element.text, app_name, "App creation failed")
 
+        app_ids = team.get_id_from_app_name(browser=self.browser, app_name=app_name)
+        team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
+
 
     @attr(genre='register-application')
     def test_register_new_app_with_default_parameters_android(self):
-        """
-
-
-        """
-        __name__ + """[Test] Registering a new parameters """
+        __name__ + """ [Test] Registering a new parameters """
 
         app_name = "Android-" + str(random.random())
         self.browser.find_element_by_id("app-name").send_keys(app_name)
@@ -83,9 +82,14 @@ class RegisterApplication(baseTest.CrittercismTestCase):
         web_element = self.browser.find_element_by_xpath(
             '//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
         self.assertEquals(web_element.text, app_name, "App creation failed")
+        app_ids = team.get_id_from_app_name(browser=self.browser, app_name=app_name)
+        team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
+
 
     @attr(genre="register-application")
     def test_register_new_app_default_check_table_content_crash_data(self):
+        __name__ + """ [Test] Content of the crash data """
+        
         self.browser.get(page_url)
         time.sleep(3)
         table = self.browser.find_element_by_xpath('//*[contains(text(),"View Crash Data")]/..')
@@ -95,7 +99,7 @@ class RegisterApplication(baseTest.CrittercismTestCase):
 
     @attr(genre='register-application')
     def test_register_new_app_with_default_parameters_html5(self):
-        __name__ + """[Test] Registering a new parameters """
+        __name__ + """ [Test] Registering a new parameters """
 
         app_name = "HTML5-" + str(random.random())
         self.browser.find_element_by_id("app-name").send_keys(app_name)
@@ -104,10 +108,13 @@ class RegisterApplication(baseTest.CrittercismTestCase):
         web_element = self.browser.find_element_by_xpath(
             '//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
         self.assertEquals(web_element.text, app_name, "App creation failed")
+        app_ids = team.get_id_from_app_name(browser=self.browser, app_name=app_name)
+        team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
+
 
     @attr(genre='register-application')
     def test_register_new_app_with_default_parameters_win8(self):
-        __name__ + """[Test] Registering a new parameters """
+        __name__ + """ [Test] Registering a new parameters """
 
         app_name = "Win8-" + str(random.random())
         self.browser.find_element_by_id("app-name").send_keys(app_name)
@@ -116,25 +123,30 @@ class RegisterApplication(baseTest.CrittercismTestCase):
         web_element = self.browser.find_element_by_xpath(
             '//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
         self.assertEquals(web_element.text, app_name, "App creation failed")
+        app_ids = team.get_id_from_app_name(browser=self.browser, app_name=app_name)
+        team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
+
 
     @attr(genre='register-application', smoke1=True)
     def test_delete_all_app(self):
-        __name__ + """[Test] Registering a new parameters """
+        __name__ + """ [Test] Registering a new parameters """
 
         app_ids = team.get_id_from_app_name(browser=self.browser, app_name="IOS-")
         self.assertEquals(True, team.delete_app_given_ids(browser=self.browser, app_ids=app_ids),
                           "Deleting App failed")
 
-    @attr(genre='register-application',p1=True)
+    @attr(genre='register-application')
+    @unittest.skip("Because og Bug https://crittercism.atlassian.net/browse/PP-1159")
     def test_privacy_link(self):
-        __name__ + """[Test] Verify privacy link while Registering a new app """
+        __name__ + """ [Test] Verify privacy link while Registering a new app """
 
         privacy_link = config.CliConfig().common.url + "/privacy.html"
         self.assertFalse(utils.is_url_broken(browser=self.browser,link=privacy_link), " Broken link at " + privacy_link)
 
-    @attr(genre='register-application',p1=True)
+    @attr(genre='register-application')
+    @unittest.skip("Because og Bug https://crittercism.atlassian.net/browse/PP-1159")
     def test_tos_link(self):
-        __name__ + """[Test] Verify privacy link while Registering a new app """
+        __name__ + """ [Test] Verify privacy link while Registering a new app """
 
         tos_link = config.CliConfig().common.url + "/tos-v3.html"
         self.assertFalse(utils.is_url_broken(browser=self.browser,link=tos_link), " Broken link at " + tos_link)

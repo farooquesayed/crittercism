@@ -43,7 +43,7 @@ class CrashReportTestSuite(baseTest.CrittercismTestCase):
     @data(generate_list_of_crash_types())
     @ddt_list
     def test_crash_data(self, value=None):
-        __name__ + " Data driven test example"
+        __name__ + """ [Test] Verify the crash data of all crash types"""
 
         for period in self.browser.find_elements_by_xpath("//label/span[@class='ui-button-text']"):
             logger.debug("working on period %s" % period.text)

@@ -33,11 +33,15 @@ class BillingSuite(baseTest.CrittercismTestCase):
 
     @attr(genre="billing", smoke=True)
     def test_billing_plan(self):
+        __name__ + """ [Test] Billing Plan Type """
+
         plan_type = self.browser.find_element_by_xpath('//*[contains(text(),"Your Plan:")]').text
         self.assertIn(self.config.common.plan_type, plan_type,  (" Expecting %s but found %s " % (plan_type , self.config.common.plan_type)))
 
     @attr(genre="billing", smoke=True)
     def test_billing_search_by_email(self):
+        __name__ + """ [Test] Verify User's Email Address and Credit Card through admin login """
+
         search_page_url = config.CliConfig().common.url +  "/admin/search"
         email_id = "nsolaiappan+finarcbasicsignup@crittercism.com"
         self.browser.get(search_page_url)

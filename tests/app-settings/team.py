@@ -92,8 +92,7 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
     @attr(genre="invite-member")
     @unittest.skip("Covered in DDT")
     def test_add_team_member_engg(self):
-
-        #app_name = "crittercism.engg"
+        __name__ + """[Test] Add Team member as Engineer """
 
         self.browser.find_element_by_id("team_email").send_keys(self.config.login.test_user_engg)
         select = Select(self.browser.find_element_by_id("team_role"))
@@ -109,6 +108,7 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
     @attr(genre="invite-member")
     @unittest.skip("Covered in DDT")
     def test_add_team_member_admin(self):
+        __name__ + """[Test] Add Team member as Admin """
 
         self.browser.find_element_by_id("team_email").send_keys(self.config.login.test_user_engg)
         select = Select(self.browser.find_element_by_id("team_role"))
@@ -123,6 +123,7 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
     @attr(genre="invite-member")
     @unittest.skip("Covered in DDT")
     def test_add_team_member_manager(self):
+        __name__ + """[Test] Add Team member as Manager """
 
         self.browser.find_element_by_id("team_email").send_keys(self.config.login.test_user_engg)
         select = Select(self.browser.find_element_by_id("team_role"))
@@ -139,6 +140,8 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
     @ddt_list
     @unittest.skip("Needs correct setup to run this test")
     def test_add_team_members(self, value):
+        __name__ + """[Test] Add Team member as Engineer/Manager/Admin """
+
         self.browser.find_element_by_id("team_email").send_keys(self.config.login.test_user_engg)
         select = Select(self.browser.find_element_by_id("team_role"))
         select.select_by_visible_text(value)

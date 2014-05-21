@@ -21,6 +21,8 @@ class NetworkTestSuite(baseTest.CrittercismTestCase):
 
     @attr(genre='latency-check')
     def test_verify_new_app_page_default_parameter_platform(self):
+        __name__ + """[Test] Find all Broken Links from Developers landing page """
+
         pass
 
 if __name__ == '__main__':

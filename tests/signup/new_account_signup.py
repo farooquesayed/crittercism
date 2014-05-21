@@ -116,6 +116,8 @@ class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
 
     @attr(genre='signup')
     def test_sign_up_page_with_only_first_name_last_name_email(self):
+        __name__ + """[Test] Sign up using only first and last time """
+
         self.browser.find_element_by_id("firstname").send_keys("test_user")
         self.browser.find_element_by_id("lastname").send_keys("crittercism")
         self.browser.find_element_by_id("email").send_keys(self.config.login.test_user_engg)
@@ -126,6 +128,8 @@ class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
 
     @attr(genre='signup')
     def test_sign_up_new_account_existing_email_address(self):
+        __name__ + """[Test] Sign up using existing email address """
+
         self.browser.find_element_by_id("firstname").send_keys("test_user")
         self.browser.find_element_by_id("lastname").send_keys("crittercism")
         self.browser.find_element_by_id("company").send_keys("crittercism")
