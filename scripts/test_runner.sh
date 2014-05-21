@@ -20,7 +20,7 @@ OUTPUT_STRING="Running "
 function removeOldLogFiles() {
     echo "Cleaning up the log file from previous run : rm -f ${LOG_DIR}/*${TEST_TYPE}.log"
     # Logger should have an option to do that for us. Doing it temporarily
-    $(rm -f ${LOG_DIR}/*${TEST_TYPE}.log ${LOG_DIR}/failed-test.txt ${LOG_DIR}/*xml )
+    $(rm -f ${LOG_DIR}/*${TEST_TYPE}.log ${LOG_DIR}/failed-test.txt ${LOG_DIR}/*xml ${LOG_DIR}/screenshots/*png )
 }
 
 function startSeleniumHub() {
