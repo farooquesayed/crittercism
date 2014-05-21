@@ -165,11 +165,11 @@ export BROWSER
 
 removeOldLogFiles
 #Start the Selenium Hub
-startSeleniumHub
+#startSeleniumHub
 #Execute the test
 runTest
 # Terminate the hub. Not able to find a graceful way of killing it
-stopSeleniumHub
+#stopSeleniumHub
 
 
 # Trying to re-run the failed test to see if they pass in this attempt

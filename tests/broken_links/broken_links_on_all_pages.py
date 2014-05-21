@@ -28,7 +28,7 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
             for link in utils.get_all_links(self.browser):
                 # This means either we are out of portal or already visited the link
                 # Short Circuiting if we get more then 500 links in total
-                if "crittercism.com" not in link or link in visited or visited.__len__() > 5000:
+                if "crittercism.com" not in link or link in visited or visited.__len__() > 5:
                     logger.debug("Skipping link %s because it is either visited or not a crittercism link or exceeded the threshold value of 500 in crawling" % link)
                     continue
 
@@ -47,7 +47,7 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
 
                     element = self.browser.find_elements_by_xpath(
                         '//*[contains(text(),"Well, this is embarrassing - you found a broken link.")]').__len__()
-                    self.assertNotEqual(element, 0, "Found a broken Link : " + link)
+                    self.assertEqual(element, 0, "Found a broken Link : " + link)
                     # call itself if the link contains crittercism else it will crawl the entire web :)
                     self.assert_on_broken_links()
                 except (InvalidSchema, MissingSchema, ConnectionError):
