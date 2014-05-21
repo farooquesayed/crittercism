@@ -25,7 +25,9 @@ def get_all_links(browser=None):
 def is_url_broken(browser=None, link=None):
 
     try:
-        browser.get(link)
+        # Navigate to the link if it is not there already
+        if link != browser.current_url :
+            browser.get(link)
         #Needs to login instead any of the link redirect us to login page
         if "login" in browser.current_url and browser.find_elements_by_id('email').__len__() > 1:
             login()

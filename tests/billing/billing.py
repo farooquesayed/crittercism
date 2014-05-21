@@ -46,8 +46,6 @@ class BillingSuite(baseTest.CrittercismTestCase):
         email_link = self.browser.find_element_by_xpath("//a[contains(text(),'" + email_id + "')]").get_attribute("href")
         self.browser.get(email_link)
 
-        #/html/body/div[3]/div/div/div/div/table/tbody/tr[3]/td[2]
-        #actual_email = self.browser.find_element_by_id("//div/*/*[contains(text()," + email_id + ")]").text
         actual_email = self.browser.find_element_by_xpath("//table//*/*[contains(text(),'nsolaiappan+finarcbasicsignup@crittercism.com')]").text
         self.assertEqual(actual_email, email_id, ("Expecting %s email but found %s instead" % (actual_email, email_id)))
 

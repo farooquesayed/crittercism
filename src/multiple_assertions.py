@@ -31,7 +31,7 @@ def _suppress_log_assertion_errors(assertion_method):
             exc_info = sys.exc_info()
             logger.error('Assertion error:\n %s', exc_info[1])
 
-            filename = os.environ.get('LOG_DIR','/Users/farooque/PycharmProjects/crittercism/logs') + "/screenshots/" + \
+            filename = os.environ.get('LOG_DIR','../../logs') + "/screenshots/" + \
                        self._testMethodName + \
                        datetime.now().strftime('%Y-%m-%d_%H-%M-%S-%ss') + ".png"
             #self.browser.get_screenshot_as_file(filename)
