@@ -1,4 +1,6 @@
+import random
 import unittest
+from src.page_helpers import team
 
 __author__ = 'farooque'
 
@@ -30,13 +32,21 @@ def generate_list_of_crash_types():
 
 @data_driven_test
 class CrashReportTestSuite(baseTest.CrittercismTestCase):
+    app_ids = []
+
     @classmethod
     def setUpClass(cls):
         super(CrashReportTestSuite, cls).setUpClass()
+        cls.browser.get(cls.config.common.url + "/developers/register-application")
+        app_name = "IOS-" + str(random.random())
+        cls.browser.find_element_by_id("app-name").send_keys(app_name)
+        cls.browser.find_element_by_id("commit").click()
+        CrashReportTestSuite.app_ids = team.get_id_from_app_name(browser=cls.browser, app_name=app_name)
+
 
     def setUp(self):
-        self.browser.get(self.config.common.url + "/developers/crash-summary/52fb0fdb8b2e3365c6000008")
-
+        self.browser.get(self.config.common.url + "/developers/crash-summary/" + CrashReportTestSuite.app_ids[0])
+        pass
 
 
     @nose.plugins.attrib.attr(sample=True, genre="crash-report")
@@ -65,7 +75,9 @@ class CrashReportTestSuite(baseTest.CrittercismTestCase):
 
     @classmethod
     def tearDownClass(cls):
+        team.delete_app_given_ids(browser=cls.browser, app_ids=CrashReportTestSuite.app_ids)
         super(CrashReportTestSuite, cls).tearDownClass()
+
         pass
 
 if __name__ == '__main__':

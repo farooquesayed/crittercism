@@ -7,6 +7,7 @@ import nose.plugins.attrib
 import src
 from src import baseTest
 from src.data_driven_test_wrapper import ddt_list, data, data_driven_test
+from src.page_helpers import utils
 
 
 logger = src.clogger.setup_custom_logger(__name__)
@@ -29,6 +30,7 @@ def generate_list_of_data():
 
 
 @data_driven_test
+@unittest.skip("Reason : Don't want to run in regression")
 class SampleTestSuite(baseTest.SeleniumTestCase):
     @classmethod
     def setUpClass(cls):
@@ -110,7 +112,14 @@ class SampleTestSuite(baseTest.SeleniumTestCase):
 
         with self.multiple_assertions():
             self.assertIn ("developers/app-settings/", self.browser.current_url, "Not able to redirect to App-Setting page")
-            self.assertEqual(self.browser.find_element_by_name("name").get_attribute("value"), app_name, "Not able to see the correct App name")
+            self.assertEqual(self.browser.find_element_by_name("name").get_attribute("value"), "app_name", "Not able to see the correct App name")
+
+    @nose.plugins.attrib.attr(sample=True)
+    def test_funtion_overload(self):
+        self.browser.get("https://app-staging.crittercism.com/admin")
+        self.assertFalse(utils.is_url_broken(browser=self.browser,link=self.browser.current_url), " Oops page was found at " + self.browser.current_url)
+
+
 
     def tearDown(self):
 

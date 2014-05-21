@@ -36,7 +36,7 @@ class BillingSuite(baseTest.CrittercismTestCase):
         __name__ + """ [Test] Billing Plan Type """
 
         plan_type = self.browser.find_element_by_xpath('//*[contains(text(),"Your Plan:")]').text
-        self.assertIn(self.config.common.plan_type, plan_type,  (" Expecting %s but found %s " % (plan_type , self.config.common.plan_type)))
+        self.assertIn(self.config.common.plan_type, plan_type,  (" Expecting %s but found %s " % (self.config.common.plan_type, plan_type )))
 
     @attr(genre="billing", smoke=True)
     def test_billing_search_by_email(self):

@@ -33,7 +33,7 @@ class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
     def test_sign_up_new_account(self):
         self.browser.get(self.config.common.url + "/signup?plan=basic")
         random_email = (self.config.login.test_user_engg).replace('@', str(random.random()) + '@')
-        self.browser.find_element_by_id("firstname").send_keys("test_user")
+        self.browser.find_element_by_id("firstname").send_keys("test_user_basic")
         self.browser.find_element_by_id("lastname").send_keys("crittercism")
         self.browser.find_element_by_id("company").send_keys("crittercism")
         self.browser.find_element_by_id("phone").send_keys("123-456-7890")
@@ -53,7 +53,7 @@ class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
     def test_sign_up_new_account_professional(self):
         self.browser.get(self.config.common.url + "/signup?plan=pro")
         random_email = (self.config.login.test_user_engg).replace('@', str(random.random()) + '@')
-        self.browser.find_element_by_id("firstname").send_keys("test_user")
+        self.browser.find_element_by_id("firstname").send_keys("test_user_professional")
         self.browser.find_element_by_id("lastname").send_keys("crittercism")
         self.browser.find_element_by_id("company").send_keys("crittercism")
         self.browser.find_element_by_id("phone").send_keys("123-456-7890")
@@ -73,7 +73,7 @@ class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
     def test_sign_up_new_account_professional_pro(self):
         self.browser.get(self.config.common.url + "/signup?plan=pro_plus")
         random_email = (self.config.login.test_user_engg).replace('@', str(random.random()) + '@')
-        self.browser.find_element_by_id("firstname").send_keys("test_user")
+        self.browser.find_element_by_id("firstname").send_keys("test_user_pro")
         self.browser.find_element_by_id("lastname").send_keys("crittercism")
         self.browser.find_element_by_id("company").send_keys("crittercism")
         self.browser.find_element_by_id("phone").send_keys("123-456-7890")
@@ -153,6 +153,10 @@ class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
         pass
 
     def validate_user_profile(self, email_id=None, account_type=None):
+        # Logout as any user because this needs to login as a admin user
+        self.browser.get(self.config.common.url + "/developers/logout")
+        utils.login(browser=self.browser)
+
         search_page_url = self.config.common.url +  "/admin/search"
         #email_id = "nsolaiappan+finarcbasicsignup@crittercism.com"
         self.browser.get(search_page_url)
@@ -161,13 +165,15 @@ class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
         email_link = self.browser.find_element_by_xpath("//a[contains(text(),'" + email_id + "')]").get_attribute("href")
         self.browser.get(email_link)
 
-        actual_email = self.browser.find_element_by_xpath("//table//*/*[contains(text(),'nsolaiappan+finarcbasicsignup@crittercism.com')]").text
+        actual_email = self.browser.find_element_by_xpath("//table//*/*[contains(text(),'" + email_id + "')]").text
         self.assertEqual(actual_email, email_id, ("Expecting %s email but found %s instead" % (actual_email, email_id)))
 
+        """
+        Need to go with Resolved Plan
         billed_plan_caption = self.browser.find_element_by_xpath('//*[@id="admin-portal"]/div/table[1]/tbody/tr[13]/td[1]/strong').text
         billed_plan_value = self.browser.find_element_by_xpath('//*[@id="admin-portal"]/div/table[1]/tbody/tr[13]/td[2]').text
         self.assertEqual(account_type, billed_plan_value, ("Expecting Basic but found %s" % billed_plan_value) )
-
+        """
         pay_via_caption = self.browser.find_element_by_xpath('//*[@id="admin-portal"]/div/table[1]/tbody/tr[16]/td[1]/strong').text
         pay_via_value = self.browser.find_element_by_xpath('//*[@id="admin-portal"]/div/table[1]/tbody/tr[16]/td[2]').text
         self.assertEqual("Credit Card", pay_via_value, ("Expecting Credit Card but found %s" % pay_via_value) )
