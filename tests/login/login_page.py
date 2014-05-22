@@ -6,6 +6,7 @@ import nose.plugins.attrib
 from src import baseTest
 from src import clogger
 from src import config
+from src.page_helpers import utils
 
 
 logger = clogger.setup_custom_logger(__name__)
@@ -17,6 +18,36 @@ page_url = config.CliConfig().common.url + "/developers/logout"
 
 class LoginPageSuite(baseTest.SeleniumTestCase):
 
+    def wait_for_password_reset_email(self):
+
+        counter = 0
+        utils.login_to_yahoo(browser=self.browser)
+        while counter < 10 :
+            if self.browser.find_elements_by_xpath('//*[contains(text(),"Reset Your Password")]').__len__():
+                self.browser.find_element_by_xpath('//*[contains(text(),"Reset Your Password")]').click()
+                self.browser.find_element_by_xpath('//a[contains(text(),"Memory Blip")]').click()
+                self.assertFalse(utils.is_url_broken(browser=self.browser,link=self.browser.current_url), " Broken link at " + self.browser.current_url)
+                return True
+            logger.debug("Email  not arrived. will try again after 10 seconds. So far %d seconds spent" % (counter * 10))
+            time.sleep(10) # Sleeping for email to arrive
+            counter += 1
+            self.browser.refresh()
+        return  False
+
+
+    def validate_password_was_reset(self):
+
+        for handle in self.browser.window_handles:
+            self.browser.switch_to_window(handle)
+            if "Crittercism " in self.browser.title :
+                break # Got the window we are looking for
+
+        self.browser.find_element_by_id("pass").send_keys(self.config.login.test_user_password)
+        self.browser.find_element_by_id("pass2").send_keys(self.config.login.test_user_password)
+        self.browser.find_element_by_id("commit").submit()
+        self.assertFalse(utils.is_url_broken(browser=self.browser,link=self.browser.current_url), " Broken link at " + self.browser.current_url)
+        with self.multiple_assertions():
+            self.assertIn("developers",self.browser.current_url," Didn't login automatically after password change")
 
     def setUp(self):
         self.browser.get(page_url)
@@ -112,6 +143,29 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
 
         self.signIn_from_google()
         self.assertEquals(self.is_login_succeed(), True, "Login Failed")
+
+    @nose.plugins.attrib. attr(genre="login")
+    def test_login_forgot_password(self):
+        __name__ + """ [Test] Forgot Password  """
+
+        forgot_password_link = self.config.common.url + "/developers/forgot-password"
+        self.browser.get(forgot_password_link)
+        self.browser.find_element_by_id("email").send_keys(self.config.login.test_user_engg)
+        self.browser.find_element_by_id("commit").submit()
+
+        self.assertIn("reset-password", self.browser.current_url, "It was not redirected to reset-password link")
+        element = self.browser.find_elements_by_xpath("//*[contains(text(),'Reset Your Password')]").__len__()
+        self.assertEqual(element,1,"Didn't get the text saying password reset was successful")
+
+        #Make sure forgot password link is not broken
+        self.assertFalse(utils.is_url_broken(browser=self.browser,link=forgot_password_link), " Broken link at " + forgot_password_link)
+
+        #Login to yahoo portal
+        self.assertEqual(self.wait_for_password_reset_email(), True, "Email not received waited until 10 mins")
+
+        self.validate_password_was_reset()
+
+
 
 
 if __name__ == '__main__':

@@ -14,6 +14,7 @@ from src import clogger
 from src import baseTest
 from src.page_helpers import team
 from src import config
+from src.page_helpers import utils
 
 page_url = config.CliConfig().common.url + "/developers/register-application"
 
@@ -32,10 +33,7 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
 
     def wait_for_email(self):
         counter = 0
-        self.browser.get("https://mail.yahoo.com")
-        self.browser.find_element_by_id("username").send_keys(self.config.login.test_user_engg)
-        self.browser.find_element_by_id("passwd").send_keys(self.config.login.password)
-        self.browser.find_element_by_id(".save").click()
+        utils.login_to_yahoo(browser=self.browser)
 
         while counter < 10 :
             if self.browser.find_elements_by_xpath('//*[contains(text(),"Added as a team member for ' + app_name + '")]').__len__():

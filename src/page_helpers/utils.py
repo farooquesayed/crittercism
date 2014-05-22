@@ -44,3 +44,9 @@ def login(browser=None):
     browser.find_element_by_id('email').send_keys(config.CliConfig().login.username)
     browser.find_element_by_name('password').send_keys(config.CliConfig().login.password)
     browser.find_element_by_id('commit').submit()
+
+def login_to_yahoo(browser=None, username=config.CliConfig().login.test_user_engg, password=config.CliConfig().login.password):
+    browser.get("https://mail.yahoo.com")
+    browser.find_element_by_id("username").send_keys(username)
+    browser.find_element_by_id("passwd").send_keys(password)
+    browser.find_element_by_id(".save").submit()
