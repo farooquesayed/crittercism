@@ -23,7 +23,7 @@ class RegisterApplication(baseTest.CrittercismTestCase):
     @classmethod
     def setUpClass(cls):
         super(RegisterApplication, cls).setUpClass()
-        for app_prefix in ["IOS-", "Android-", "HTML5-", "Win8-" ] :
+        for app_prefix in ["IOS-0", "Android-0", "HTML5-0", "Win8-0" ] :
             app_ids = team.get_id_from_app_name(browser=cls.browser, app_name=app_prefix)
             team.delete_app_given_ids(browser=cls.browser, app_ids=app_ids)
 
@@ -83,7 +83,7 @@ class RegisterApplication(baseTest.CrittercismTestCase):
         self.browser.find_element_by_id("app-name").send_keys(app_name)
 
         #self.browser.find_element_by_xpath('//*[@id="all-platforms"]/label[2]').click()
-        self.assertFalse(utils.find_element_and_click(self.browser, By.ID, '//*[@id="all-platforms"]/label[2]'),
+        self.assertFalse(utils.find_element_and_click(self.browser, By.XPATH, '//*[@id="all-platforms"]/label[2]'),
                                  " Broken link at " + self.browser.current_url)
 
         self.assertFalse(utils.find_element_and_submit(self.browser, By.ID, BrowserConstants.COMMIT),
@@ -113,7 +113,7 @@ class RegisterApplication(baseTest.CrittercismTestCase):
         app_name = "HTML5-" + str(random.random())
         self.browser.find_element_by_id("app-name").send_keys(app_name)
         #self.browser.find_element_by_xpath('//*[@id="all-platforms"]/label[3]').click()
-        self.assertFalse(utils.find_element_and_click(self.browser, By.ID, '//*[@id="all-platforms"]/label[3]'),
+        self.assertFalse(utils.find_element_and_click(self.browser, By.XPATH, '//*[@id="all-platforms"]/label[3]'),
                                  " Broken link at " + self.browser.current_url)
 
         self.assertFalse(utils.find_element_and_submit(self.browser, By.ID, BrowserConstants.COMMIT),
@@ -132,7 +132,7 @@ class RegisterApplication(baseTest.CrittercismTestCase):
         app_name = "Win8-" + str(random.random())
         self.browser.find_element_by_id("app-name").send_keys(app_name)
         #self.browser.find_element_by_xpath('//*[@id="all-platforms"]/label[4]').click()
-        self.assertFalse(utils.find_element_and_click(self.browser, By.ID, '//*[@id="all-platforms"]/label[4]'),
+        self.assertFalse(utils.find_element_and_click(self.browser, By.XPATH, '//*[@id="all-platforms"]/label[4]'),
                                  " Broken link at " + self.browser.current_url)
 
         #self.browser.find_element_by_id("commit").click()

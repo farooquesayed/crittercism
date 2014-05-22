@@ -122,7 +122,7 @@ fi
 if [[ "X${TEST_TYPE}" = "X" &&  "X${GENRE}" == "X" ]] ; then
        TEST_TYPE="smoke"
        TEST_TYPE_ARG=" -a ${TEST_TYPE}=TRUE "
-elif [[ "X${TEST_TYPE}" = "XREGRESSION" || "X${TEST_TYPE}" = "Xregression" ]] ; then
+elif [[ "X${TEST_TYPE}" = "XREGRESSION" || "X${TEST_TYPE}" = "Xregression" || "X${TEST_TYPE}" = "Xnightly" ]] ; then
 	   TEST_TYPE_ARG=
 else
 	   TEST_TYPE_ARG=" -a ${TEST_TYPE}=TRUE"	   

@@ -25,7 +25,8 @@ app_name = "IOS-" + str(random.random())
 logger = clogger.setup_custom_logger(__name__)
 
 def generate_list_of_members_types():
-    member_types = ["Engineer", "Manager", "Admin"]
+    #member_types = ["Engineer", "Manager", "Admin"]
+    member_types = ["Engineer"]
     return member_types
 
 
@@ -158,7 +159,6 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
     @attr(genre="invite-member")
     @data(generate_list_of_members_types())
     @ddt_list
-    @unittest.skip("Needs correct setup to run this test")
     def test_add_team_members(self, value):
         __name__ + """[Test] Add Team member as Engineer/Manager/Admin """
 
@@ -167,7 +167,6 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
         select.select_by_visible_text(value)
         self.assertFalse(utils.find_element_and_click(self.browser, By.NAME, 'add-team-member'),
                                  " Broken link at " + self.browser.current_url)
-
 
         #Get to yahoo mail to activate the link
         self.assertEqual(self.wait_for_email(), True, "Email not received waited until 10 mins")

@@ -42,10 +42,7 @@ class CrashReportTestSuite(baseTest.CrittercismTestCase):
         cls.browser.get(cls.config.common.url + "/developers/register-application")
         app_name = "IOS-" + str(random.random())
         cls.browser.find_element_by_id("app-name").send_keys(app_name)
-        #cls.browser.find_element_by_id("commit").click()
-        cls.assertFalse(utils.find_element_and_submit(cls.browser, By.NAME, 'commit'),
-                                 " Broken link at " + cls.browser.current_url)
-
+        cls.browser.find_element_by_id("commit").click()
         CrashReportTestSuite.app_ids = team.get_id_from_app_name(browser=cls.browser, app_name=app_name)
 
 
@@ -62,14 +59,7 @@ class CrashReportTestSuite(baseTest.CrittercismTestCase):
 
         for period in self.browser.find_elements_by_xpath("//label/span[@class='ui-button-text']"):
             logger.debug("working on period %s" % period.text)
-            #period.click()
-            self.assertFalse(utils.click(browser=self.browser, web_element=period),
-                                 " Broken link at " + self.browser.current_url)
-
-
-            self.assertFalse(utils.find_element_and_click(self.browser, By.NAME, 'add-team-member'),
-                                 " Broken link at " + self.browser.current_url)
-
+            self.assertFalse(utils.click(browser=self.browser, web_element=period)," Broken link at " + self.browser.current_url)
             with self.multiple_assertions():
                 self.assertEqual(self.browser.find_element_by_id("stats-number-today").text,"0",
                                  ("Expecting No crash but found %s" % self.browser.find_element_by_id("stats-number-today").text) )

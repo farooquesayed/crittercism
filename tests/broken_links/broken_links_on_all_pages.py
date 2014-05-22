@@ -1,4 +1,5 @@
-import unittest
+import os
+import unittest2 as unittest
 
 from requests.exceptions import InvalidSchema, MissingSchema, ConnectionError
 
@@ -13,6 +14,7 @@ from src import baseTest
 from src import clogger
 from src import config
 from src.page_helpers import utils
+from src.constants import Constants
 
 logger = src.clogger.setup_custom_logger(__name__)
 
@@ -57,7 +59,9 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
     @classmethod
     def setUpClass(cls):
         super(BrokenLinkTestSuite, cls).setUpClass()
+        pass
 
+    @unittest.skipIf(os.environ.get('TEST_TYPE','smoke') != Constants.NIGHTLY, "This will only run in nightly regression")
     def setUp(self):
         pass
 
