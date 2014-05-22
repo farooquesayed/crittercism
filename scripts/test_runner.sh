@@ -13,6 +13,7 @@ export BROWSER="firefox"
 DIR=/home/y/lib/python2.6/site-packages/crittercism-test
 LOG_DIR=
 PARALLEL_PROCESS=
+CI="NO"
 OUTPUT_STRING="Running "
 
 
@@ -24,10 +25,13 @@ function removeOldLogFiles() {
 }
 
 function startSeleniumHub() {
-     #Read the port number from config file to start the hub
-     port=$(grep selenium_hub_port ${CONFIG_FILE} | sed 's/selenium_hub_port=//')
-     hubresponse=$(java -jar ${DIR}/bin/selenium-server-standalone-2.41.0.jar -port ${port} -Dwebdriver.chrome.driver=${DIR}/bin/chromedriver 2>&1 > ${LOG_DIR}/seleniumhub_${port}_${TEST_TYPE}.log) &
-     sleep 5
+
+     if [ "X${CI}" == "XNO" ] ; then
+         #Read the port number from config file to start the hub
+         port=$(grep selenium_hub_port ${CONFIG_FILE} | sed 's/selenium_hub_port=//')
+         hubresponse=$(java -jar ${DIR}/bin/selenium-server-standalone-2.41.0.jar -port ${port} -Dwebdriver.chrome.driver=${DIR}/bin/chromedriver 2>&1 > ${LOG_DIR}/seleniumhub_${port}_${TEST_TYPE}.log) &
+         sleep 5
+     fi
 }
 
 function runTest() {
@@ -46,9 +50,11 @@ function runTest() {
 
 function stopSeleniumHub() {
 
-     #Read the port number from config file to start the hub
-     port=$(grep selenium_hub_port ${CONFIG_FILE} | sed 's/selenium_hub_port=//')
-     ps aux |grep java.*${port}|grep -v grep|awk '{print $2}' | xargs kill
+     if [ "X${CI}" == "XNO" ] ; then
+         #Read the port number from config file to start the hub
+         port=$(grep selenium_hub_port ${CONFIG_FILE} | sed 's/selenium_hub_port=//')
+         ps aux |grep java.*${port}|grep -v grep|awk '{print $2}' | xargs kill
+     fi
 }
 
 
@@ -57,12 +63,13 @@ function reRunFailedTest() {
     BIN="${BIN} --failed "
     testPassed=$(egrep -c 'errors="0".*failures="0"'  ${LOG_DIR}/nosetests.xml)
     if [[ ${testPassed} == 1 ]] ; then
+        echo "All test passed. Nothing to re-run"
         exit 0
     fi
+    echo "Rerunning the test after 1 Second ... "
+    sleep 1
     #Copy the nosetest.xml from first run to preserve the numbers
     cp ${LOG_DIR}/nosetests.xml ${LOG_DIR}/nosetests.${RETRY_NUMBER}.xml
-    echo "Rerunning the test after 1 minute ... "
-    sleep 60
     runTest
 }
 
@@ -76,7 +83,7 @@ if [ -e ./tests/ ]; then
   DIR=./
 fi
 
-set -- `getopt "s:x:f:t:d:p:g:b:h" "$@"`
+set -- `getopt "f:t:d:p:g:b:h:c" "$@"`
 
 #############################################################################
 #                      Function to print usage                              #
@@ -91,6 +98,7 @@ usage () {
   echo "         -p Parallel process count. Nosetest does not generate noseunit.xml file when shoose this option"
   echo "         -g To run a specific group or genre"
   echo "         -b To run a specific browser. default is firefox. other options are firefox/chrome/safari/etc"
+  echo "         -c To run on a CI cluster"
   echo ""
   echo "  -h"
   echo "     Print this help"
@@ -109,6 +117,7 @@ do
     -p) PARALLEL_PROCESS="$2";;
     -g) GENRE="$2";;
     -b) BROWSER="$2";;
+    -c) CI="$2";;
     -h) usage ; exit 0;;
   esac
   shift
@@ -151,11 +160,8 @@ if [ "X${BROWSER}" = "X" ] ; then
 fi
 
 #Constructing executing command line
-
 BIN="/usr/local/bin/nosetests-2.7  --nocapture --with-id --id-file ${LOG_DIR}/failed-test.txt "
-
 #BIN="/usr/bin/nosetests  --nocapture  --with-coverage --cover-html-dir=${LOG_DIR} --with-id --id-file ${LOG_DIR}/failed-test.txt "
-
 
 # Export all the variable which needs to be accessed from python
 export CONFIG_FILE
@@ -163,19 +169,26 @@ export TEST_TYPE
 export LOG_DIR
 export BROWSER
 
-removeOldLogFiles
 #Start the Selenium Hub
 startSeleniumHub
-#Execute the test
-runTest
-# Terminate the hub. Not able to find a graceful way of killing it
-stopSeleniumHub
-
 
 # Trying to re-run the failed test to see if they pass in this attempt
-#reRunFailedTest
-#reRunFailedTest
-#reRunFailedTest
+if [ "X${GENRE}" == "Xfailed" ] ; then
+      OUTPUT_STRING="Re-Running failed test "
+      reRunFailedTest
+      reRunFailedTest
+      reRunFailedTest
+      exit 1
+fi
+
+# Remove the log files from previous runs
+removeOldLogFiles
+
+#Execute the test
+runTest
+
+# Terminate the hub. Not able to find a graceful way of killing it
+stopSeleniumHub
 
 # Masking the return code from nose test as we want the test failure to be yellow in hudson instead of RED
 #exit 0;
