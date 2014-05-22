@@ -1,4 +1,5 @@
 import unittest
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from src.data_driven_test_wrapper import data_driven_test, data, ddt_list
 from src.page_helpers import utils
@@ -55,8 +56,10 @@ class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
         self.browser.find_element_by_id("email").send_keys(random_email)
         self.browser.find_element_by_id("password").send_keys(self.config.login.password)
 
-        self.browser.find_element_by_xpath("//*[contains(@class,'grid_8 push_2')]").click()
-        self.assertFalse(utils.is_url_broken(browser=self.browser,link=self.browser.current_url), " Oops page was found at " + self.browser.current_url)
+        #self.browser.find_element_by_xpath("//*[contains(@class,'grid_8 push_2')]").click()
+        #self.assertFalse(utils.is_url_broken(browser=self.browser,link=self.browser.current_url), " Oops page was found at " + self.browser.current_url)
+        self.assertFalse(utils.find_element_and_submit(self.browser, By.XPATH, "//*[contains(@class,'grid_8 push_2')]"),
+                                 " Broken link at " + self.browser.current_url)
         with self.multiple_assertions():
             self.assertEqual(self.browser.find_element_by_id("register-app").is_displayed(), True, "Sign up Failed - register-app button is not displayed")
             self.assertEqual(self.browser.find_element_by_id("commit").is_displayed(), True, "Sign up Failed - Commit button is not displayed")
@@ -77,8 +80,10 @@ class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
         self.browser.find_element_by_id("email").send_keys(random_email)
         self.browser.find_element_by_id("password").send_keys(self.config.login.password)
 
-        self.browser.find_element_by_xpath("//*[contains(@class,'grid_8 push_2')]").click()
-        self.assertFalse(utils.is_url_broken(browser=self.browser,link=self.browser.current_url), " Oops page was found at " + self.browser.current_url)
+        #self.browser.find_element_by_xpath("//*[contains(@class,'grid_8 push_2')]").click()
+        utils.find_element_and_click(browser=self.browser, by=By.XPATH, value="//*[contains(@class,'grid_8 push_2')]")
+
+        #self.assertFalse(utils.is_url_broken(browser=self.browser,link=self.browser.current_url), " Oops page was found at " + self.browser.current_url)
         with self.multiple_assertions():
             self.assertEqual(self.browser.find_element_by_id("register-app").is_displayed(), True, "Sign up Failed - register-app button is not displayed")
             self.assertEqual(self.browser.find_element_by_id("commit").is_displayed(), True, "Sign up Failed - Commit button is not displayed")

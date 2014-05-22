@@ -1,4 +1,5 @@
 from datetime import time
+from selenium.webdriver.common.by import By
 
 import selenium.webdriver.common.keys
 import unittest2 as unittest
@@ -75,13 +76,18 @@ class SampleTestSuite(baseTest.SeleniumTestCase):
         self.browser.get(url)
         self.browser.find_element_by_name('userName').send_keys("nasirhere")
         self.browser.find_element_by_name('password').send_keys("123456")
-        self.browser.find_element_by_name('button').submit()
+        #self.browser.find_element_by_name('button').submit()
+        self.assertFalse(utils.find_element_and_submit(self.browser,By.NAME,"button"), " Broken link at " + self.browser.current_url)
+
+
 
         self.browser.find_element_by_name('stationFrom').send_keys(
             "MUMBAI CST (CSTM)" + selenium.webdriver.common.keys.Keys.RETURN)
         self.browser.find_element_by_name('stationTo').send_keys(
             "AJMER JN (AII)" + selenium.webdriver.common.keys.Keys.RETURN)
-        self.browser.find_element_by_xpath('//*[@value="Find Trains"]').submit()
+        #self.browser.find_element_by_xpath('//*[@value="Find Trains"]').submit()
+        self.assertFalse(utils.find_element_and_submit(self.browser,By.XPATH, '//*[@value="Find Trains"]'), " Broken link at " + self.browser.current_url)
+
 
 
     @nose.plugins.attrib.attr(sample=True, genre="sample")
@@ -108,7 +114,9 @@ class SampleTestSuite(baseTest.SeleniumTestCase):
 
         self.browser.find_element_by_id('email').send_keys(self.config.login.test_user_engg)
         self.browser.find_element_by_name('password').send_keys(self.config.login.password)
-        self.browser.find_element_by_id('commit').submit()
+        #self.browser.find_element_by_id('commit').submit()
+        self.assertFalse(utils.find_element_and_submit(self.browser,By.ID, 'commit'), " Broken link at " + self.browser.current_url)
+
 
         with self.multiple_assertions():
             self.assertIn ("developers/app-settings/", self.browser.current_url, "Not able to redirect to App-Setting page")

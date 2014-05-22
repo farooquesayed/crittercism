@@ -2,6 +2,7 @@ import time
 
 import unittest2 as unittest
 import nose.plugins.attrib
+from selenium.webdriver.common.by import By
 
 from src import baseTest
 from src import clogger
@@ -25,8 +26,8 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
         while counter < 10 :
             if self.browser.find_elements_by_xpath('//*[contains(text(),"Reset Your Password")]').__len__():
                 self.browser.find_element_by_xpath('//*[contains(text(),"Reset Your Password")]').click()
-                self.browser.find_element_by_xpath('//a[contains(text(),"Memory Blip")]').click()
-                self.assertFalse(utils.is_url_broken(browser=self.browser,link=self.browser.current_url), " Broken link at " + self.browser.current_url)
+                self.assertFalse(utils.find_element_and_click(self.browser, By.XPATH, '//a[contains(text(),"Memory Blip")]'),
+                                 " Broken link at " + self.browser.current_url)
                 return True
             logger.debug("Email  not arrived. will try again after 10 seconds. So far %d seconds spent" % (counter * 10))
             time.sleep(10) # Sleeping for email to arrive
@@ -36,7 +37,6 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
 
 
     def validate_password_was_reset(self):
-
         for handle in self.browser.window_handles:
             self.browser.switch_to_window(handle)
             if "Crittercism " in self.browser.title :
@@ -44,8 +44,8 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
 
         self.browser.find_element_by_id("pass").send_keys(self.config.login.test_user_password)
         self.browser.find_element_by_id("pass2").send_keys(self.config.login.test_user_password)
-        self.browser.find_element_by_id("commit").submit()
-        self.assertFalse(utils.is_url_broken(browser=self.browser,link=self.browser.current_url), " Broken link at " + self.browser.current_url)
+        self.assertFalse(utils.find_element_and_submit(self.browser,By.ID,"commit"), " Broken link at " + self.browser.current_url)
+
         with self.multiple_assertions():
             self.assertIn("developers",self.browser.current_url," Didn't login automatically after password change")
 
@@ -151,18 +151,15 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
         forgot_password_link = self.config.common.url + "/developers/forgot-password"
         self.browser.get(forgot_password_link)
         self.browser.find_element_by_id("email").send_keys(self.config.login.test_user_engg)
-        self.browser.find_element_by_id("commit").submit()
+        #self.browser.find_element_by_id("commit").submit()
+        self.assertFalse(utils.find_element_and_submit(browser=self.browser, by=By.ID, value="commit"), " Broken link at " + self.browser.current_url)
 
         self.assertIn("reset-password", self.browser.current_url, "It was not redirected to reset-password link")
-        element = self.browser.find_elements_by_xpath("//*[contains(text(),'Reset Your Password')]").__len__()
-        self.assertEqual(element,1,"Didn't get the text saying password reset was successful")
-
-        #Make sure forgot password link is not broken
-        self.assertFalse(utils.is_url_broken(browser=self.browser,link=forgot_password_link), " Broken link at " + forgot_password_link)
+        self.assertEqual(self.browser.find_elements_by_xpath("//*[contains(text(),'Reset Your Password')]").__len__(),1,
+                         "Didn't get the text saying password reset was successful")
 
         #Login to yahoo portal
         self.assertEqual(self.wait_for_password_reset_email(), True, "Email not received waited until 10 mins")
-
         self.validate_password_was_reset()
 
 

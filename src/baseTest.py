@@ -2,8 +2,6 @@ import os
 import re
 from string import join
 import inspect
-#from selenium.webdriver.remote import webdriver
-
 from selenium import webdriver
 
 import unittest2 as unittest

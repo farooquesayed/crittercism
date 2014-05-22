@@ -3,7 +3,15 @@ __author__ = 'farooque'
 from src import config
 
 def get_id_from_app_name(browser=None, app_name=None):
+    """
+        Return an app_id given an app name
+        :Args:
+         - browser = Current instance of browser
+         - app_name = Name of the app to look for
 
+        :Usage:
+            team.get_id_from_app_name(browser, app_name)
+    """
     browser.get(config.CliConfig().common.url + "/developers")
 
     table = browser.find_element_by_id("app-table")
@@ -17,7 +25,15 @@ def get_id_from_app_name(browser=None, app_name=None):
     return app_ids
 
 def delete_app_given_ids(browser=None, app_ids=None):
+    """
+        Delete the app(s) given an Ids
+        :Args:
+         - browser = Current instance of browser
+         - app_ids = List of app_ids to delete
 
+        :Usage:
+            team.get_id_from_app_name(browser, app_ids)
+    """
     for app_id in app_ids:
         url = config.CliConfig().common.url + '/developers/app-settings/' + app_id + '#delete-app'
         browser.get( url )

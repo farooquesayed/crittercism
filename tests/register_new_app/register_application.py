@@ -1,5 +1,6 @@
 import random
 import time
+from selenium.webdriver.common.by import By
 
 import unittest2 as unittest
 from nose.plugins.attrib import attr
@@ -9,6 +10,7 @@ from src import clogger
 from src.page_helpers import team
 from src import config
 from src.page_helpers import utils
+from src.constants import BrowserConstants
 
 
 __author__ = 'farooque'
@@ -62,7 +64,9 @@ class RegisterApplication(baseTest.CrittercismTestCase):
 
         app_name = "IOS-" + str(random.random())
         self.browser.find_element_by_id("app-name").send_keys(app_name)
-        self.browser.find_element_by_id("commit").click()
+        self.assertFalse(utils.find_element_and_submit(self.browser, By.ID, BrowserConstants.COMMIT),
+                                 " Broken link at " + self.browser.current_url)
+
         web_element = self.browser.find_element_by_xpath(
             '//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
         self.assertEquals(web_element.text, app_name, "App creation failed")
@@ -77,8 +81,13 @@ class RegisterApplication(baseTest.CrittercismTestCase):
 
         app_name = "Android-" + str(random.random())
         self.browser.find_element_by_id("app-name").send_keys(app_name)
-        self.browser.find_element_by_xpath('//*[@id="all-platforms"]/label[2]').click()
-        self.browser.find_element_by_id("commit").click()
+
+        #self.browser.find_element_by_xpath('//*[@id="all-platforms"]/label[2]').click()
+        self.assertFalse(utils.find_element_and_click(self.browser, By.ID, '//*[@id="all-platforms"]/label[2]'),
+                                 " Broken link at " + self.browser.current_url)
+
+        self.assertFalse(utils.find_element_and_submit(self.browser, By.ID, BrowserConstants.COMMIT),
+                                 " Broken link at " + self.browser.current_url)
         web_element = self.browser.find_element_by_xpath(
             '//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
         self.assertEquals(web_element.text, app_name, "App creation failed")
@@ -103,8 +112,12 @@ class RegisterApplication(baseTest.CrittercismTestCase):
 
         app_name = "HTML5-" + str(random.random())
         self.browser.find_element_by_id("app-name").send_keys(app_name)
-        self.browser.find_element_by_xpath('//*[@id="all-platforms"]/label[3]').click()
-        self.browser.find_element_by_id("commit").click()
+        #self.browser.find_element_by_xpath('//*[@id="all-platforms"]/label[3]').click()
+        self.assertFalse(utils.find_element_and_click(self.browser, By.ID, '//*[@id="all-platforms"]/label[3]'),
+                                 " Broken link at " + self.browser.current_url)
+
+        self.assertFalse(utils.find_element_and_submit(self.browser, By.ID, BrowserConstants.COMMIT),
+                                 " Broken link at " + self.browser.current_url)
         web_element = self.browser.find_element_by_xpath(
             '//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
         self.assertEquals(web_element.text, app_name, "App creation failed")
@@ -118,8 +131,13 @@ class RegisterApplication(baseTest.CrittercismTestCase):
 
         app_name = "Win8-" + str(random.random())
         self.browser.find_element_by_id("app-name").send_keys(app_name)
-        self.browser.find_element_by_xpath('//*[@id="all-platforms"]/label[4]').click()
-        self.browser.find_element_by_id("commit").click()
+        #self.browser.find_element_by_xpath('//*[@id="all-platforms"]/label[4]').click()
+        self.assertFalse(utils.find_element_and_click(self.browser, By.ID, '//*[@id="all-platforms"]/label[4]'),
+                                 " Broken link at " + self.browser.current_url)
+
+        #self.browser.find_element_by_id("commit").click()
+        self.assertFalse(utils.find_element_and_submit(self.browser, By.ID, BrowserConstants.COMMIT),
+                                 " Broken link at " + self.browser.current_url)
         web_element = self.browser.find_element_by_xpath(
             '//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
         self.assertEquals(web_element.text, app_name, "App creation failed")

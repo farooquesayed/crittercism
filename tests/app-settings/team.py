@@ -1,5 +1,6 @@
 import time
 import random
+from selenium.webdriver.common.by import By
 
 import unittest2 as unittest
 from nose.plugins.attrib import attr
@@ -37,8 +38,15 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
 
         while counter < 10 :
             if self.browser.find_elements_by_xpath('//*[contains(text(),"Added as a team member for ' + app_name + '")]').__len__():
-                self.browser.find_element_by_xpath('//*[contains(text(),"Added as a team member for ' + app_name + '")]').click()
-                self.browser.find_element_by_xpath('//a[contains(text(),"Click Here to")]').click()
+                #self.browser.find_element_by_xpath('//*[contains(text(),"Added as a team member for ' + app_name + '")]').click()
+                self.assertFalse(utils.find_element_and_click(self.browser,By.XPATH,
+                                                '//*[contains(text(),"Added as a team member for ' + app_name + '")]'),
+                                        " Broken link at " + self.browser.current_url)
+
+                #self.browser.find_element_by_xpath('//a[contains(text(),"Click Here to")]').click()
+                self.assertFalse(utils.find_element_and_click(self.browser, By.XPATH, '//a[contains(text(),"Click Here to")]'),
+                                 " Broken link at " + self.browser.current_url)
+
                 return True
             logger.debug("Email  not arrived. will try again after 10 seconds. So far %d seconds spent" % (counter * 10))
             time.sleep(10) # Sleeping for email to arrive
@@ -69,7 +77,10 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
 
         #app_name = "IOS-" + str(random.random())
         self.browser.find_element_by_id("app-name").send_keys(app_name)
-        self.browser.find_element_by_id("commit").click()
+        #self.browser.find_element_by_id("commit").click()
+        self.assertFalse(utils.find_element_and_click(self.browser, By.ID, 'commit'),
+                                 " Broken link at " + self.browser.current_url)
+
         web_element = self.browser.find_element_by_xpath(
             '//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
         self.assertEquals(web_element.text, app_name, "App creation failed")
@@ -79,12 +90,16 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
         self.browser.get(self.config.common.url + "/developers/app-settings/" + app_id[0] + "#team-members")
 
         # Remove existing permissions
-
         for item in self.browser.find_elements_by_xpath("//*[contains(text(),'Remove')]"):
-            item.click()
+            #item.click()
+            #self.assertFalse(utils.is_url_broken(browser=self.browser), "Broken link at " + self.browser.current_url)
+            self.assertFalse(utils.click(browser=self.browser, web_element=item), "Broken link at " + self.browser.current_url)
+
 
         for item in self.browser.find_elements_by_xpath("//*[contains(text(),'Revoke Invite')]"):
-            item.click()
+            #item.click()
+            #self.assertFalse(utils.is_url_broken(browser=self.browser), "Broken link at " + self.browser.current_url)
+            self.assertFalse(utils.click(browser=self.browser, web_element=item), "Broken link at " + self.browser.current_url)
 
 
     @attr(genre="invite-member")
@@ -95,7 +110,10 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
         self.browser.find_element_by_id("team_email").send_keys(self.config.login.test_user_engg)
         select = Select(self.browser.find_element_by_id("team_role"))
         select.select_by_visible_text("Engineer")
-        self.browser.find_element_by_name("add-team-member").click()
+        #self.browser.find_element_by_name("add-team-member").click()
+        self.assertFalse(utils.find_element_and_click(self.browser, By.NAME, 'add-team-member'),
+                                 " Broken link at " + self.browser.current_url)
+
 
         #Get to yahoo mail to activate the link
         self.assertEqual(self.wait_for_email(), True, "Email not received waited until 10 mins")
@@ -111,7 +129,9 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
         self.browser.find_element_by_id("team_email").send_keys(self.config.login.test_user_engg)
         select = Select(self.browser.find_element_by_id("team_role"))
         select.select_by_visible_text("Admin")
-        self.browser.find_element_by_name("add-team-member").click()
+        #self.browser.find_element_by_name("add-team-member").click()
+        self.assertFalse(utils.find_element_and_click(self.browser, By.NAME, 'add-team-member'),
+                                 " Broken link at " + self.browser.current_url)
 
         #Goto to yahoo mail to activate the link
         self.assertEqual(self.wait_for_email(), True, "Email not received waited until 10 mins")
@@ -126,7 +146,9 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
         self.browser.find_element_by_id("team_email").send_keys(self.config.login.test_user_engg)
         select = Select(self.browser.find_element_by_id("team_role"))
         select.select_by_visible_text("Manager")
-        self.browser.find_element_by_name("add-team-member").click()
+        #self.browser.find_element_by_name("add-team-member").click()
+        self.assertFalse(utils.find_element_and_click(self.browser, By.NAME, 'add-team-member'),
+                                 " Broken link at " + self.browser.current_url)
 
         #Get to yahoo mail to activate the link
         self.assertEqual(self.wait_for_email(), True, "Email not received waited until 10 mins")
@@ -143,7 +165,9 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
         self.browser.find_element_by_id("team_email").send_keys(self.config.login.test_user_engg)
         select = Select(self.browser.find_element_by_id("team_role"))
         select.select_by_visible_text(value)
-        self.browser.find_element_by_name("add-team-member").click()
+        self.assertFalse(utils.find_element_and_click(self.browser, By.NAME, 'add-team-member'),
+                                 " Broken link at " + self.browser.current_url)
+
 
         #Get to yahoo mail to activate the link
         self.assertEqual(self.wait_for_email(), True, "Email not received waited until 10 mins")
