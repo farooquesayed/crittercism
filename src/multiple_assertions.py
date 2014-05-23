@@ -8,6 +8,7 @@ import sys
 import unittest2 as unittest
 
 from src import clogger
+from src.page_helpers import utils
 
 
 logger = clogger.setup_custom_logger(__name__)
@@ -30,13 +31,7 @@ def _suppress_log_assertion_errors(assertion_method):
         except AssertionError:
             exc_info = sys.exc_info()
             logger.error('Assertion error:\n %s', exc_info[1])
-
-            filename = os.environ.get('LOG_DIR','../../logs') + "/screenshots/" + \
-                       self._testMethodName + \
-                       datetime.now().strftime('%Y-%m-%d_%H-%M-%S-%ss') + ".png"
-            #self.browser.get_screenshot_as_file(filename)
-            self.browser.save_screenshot(filename)
-            logger.error("Screenshot on failure saved: %s with URL %s" % (filename, self.browser.current_url))
+            utils.capture_screenshot(browser=self.browser, file_name=self._testMethodName)
 
             if not self._suppress_assertions or always_raise:
                 raise exc_info[0], exc_info[1], exc_info[2]

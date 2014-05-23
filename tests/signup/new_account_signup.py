@@ -45,7 +45,7 @@ class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
     @data(generate_list_of_accounts())
     @ddt_list
     def test_sign_up_new_account(self,value):
-        __name__ + """[Test] Sign up using different type of accounts """
+        __name__ + """[Test] Sign up user with all account types """
 
         self.browser.get(self.config.common.url + "/signup?plan=" + value)
         random_email = (self.config.login.test_user_engg).replace('@', str(random.random()) + '@')
@@ -69,7 +69,7 @@ class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
 
     @attr(genre='signup',smoke=True)
     def test_sign_up_new_account_basic(self):
-        __name__ + """[Test] Sign up using different type of accounts """
+        __name__ + """[Test] Sign up user with accounts type basic """
 
         self.browser.get(self.config.common.url + "/signup?plan=basic")
         random_email = (self.config.login.test_user_engg).replace('@', str(random.random()) + '@')

@@ -130,21 +130,11 @@ class SampleTestSuite(baseTest.SeleniumTestCase):
 
 
     def tearDown(self):
-
-        """
-        Can override the base class setUp here
-        Cleanup code for every testcase
-
-        """
-        pass
+       pass
 
 
     @classmethod
     def tearDownClass(cls):
-        """
-        Cleanup code for the entire class
-
-        """
         super(SampleTestSuite, cls).tearDownClass()
         logger.info("Finished executing SampleTestSuite")
         pass
