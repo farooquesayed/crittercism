@@ -41,7 +41,7 @@ class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
         pass
 
 
-    @attr(genre="signup1")
+    @attr(genre="signup")
     @data(generate_list_of_accounts())
     @ddt_list
     def test_sign_up_new_account(self,value):
