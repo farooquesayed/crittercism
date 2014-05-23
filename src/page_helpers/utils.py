@@ -112,7 +112,7 @@ def capture_screenshot(browser=None):
           - utils.capture_screenshot(self.browser, self._testMethodName)
     """
     filename = os.environ.get('LOG_DIR','../../logs') + "/screenshots/" + \
-               str(inspect.stack()[1][3]) + \
+               str(inspect.stack()[2][3]) + \
                datetime.now().strftime('%Y-%m-%d_%H-%M-%S-%ss') + ".png"
     #self.browser.get_screenshot_as_file(filename)
     browser.save_screenshot(filename)
