@@ -31,7 +31,7 @@ def _suppress_log_assertion_errors(assertion_method):
         except AssertionError:
             exc_info = sys.exc_info()
             logger.error('Assertion error:\n %s', exc_info[1])
-            utils.capture_screenshot(browser=self.browser, file_name=self._testMethodName)
+            utils.capture_screenshot(browser=self.browser)
 
             if not self._suppress_assertions or always_raise:
                 raise exc_info[0], exc_info[1], exc_info[2]

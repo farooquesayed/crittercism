@@ -11,6 +11,7 @@ from src import clogger, config
 
 logger = clogger.setup_custom_logger(__name__)
 
+
 def get_all_links(browser=None):
     """
         Return all the link from the current page
@@ -48,7 +49,7 @@ def is_url_broken(browser=None, link=""):
     """
     try:
         # Navigate to the link if it is not there already
-        if link != browser.current_url and link != "" :
+        if link != browser.current_url and link != "":
             browser.get(link)
         #Needs to login instead any of the link redirect us to login page
         if "login" in browser.current_url and browser.find_elements_by_id('email').__len__() > 1:
@@ -80,7 +81,9 @@ def login(browser=None, username=config.CliConfig().login.test_user_engg, passwo
     browser.find_element_by_name('password').send_keys(password)
     browser.find_element_by_id('commit').submit()
 
-def login_to_yahoo(browser=None, username=config.CliConfig().login.test_user_engg, password=config.CliConfig().login.password):
+
+def login_to_yahoo(browser=None, username=config.CliConfig().login.test_user_engg,
+                   password=config.CliConfig().login.password):
     """
         Login to yahoo mail using username and password supplied.
         If no login credential is passed then it use from the config file
@@ -99,6 +102,19 @@ def login_to_yahoo(browser=None, username=config.CliConfig().login.test_user_eng
     browser.find_element_by_id(".save").submit()
     logger.debug("Hit the login button to login to yahoo")
 
+
+def get_test_method_name():
+    """
+    Return the test method name from the caller stack
+    :rtype : method Name to return from caller stack
+    """
+    for element in inspect.stack():
+        if element[3].find('test_') == 0:
+            return str(element[3])
+
+    return "test_method"
+
+
 def capture_screenshot(browser=None):
     """
         Common routine to capture the screen shot and save it in log/screenshots folder
@@ -111,10 +127,9 @@ def capture_screenshot(browser=None):
          :Usage:
           - utils.capture_screenshot(self.browser, self._testMethodName)
     """
-    filename = os.environ.get('LOG_DIR','../../logs') + "/screenshots/" + \
-               str(inspect.stack()[2][3]) + \
+    filename = os.environ.get('LOG_DIR', '../../logs') + "/screenshots/" + \
+               get_test_method_name() + \
                datetime.now().strftime('%Y-%m-%d_%H-%M-%S-%ss') + ".png"
-    #self.browser.get_screenshot_as_file(filename)
     browser.save_screenshot(filename)
     logger.error("Screen shot on failure saved: %s with URL %s" % (filename, browser.current_url))
 
@@ -140,6 +155,7 @@ def get_web_element(browser=None, by=By.XPATH, value=None):
         capture_screenshot(browser=browser)
         raise AssertionError(("Not able to find the web element by %s having value : %s" % (by, value)))
 
+
 def find_element_and_click(browser=None, by=By.XPATH, value=None):
     """
         Locate an element on page by its attribute.
@@ -162,6 +178,7 @@ def find_element_and_click(browser=None, by=By.XPATH, value=None):
         capture_screenshot(browser=browser)
         raise AssertionError(("Not able to find the web element by %s having value : %s" % (by, value)))
 
+
 def find_element_and_submit(browser=None, by=By.XPATH, value=None):
     """
         Locate an element on page by its attribute.
@@ -183,6 +200,7 @@ def find_element_and_submit(browser=None, by=By.XPATH, value=None):
         logger.error("Not able to find the web element by %s having value : %s" % (by, value))
         capture_screenshot(browser=browser)
         raise AssertionError(("Not able to find the web element by %s having value : %s" % (by, value)))
+
 
 def click(browser=None, web_element=None):
     """

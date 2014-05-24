@@ -51,7 +51,7 @@ class CrashReportTestSuite(baseTest.CrittercismTestCase):
         pass
 
 
-    @nose.plugins.attrib.attr(sample=True, genre="crash-report")
+    @nose.plugins.attrib.attr(genre="crash-report")
     @data(generate_list_of_crash_types())
     @ddt_list
     def test_crash_data(self, value=None):
