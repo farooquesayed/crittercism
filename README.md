@@ -1,4 +1,4 @@
-Selenium Web Testing Frame work built using nosetest
+Selenium Web Testing Framework built using nosetest
 ===========
 1) Install pip 
 2) Install list of packages mentioned in ./pkg folder
