@@ -25,8 +25,8 @@ app_name = "IOS-" + str(random.random())
 logger = clogger.setup_custom_logger(__name__)
 
 def generate_list_of_members_types():
-    #member_types = ["Engineer", "Manager", "Admin"]
-    member_types = ["Engineer"]
+    member_types = ["Engineer", "Manager", "Admin"]
+    #member_types = ["Admin"]
     return member_types
 
 

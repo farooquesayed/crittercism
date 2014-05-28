@@ -123,22 +123,6 @@ class SampleTestSuite(baseTest.SeleniumTestCase):
             self.assertIn ("developers/app-settings/", self.browser.current_url, "Not able to redirect to App-Setting page")
             self.assertEqual(self.browser.find_element_by_name("name").get_attribute("value"), "app_name", "Not able to see the correct App name")
 
-
-    def get_method_name(self):
-        """
-        Return the test method name from the caller stack
-        """
-        for element in inspect.stack():
-            print "Working on " + str(element[3].find('test_'))
-            if element[3].find('test_') == 0:
-                return str(element[3])
-
-    @nose.plugins.attrib.attr(sample=True)
-    def test_funtion_name(self):
-        self.assertIn("test_function_name", self.get_method_name(), "Assert found")
-
-
-
     def tearDown(self):
        pass
 

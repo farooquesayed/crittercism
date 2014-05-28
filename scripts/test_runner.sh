@@ -10,10 +10,11 @@ export LOG_DIR=
 export BROWSER="firefox"
 
 #Constants
-DIR=/home/y/lib/python2.6/site-packages/crittercism-test
+DIR=/usr/lib/python2.6/site-packages/crittercism-test
 LOG_DIR=
 PARALLEL_PROCESS=
 CI="NO"
+VERBOSITY=
 OUTPUT_STRING="Running "
 
 
@@ -67,8 +68,8 @@ function reRunFailedTest() {
         echo "All test passed. Nothing to re-run"
         exit 0
     fi
-    echo "Rerunning the test after 1 Second ... "
-    sleep 1
+    echo "Rerunning the test after 5 Second ... "
+    sleep 5
     #Copy the nosetest.xml from first run to preserve the numbers
     cp ${LOG_DIR}/nosetests.xml ${LOG_DIR}/nosetests.${RETRY_NUMBER}.xml
     runTest
@@ -84,7 +85,7 @@ if [ -e ./tests/ ]; then
   DIR=./
 fi
 
-set -- `getopt "f:t:d:p:g:b:h:c" "$@"`
+set -- `getopt "f:t:d:p:g:b:h:c:v" "$@"`
 
 #############################################################################
 #                      Function to print usage                              #
@@ -100,6 +101,7 @@ usage () {
   echo "         -g To run a specific group or genre"
   echo "         -b To run a specific browser. default is firefox. other options are firefox/chrome/safari/etc"
   echo "         -c To run on a CI cluster"
+  echo "         -v To enable 2 level verbosity on console"
   echo ""
   echo "  -h"
   echo "     Print this help"
@@ -119,20 +121,21 @@ do
     -g) GENRE="$2";;
     -b) BROWSER="$2";;
     -c) CI="$2";;
+    -v) VERBOSITY="$2";;
     -h) usage ; exit 0;;
   esac
   shift
   shift
 done
 
-if [ "X${CONFIG_FILE}" = "X" ] ; then
+if [ "X${CONFIG_FILE}" == "X" ] ; then
 	   CONFIG_FILE=./config/webtesting.conf
 fi
 
-if [[ "X${TEST_TYPE}" = "X" &&  "X${GENRE}" == "X" ]] ; then
+if [[ "X${TEST_TYPE}" == "X" &&  "X${GENRE}" == "X" ]] ; then
        TEST_TYPE="smoke"
        TEST_TYPE_ARG=" -a ${TEST_TYPE}=TRUE "
-elif [[ "X${TEST_TYPE}" = "XREGRESSION" || "X${TEST_TYPE}" = "Xregression" || "X${TEST_TYPE}" = "Xnightly" ]] ; then
+elif [[ "X${TEST_TYPE}" == "XREGRESSION" || "X${TEST_TYPE}" == "Xregression" || "X${TEST_TYPE}" == "Xnightly" ]] ; then
 	   TEST_TYPE_ARG=
 else
 	   TEST_TYPE_ARG=" -a ${TEST_TYPE}=TRUE"	   
@@ -144,7 +147,7 @@ if [ "X${GENRE}" != "X" ] ; then
       OUTPUT_STRING="Running group "
 fi
 
-if [ "X${LOG_DIR}" = "X" ] ; then
+if [ "X${LOG_DIR}" == "X" ] ; then
 	   LOG_DIR="./logs/"
 fi
 
@@ -152,16 +155,20 @@ if [ "X${PARALLEL_PROCESS}" != "X" ] ; then
        PARALLEL_PROCESS_ARG=" --processes=${PARALLEL_PROCESS} --process-timeout=5000 "
 fi
 
-if [ "X${TEST_DURATION_HOURS}" = "X" ] ; then
+if [ "X${TEST_DURATION_HOURS}" == "X" ] ; then
        TEST_DURATION_HOURS=0.002
 fi
 
-if [ "X${BROWSER}" = "X" ] ; then
+if [ "X${BROWSER}" == "X" ] ; then
        BROWSER="firefox"
 fi
 
+if [ "X${VERBOSITY}" != "X" ] ; then
+       VERBOSITY="-v -v"
+fi
+
 #Constructing executing command line
-BIN="/usr/local/bin/nosetests-2.7  --nocapture --with-id --id-file ${LOG_DIR}/failed-test.txt "
+BIN="/usr/local/bin/nosetests-2.7 ${VERBOSITY} --nocapture --with-id --id-file ${LOG_DIR}/failed-test.txt "
 #BIN="/usr/bin/nosetests  --nocapture  --with-coverage --cover-html-dir=${LOG_DIR} --with-id --id-file ${LOG_DIR}/failed-test.txt "
 
 # Export all the variable which needs to be accessed from python

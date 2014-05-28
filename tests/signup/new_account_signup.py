@@ -140,7 +140,7 @@ class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
         self.browser.find_element_by_id("lastname").send_keys("crittercism")
         self.browser.find_element_by_id("company").send_keys("crittercism")
         self.browser.find_element_by_id("phone").send_keys("123-456-7890")
-        self.browser.find_element_by_id("email").send_keys(self.config.login.test_user_engg)
+        self.browser.find_element_by_id("email").send_keys(self.config.login.username)
         self.browser.find_element_by_id("password").send_keys(self.config.login.password)
 
         self.browser.find_element_by_xpath("//*[contains(@class,'grid_8 push_2')]").click()

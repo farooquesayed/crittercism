@@ -63,7 +63,7 @@ def is_url_broken(browser=None, link=""):
         return True
 
 
-def login(browser=None, username=config.CliConfig().login.test_user_engg, password=config.CliConfig().login.password):
+def login(browser=None, username=config.CliConfig().login.username, password=config.CliConfig().login.password):
     """
         Login to crittercism using username and password supplied.
         If no login credential is passed then it use from the config file

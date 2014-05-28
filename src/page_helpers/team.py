@@ -20,7 +20,7 @@ def get_id_from_app_name(browser=None, app_name=None):
     app_ids = []
     for app in app_list:
         id = app.get_attribute("href").split('/')
-        app_ids.append(id[id.__len__() - 1 ])
+        app_ids.append(id[len(id) - 1 ])
 
     return app_ids
 
