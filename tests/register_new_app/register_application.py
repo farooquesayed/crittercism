@@ -143,22 +143,6 @@ class RegisterApplication(baseTest.CrittercismTestCase):
         app_ids = team.get_id_from_app_name(browser=self.browser, app_name=app_name)
         team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
 
-    @attr(genre='register-application')
-    def test_register_new_app_with_ios_invite_members(self):
-        __name__ + """ [Test] Registering a new IOS app with invitation to users """
-
-        app_name = "register-with-invite-" + str(random.random())
-        self.browser.find_element_by_id("app-name").send_keys(app_name)
-        #Inviting collabotor
-        self.browser.find_element_by_id("team_members").send_keys(self.config.login.test_user_admin)
-        self.assertFalse(utils.find_element_and_submit(self.browser, By.ID, BrowserConstants.COMMIT),
-                                 " Broken link at " + self.browser.current_url)
-        web_element = self.browser.find_element_by_xpath(
-            '//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
-        self.assertEquals(web_element.text, app_name, "App creation failed")
-        app_ids = team.get_id_from_app_name(browser=self.browser, app_name=app_name)
-        team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
-
     @attr(genre='register-application', smoke1=True)
     def test_delete_all_app(self):
         __name__ + """ [Test] Deleting all the IOS- test apps """

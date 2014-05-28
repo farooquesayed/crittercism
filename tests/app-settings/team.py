@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 import unittest2 as unittest
 from nose.plugins.attrib import attr
 from selenium.webdriver.support.select import Select
+from src.constants import BrowserConstants
 
 from src.data_driven_test_wrapper import ddt_list, data, data_driven_test
 
@@ -172,11 +173,28 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
         self.assertEqual(self.wait_for_email(), True, "Email not received waited until 10 mins")
         self.validate_team_member_got_subscribed(value)
 
-    def tearDown(self):
+    @attr(genre='invite-member')
+    def test_register_new_app_with_ios_invite_members(self):
+        __name__ + """ [Test] Registering a new IOS app with invitation to users """
 
+        self.browser.get(page_url)
+        app_name = "register-with-invite-" + str(random.random())
+        self.browser.find_element_by_id("app-name").send_keys(app_name)
+        #Inviting collabotor
+        self.browser.find_element_by_id("team_members").send_keys(self.config.login.test_user_admin)
+        self.assertFalse(utils.find_element_and_submit(self.browser, By.ID, BrowserConstants.COMMIT),
+                                 " Broken link at " + self.browser.current_url)
+        web_element = self.browser.find_element_by_xpath(
+            '//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
+        self.assertEquals(web_element.text, app_name, "App creation failed")
         app_ids = team.get_id_from_app_name(browser=self.browser, app_name=app_name)
-        self.assertEquals(True, team.delete_app_given_ids(browser=self.browser, app_ids=app_ids),
-                          "Deleting App failed")
+        team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
+
+
+
+    def tearDown(self):
+        app_ids = team.get_id_from_app_name(browser=self.browser, app_name=app_name)
+        self.assertEquals(True, team.delete_app_given_ids(browser=self.browser, app_ids=app_ids), "Deleting App failed")
         pass
 
     @classmethod
