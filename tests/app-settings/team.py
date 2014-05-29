@@ -40,12 +40,10 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
 
         while counter < 10 :
             if self.browser.find_elements_by_xpath('//*[contains(text(),"Added as a team member for ' + app_name + '")]').__len__():
-                #self.browser.find_element_by_xpath('//*[contains(text(),"Added as a team member for ' + app_name + '")]').click()
                 self.assertFalse(utils.find_element_and_click(self.browser,By.XPATH,
                                                 '//*[contains(text(),"Added as a team member for ' + app_name + '")]'),
                                         " Broken link at " + self.browser.current_url)
 
-                #self.browser.find_element_by_xpath('//a[contains(text(),"Click Here to")]').click()
                 self.assertFalse(utils.find_element_and_click(self.browser, By.XPATH, '//a[contains(text(),"Click Here to")]'),
                                  " Broken link at " + self.browser.current_url)
 
@@ -65,7 +63,7 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
                 break # Got the window we are looking for
 
         with self.multiple_assertions():
-            self.assertIn ("developers/app-settings/", self.browser.current_url, ("Not able to redirect to App-Setting page for role = %s" % role))
+            self.assertIn ("developers/app_settings/", self.browser.current_url, ("Not able to redirect to App-Setting page for role = %s" % role))
             self.assertEqual(self.browser.find_element_by_name("name").get_attribute("value"), app_name, ("Not able to see the correct App name for role = %s" % role))
 
     @classmethod
@@ -77,9 +75,7 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
 
         self.browser.get(page_url)
 
-        #app_name = "IOS-" + str(random.random())
         self.browser.find_element_by_id("app-name").send_keys(app_name)
-        #self.browser.find_element_by_id("commit").click()
         self.assertFalse(utils.find_element_and_click(self.browser, By.ID, 'commit'),
                                  " Broken link at " + self.browser.current_url)
 
@@ -89,73 +85,15 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
 
         app_id = team.get_id_from_app_name(browser=self.browser,app_name=app_name)
         logger.debug("Found the ID = %s" % app_id[0])
-        self.browser.get(self.config.common.url + "/developers/app-settings/" + app_id[0] + "#team-members")
+        self.browser.get(self.config.common.url + "/developers/app_settings/" + app_id[0] + "#team-members")
 
         # Remove existing permissions
         for item in self.browser.find_elements_by_xpath("//*[contains(text(),'Remove')]"):
-            #item.click()
-            #self.assertFalse(utils.is_url_broken(browser=self.browser), "Broken link at " + self.browser.current_url)
             self.assertFalse(utils.click(browser=self.browser, web_element=item), "Broken link at " + self.browser.current_url)
 
 
         for item in self.browser.find_elements_by_xpath("//*[contains(text(),'Revoke Invite')]"):
-            #item.click()
-            #self.assertFalse(utils.is_url_broken(browser=self.browser), "Broken link at " + self.browser.current_url)
             self.assertFalse(utils.click(browser=self.browser, web_element=item), "Broken link at " + self.browser.current_url)
-
-
-    @attr(genre="invite-member")
-    @unittest.skip("Covered in DDT")
-    def test_add_team_member_engg(self):
-        __name__ + """[Test] Add Team member as Engineer """
-
-        self.browser.find_element_by_id("team_email").send_keys(self.config.login.test_user_engg)
-        select = Select(self.browser.find_element_by_id("team_role"))
-        select.select_by_visible_text("Engineer")
-        #self.browser.find_element_by_name("add-team-member").click()
-        self.assertFalse(utils.find_element_and_click(self.browser, By.NAME, 'add-team-member'),
-                                 " Broken link at " + self.browser.current_url)
-
-
-        #Get to yahoo mail to activate the link
-        self.assertEqual(self.wait_for_email(), True, "Email not received waited until 10 mins")
-        self.validate_team_member_got_subscribed("Engineer")
-
-
-
-    @attr(genre="invite-member")
-    @unittest.skip("Covered in DDT")
-    def test_add_team_member_admin(self):
-        __name__ + """[Test] Add Team member as Admin """
-
-        self.browser.find_element_by_id("team_email").send_keys(self.config.login.test_user_engg)
-        select = Select(self.browser.find_element_by_id("team_role"))
-        select.select_by_visible_text("Admin")
-        #self.browser.find_element_by_name("add-team-member").click()
-        self.assertFalse(utils.find_element_and_click(self.browser, By.NAME, 'add-team-member'),
-                                 " Broken link at " + self.browser.current_url)
-
-        #Goto to yahoo mail to activate the link
-        self.assertEqual(self.wait_for_email(), True, "Email not received waited until 10 mins")
-        self.validate_team_member_got_subscribed("Admin")
-
-
-    @attr(genre="invite-member")
-    @unittest.skip("Covered in DDT")
-    def test_add_team_member_manager(self):
-        __name__ + """[Test] Add Team member as Manager """
-
-        self.browser.find_element_by_id("team_email").send_keys(self.config.login.test_user_engg)
-        select = Select(self.browser.find_element_by_id("team_role"))
-        select.select_by_visible_text("Manager")
-        #self.browser.find_element_by_name("add-team-member").click()
-        self.assertFalse(utils.find_element_and_click(self.browser, By.NAME, 'add-team-member'),
-                                 " Broken link at " + self.browser.current_url)
-
-        #Get to yahoo mail to activate the link
-        self.assertEqual(self.wait_for_email(), True, "Email not received waited until 10 mins")
-        self.validate_team_member_got_subscribed("Manager")
-
 
     @attr(genre="invite-member")
     @data(generate_list_of_members_types())
