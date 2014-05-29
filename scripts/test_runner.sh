@@ -168,7 +168,7 @@ if [ "X${VERBOSITY}" != "X" ] ; then
 fi
 
 #Constructing executing command line
-BIN="/usr/local/bin/nosetests-2.7 ${VERBOSITY} --nocapture --with-id --id-file ${LOG_DIR}/failed-test.txt "
+BIN="nosetests-2.7 ${VERBOSITY} --nocapture --with-id --id-file ${LOG_DIR}/failed-test.txt "
 #BIN="/usr/bin/nosetests  --nocapture  --with-coverage --cover-html-dir=${LOG_DIR} --with-id --id-file ${LOG_DIR}/failed-test.txt "
 
 # Export all the variable which needs to be accessed from python
