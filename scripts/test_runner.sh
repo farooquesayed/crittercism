@@ -30,8 +30,9 @@ function startSeleniumHub() {
      if [ "X${CI}" == "XNO" ] ; then
          #Read the port number from config file to start the hub
          port=$(grep selenium_hub_port ${CONFIG_FILE} | sed 's/selenium_hub_port=//')
-	 echo "Starting the Selenium standalone server in background on port : ${port}" 
+	     echo "Starting the Selenium standalone server in background on port : ${port}"
          hubresponse=$(java -jar ${DIR}/bin/selenium-server-standalone-2.41.0.jar -port ${port} -Dwebdriver.chrome.driver=${DIR}/bin/chromedriver 2>&1 > ${LOG_DIR}/seleniumhub_${port}_${TEST_TYPE}.log) &
+         echo ${hubresponse} >>  ${LOG_DIR}/seleniumhub_${port}_${TEST_TYPE}.log
          sleep 5
      fi
 }
