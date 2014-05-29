@@ -52,7 +52,7 @@ class SampleTestSuite(baseTest.SeleniumTestCase):
 
 
     @nose.plugins.attrib.attr(genre='sample')
-    @unittest.skip("Reason : why it is skipped")
+    #@unittest.skip("Reason : why it is skipped")
     def test_sample(self):
         """
             1) Sample to test multiple assertion

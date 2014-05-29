@@ -1,12 +1,8 @@
 import os
 import re
-from string import join
-import inspect
+
 from selenium import webdriver
-
-import unittest2 as unittest
 from selenium.webdriver.support import ui as selenium_ui
-
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from src import  multiple_assertions
@@ -15,7 +11,6 @@ from src import config
 
 
 logger = clogger.setup_custom_logger(__name__)
-
 
 class BaseCliTest(multiple_assertions.TestCaseWithMultipleAssertions):
     def __init__(self, *args, **kwargs):
@@ -30,16 +25,6 @@ class BaseCliTest(multiple_assertions.TestCaseWithMultipleAssertions):
         logger.debug("SetupCLass for BaseTest")
         Initialization()
 
-    def log_assert(self, expected=0, actual=0, message=None):
-
-        if expected == actual:
-            logger.info("Pass: " + str(inspect.stack()[1][3]))
-        elif message is not None and self.canSkipped(message):
-                logger.warn("Skipping tests for " + str(message))
-        else:
-            logger.error("Fail:" + str(inspect.stack()[1][3]) + " : " + str(message))
-
-        assert expected == actual, message
 
     def tearDown(self):
         logger.info(">> BASE:TEARDOWN Override me in the tests suite <<")
@@ -47,19 +32,8 @@ class BaseCliTest(multiple_assertions.TestCaseWithMultipleAssertions):
 
     @classmethod
     def tearDownClass(cls):
-        logger.info("BASE:tearDownClass:Called once for each class instance. \
-                      Can be overridden")
+        logger.info("BASE:tearDownClass:Called once for each class instance. Can be overridden")
         pass
-
-    def canSkipped(self, message):
-        for failure in config.CliConfig().knownFailureList:
-            msg = failure.split('|')
-            logger.debug("Splitting " + str(msg.__len__()) + " " + join(msg))
-            if msg[1].strip() in message:
-                logger.warn("Skipping tests for " + str(failure))
-                raise unittest.SkipTest(str(failure))
-
-        return False
 
 class SeleniumTestCase(BaseCliTest):
 
@@ -149,4 +123,3 @@ class Initialization:
         finally:
             if fH is not None:
                 fH.close()
-
