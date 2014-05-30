@@ -95,7 +95,7 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
         for item in self.browser.find_elements_by_xpath("//*[contains(text(),'Revoke Invite')]"):
             self.assertFalse(utils.click(browser=self.browser, web_element=item), "Broken link at " + self.browser.current_url)
 
-    @attr(genre="invite-member")
+    @attr(genre="invite-member", smoke=True)
     @data(generate_list_of_members_types())
     @ddt_list
     def test_add_team_members(self, value):
