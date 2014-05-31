@@ -1,7 +1,6 @@
 import random
-import time
-from selenium.webdriver.common.by import By
 
+from selenium.webdriver.common.by import By
 import unittest2 as unittest
 from nose.plugins.attrib import attr
 
@@ -9,7 +8,6 @@ from src import baseTest
 from src import clogger
 from src.page_helpers import team
 from src import config
-from src.page_helpers import utils
 from src.constants import BrowserConstants
 
 
@@ -64,8 +62,8 @@ class RegisterApplication(baseTest.CrittercismTestCase):
 
         app_name = "IOS-" + str(random.random())
         self.browser.find_element_by_id("app-name").send_keys(app_name)
-        self.assertFalse(utils.find_element_and_submit(self.browser, By.ID, BrowserConstants.COMMIT),
-                                 " Broken link at " + self.browser.current_url)
+        self.assertFalse(self.find_element_and_submit(by=By.ID, value=BrowserConstants.COMMIT),
+                         " Broken link at " + self.browser.current_url)
 
         web_element = self.browser.find_element_by_xpath(
             '//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
@@ -83,11 +81,11 @@ class RegisterApplication(baseTest.CrittercismTestCase):
         self.browser.find_element_by_id("app-name").send_keys(app_name)
 
         #self.browser.find_element_by_xpath('//*[@id="all-platforms"]/label[2]').click()
-        self.assertFalse(utils.find_element_and_click(self.browser, By.XPATH, '//*[@id="all-platforms"]/label[2]'),
-                                 " Broken link at " + self.browser.current_url)
+        self.assertFalse(self.find_element_and_click(by=By.XPATH, value='//*[@id="all-platforms"]/label[2]'),
+                         " Broken link at " + self.browser.current_url)
 
-        self.assertFalse(utils.find_element_and_submit(self.browser, By.ID, BrowserConstants.COMMIT),
-                                 " Broken link at " + self.browser.current_url)
+        self.assertFalse(self.find_element_and_submit(by=By.ID, value=BrowserConstants.COMMIT),
+                         " Broken link at " + self.browser.current_url)
         web_element = self.browser.find_element_by_xpath(
             '//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
         self.assertEquals(web_element.text, app_name, "App creation failed")
@@ -112,11 +110,11 @@ class RegisterApplication(baseTest.CrittercismTestCase):
         app_name = "HTML5-" + str(random.random())
         self.browser.find_element_by_id("app-name").send_keys(app_name)
         #self.browser.find_element_by_xpath('//*[@id="all-platforms"]/label[3]').click()
-        self.assertFalse(utils.find_element_and_click(self.browser, By.XPATH, '//*[@id="all-platforms"]/label[3]'),
-                                 " Broken link at " + self.browser.current_url)
+        self.assertFalse(self.find_element_and_click(by=By.XPATH, value='//*[@id="all-platforms"]/label[3]'),
+                         " Broken link at " + self.browser.current_url)
 
-        self.assertFalse(utils.find_element_and_submit(self.browser, By.ID, BrowserConstants.COMMIT),
-                                 " Broken link at " + self.browser.current_url)
+        self.assertFalse(self.find_element_and_submit(by=By.ID, value=BrowserConstants.COMMIT),
+                         " Broken link at " + self.browser.current_url)
         web_element = self.browser.find_element_by_xpath(
             '//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
         self.assertEquals(web_element.text, app_name, "App creation failed")
@@ -131,12 +129,11 @@ class RegisterApplication(baseTest.CrittercismTestCase):
         app_name = "Win8-" + str(random.random())
         self.browser.find_element_by_id("app-name").send_keys(app_name)
         #self.browser.find_element_by_xpath('//*[@id="all-platforms"]/label[4]').click()
-        self.assertFalse(utils.find_element_and_click(self.browser, By.XPATH, '//*[@id="all-platforms"]/label[4]'),
-                                 " Broken link at " + self.browser.current_url)
+        self.assertFalse(self.find_element_and_click(by=By.XPATH, value='//*[@id="all-platforms"]/label[4]'),
+                         " Broken link at " + self.browser.current_url)
 
-        #self.browser.find_element_by_id("commit").click()
-        self.assertFalse(utils.find_element_and_submit(self.browser, By.ID, BrowserConstants.COMMIT),
-                                 " Broken link at " + self.browser.current_url)
+        self.assertFalse(self.find_element_and_submit(by=By.ID, value=BrowserConstants.COMMIT),
+                         " Broken link at " + self.browser.current_url)
         web_element = self.browser.find_element_by_xpath(
             '//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
         self.assertEquals(web_element.text, app_name, "App creation failed")
@@ -157,7 +154,7 @@ class RegisterApplication(baseTest.CrittercismTestCase):
         __name__ + """ [Test] Verify privacy link while Registering a new app """
 
         privacy_link = config.CliConfig().common.url + "/privacy.html"
-        self.assertFalse(utils.is_url_broken(browser=self.browser,link=privacy_link), " Broken link at " + privacy_link)
+        self.assertFalse(self.is_url_broken(link=privacy_link), " Broken link at " + privacy_link)
 
     @attr(genre='register-application')
     #@unittest.skip("Because og Bug https://crittercism.atlassian.net/browse/PP-1159")
@@ -165,7 +162,8 @@ class RegisterApplication(baseTest.CrittercismTestCase):
         __name__ + """ [Test] Verify privacy link while Registering a new app """
 
         tos_link = config.CliConfig().common.url + "/tos-v3.html"
-        self.assertFalse(utils.is_url_broken(browser=self.browser,link=tos_link), " Broken link at " + tos_link)
+        self.assertFalse(self.is_url_broken(link=tos_link), " Broken link at " + tos_link)
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

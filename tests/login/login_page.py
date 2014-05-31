@@ -26,14 +26,22 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
         while counter < 10 :
             if self.browser.find_elements_by_xpath('//*[contains(text(),"Reset Your Password")]').__len__():
                 self.browser.find_element_by_xpath('//*[contains(text(),"Reset Your Password")]').click()
-                self.assertFalse(utils.find_element_and_click(self.browser, By.XPATH, '//a[contains(text(),"Memory Blip")]'),
+                self.assertFalse(self.find_element_and_click(by=By.XPATH, value='//a[contains(text(),"Memory Blip")]'),
                                  " Broken link at " + self.browser.current_url)
                 return True
             logger.debug("Email  not arrived. will try again after 10 seconds. So far %d seconds spent" % (counter * 10))
             time.sleep(10) # Sleeping for email to arrive
             counter += 1
+            if counter % 2 == 0:
+                #Now check in spam folder
+                self.find_element_and_click(by=By.ID, value="spam-label")
+            else:
+                #Now check in inbox again
+                self.find_element_and_click(by=By.ID, value="inbox-count")
+
             self.browser.refresh()
-        return  False
+
+        return False
 
 
     def validate_password_was_reset(self):
@@ -44,7 +52,8 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
 
         self.browser.find_element_by_id("pass").send_keys(self.config.login.test_user_password)
         self.browser.find_element_by_id("pass2").send_keys(self.config.login.test_user_password)
-        self.assertFalse(utils.find_element_and_submit(self.browser,By.ID,"commit"), " Broken link at " + self.browser.current_url)
+        self.assertFalse(self.find_element_and_submit(by=By.ID, value="commit"),
+                         " Broken link at " + self.browser.current_url)
 
         with self.multiple_assertions():
             self.assertIn("developers",self.browser.current_url," Didn't login automatically after password change")
@@ -152,7 +161,8 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
         self.browser.get(forgot_password_link)
         self.browser.find_element_by_id("email").send_keys(self.config.login.test_user_engg)
         #self.browser.find_element_by_id("commit").submit()
-        self.assertFalse(utils.find_element_and_submit(browser=self.browser, by=By.ID, value="commit"), " Broken link at " + self.browser.current_url)
+        self.assertFalse(self.find_element_and_submit(by=By.ID, value="commit"),
+                         " Broken link at " + self.browser.current_url)
 
         self.assertIn("reset-password", self.browser.current_url, "It was not redirected to reset-password link")
         self.assertEqual(self.browser.find_elements_by_xpath("//*[contains(text(),'Reset Your Password')]").__len__(),1,
@@ -161,9 +171,6 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
         #Login to yahoo portal
         self.assertEqual(self.wait_for_password_reset_email(), True, "Email not received waited until 10 mins")
         self.validate_password_was_reset()
-
-
-
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

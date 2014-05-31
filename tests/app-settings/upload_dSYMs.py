@@ -1,21 +1,16 @@
-import time
 import random
-from selenium.webdriver.common.by import By
 
+from selenium.webdriver.common.by import By
 import unittest2 as unittest
 from nose.plugins.attrib import attr
-from selenium.webdriver.support.select import Select
-
-from src.data_driven_test_wrapper import ddt_list, data, data_driven_test
-
-
-__author__ = 'farooque'
 
 from src import clogger
 from src import baseTest
 from src.page_helpers import team
 from src import config
-from src.page_helpers import utils
+
+
+__author__ = 'farooque'
 
 page_url = config.CliConfig().common.url + "/developers/register-application"
 
@@ -42,8 +37,8 @@ class UploadDSymSuite(baseTest.CrittercismTestCase):
         self.browser.get(page_url)
 
         self.browser.find_element_by_id("app-name").send_keys(app_name)
-        self.assertFalse(utils.find_element_and_click(self.browser, By.ID, 'commit'),
-                                 " Broken link at " + self.browser.current_url)
+        self.assertFalse(self.find_element_and_click(by=By.ID, value='commit'),
+                         " Broken link at " + self.browser.current_url)
 
     @attr(genre="upload-dsym")
     def test_double_quote_around_source_root(self):
