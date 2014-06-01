@@ -56,7 +56,7 @@ function stopSeleniumHub() {
      if [ "X${CI}" == "XNO" ] ; then
          #Read the port number from config file to start the hub
          port=$(grep selenium_hub_port ${CONFIG_FILE} | sed 's/selenium_hub_port=//')
-         ps aux |grep java.*${port}|grep -v grep|awk '{print $2}' | xargs kill
+         ps aux |grep java.*${port}|grep -v grep|awk '{print $2}' | xargs kill -15
      fi
 }
 

@@ -34,18 +34,9 @@ def generate_list_of_data():
 class SampleTestSuite(baseTest.SeleniumTestCase):
     @classmethod
     def setUpClass(cls):
-        """
-
-
-        """
         super(SampleTestSuite, cls).setUpClass()
 
     def setUp(self):
-        """
-        Setup for the testcase
-
-
-        """
         pass
 
 
@@ -117,11 +108,13 @@ class SampleTestSuite(baseTest.SeleniumTestCase):
                          " Broken link at " + self.browser.current_url)
 
         with self.multiple_assertions():
-            self.assertIn ("developers/app-settings/", self.browser.current_url, "Not able to redirect to App-Setting page")
-            self.assertEqual(self.browser.find_element_by_name("name").get_attribute("value"), "app_name", "Not able to see the correct App name")
+            self.assertIn("developers/app-settings/", self.browser.current_url,
+                          "Not able to redirect to App-Setting page")
+            self.assertEqual(self.browser.find_element_by_name("name").get_attribute("value"), "app_name",
+                             "Not able to see the correct App name")
 
     def tearDown(self):
-       pass
+        pass
 
 
     @classmethod
@@ -137,17 +130,21 @@ class SampleTestSuite(baseTest.SeleniumTestCase):
         self.browser.find_element_by_id("passwd").send_keys(self.config.login.password)
         self.browser.find_element_by_id(".save").click()
         app_name = "IOS-0.292169889366"
-        while counter < 10 :
-            if self.browser.find_elements_by_xpath('//*[contains(text(),"Added as a team member for ' + app_name + '")]').__len__():
-                self.browser.find_element_by_xpath('//*[contains(text(),"Added as a team member for ' + app_name + '")]').click()
+        while counter < 10:
+            if self.browser.find_elements_by_xpath(
+                                    '//*[contains(text(),"Added as a team member for ' + app_name + '")]').__len__():
+                self.browser.find_element_by_xpath(
+                    '//*[contains(text(),"Added as a team member for ' + app_name + '")]').click()
                 self.browser.find_element_by_xpath('//a[contains(text(),"Click Here to")]').click()
                 return True
-            logger.debug("Email  not arrived. will try again after 10 seconds. So far %d seconds spent" % (counter * 10))
-            time.sleep(10) # Sleeping for email to arrive
+            logger.debug(
+                "Email  not arrived. will try again after 10 seconds. So far %d seconds spent" % (counter * 10))
+            time.sleep(10)  # Sleeping for email to arrive
             counter += 1
             self.browser.refresh()
 
         return False
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

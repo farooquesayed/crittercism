@@ -1,3 +1,8 @@
+import time
+
+from selenium.webdriver.common.by import By
+
+
 __author__ = 'farooque'
 
 from requests.exceptions import InvalidSchema, MissingSchema, ConnectionError
@@ -76,6 +81,30 @@ def login(browser=None, username=config.CliConfig().login.username, password=con
     browser.find_element_by_id('email').send_keys(username)
     browser.find_element_by_name('password').send_keys(password)
     browser.find_element_by_id('commit').submit()
+
+
+def delete_all_yahoo_email(browser=None):
+    """
+      Delete all the email from Inbox and Spam folders
+      :Args:
+       - browser = current instance of browser already logged into yahoo email
+    """
+    login_to_yahoo(browser=browser)
+    #Delete all the existing emails after login
+    #for folder in ["//*[@class='inbox-label icon-text']", "//*[@id='spam-label']"]:
+    for folder in [
+        "//*[@class='inbox-label icon-text']"]:  # Only deleting it from inbox as we are moving email from spam to inbox because links are non-clickable in spam
+        try:
+            browser.find_element(by=By.XPATH, value=folder).click()
+            time.sleep(2)
+            browser.find_element(by=By.XPATH, value="//*[@class='focusable neoFocusable enabled']").click()
+            time.sleep(2)
+            browser.find_element(by=By.XPATH, value="//*[@class='icon-delete']").click()
+            time.sleep(2)
+            #Only Clicking if confirmation appear because it only happens if we have more then 10 email to delete
+            browser.find_element(by=By.XPATH, value="//*[@href='#'][contains(text(),'OK')]").click()
+        except:
+            continue
 
 
 def login_to_yahoo(browser=None, username=config.CliConfig().login.test_user_engg,

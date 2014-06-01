@@ -52,18 +52,25 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
                 self.browser.close()
                 return True
             logger.debug("Email  not arrived. will try again after 10 seconds. So far %d seconds spent" % (counter * 10))
-            time.sleep(10) # Sleeping for email to arrive
+            time.sleep(5)  # Sleeping for email to arrive
             counter += 1
-            if counter % 2 == 0:
+            self.browser.refresh()
+            time.sleep(5)  # Sleeping for email to arrive
+            if counter % 2 == 1:
                 #Now check in spam folder
                 self.find_element_and_click(by=By.ID, value="spam-label")
+                time.sleep(3)  # To Open the email
+                self.browser.find_element(by=By.XPATH, value="//*[@class='focusable neoFocusable enabled']").click()
+                time.sleep(3)  # TO Select the email
+                #Make it not a Spam becuase links are disabled in spam folder
+                self.find_element_and_click(by=By.ID, value="btn-not-spam")
             else:
                 #Now check in inbox again
-                self.find_element_and_click(by=By.ID, value="inbox-count")
+                self.find_element_and_click(by=By.XPATH, value="//*[@class='inbox-label icon-text']")
 
-            self.browser.refresh()
+            logger.debug("Sleeping for 3 seconds for page to load")
+            time.sleep(3)
 
-        self.browser.close()
         return False
 
     def validate_team_member_got_subscribed(self,role=None):
@@ -82,6 +89,7 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
     @classmethod
     def setUpClass(cls):
         super(AddTeamMemberSuite, cls).setUpClass()
+        utils.delete_all_yahoo_email(browser=cls.browser)
         pass
 
     def setUp(self):
@@ -107,7 +115,6 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
         for item in self.browser.find_elements_by_xpath("//*[contains(text(),'Revoke Invite')]"):
             self.assertFalse(self.click(web_element=item), "Broken link at " + self.browser.current_url)
 
-    @attr(genre="invite-member1")
     @attr(genre="invite-member")
     @data(generate_list_of_members_types())
     @ddt_list
