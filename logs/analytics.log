@@ -1,0 +1,60 @@
+2014-06-02 16:37:55,289[INFO][__init__][src.config:119)] Running using cli config file './config/webtesting.conf'
+2014-06-02 16:37:55,313[DEBUG][setUpClass][src.baseTest:25)] SetupCLass for BaseTest
+2014-06-02 16:37:55,313[INFO][loadKnownBugs][src.baseTest:115)] Loading Known Failures from : ./config/knownBugs.txt
+2014-06-02 16:37:55,313[DEBUG][loadKnownBugs][src.baseTest:122)] [BUG <id>] | string to exception | Release number where this is expected to get fix
+
+2014-06-02 16:37:55,313[DEBUG][loadKnownBugs][src.baseTest:122)] [BUG 12345] | Continue on assert  | Test dynamic skip
+
+2014-06-02 16:37:55,313[DEBUG][loadKnownBugs][src.baseTest:122)] [BUG PP-1159] | Broken link at https://app-staging.crittercism.com/tos-v3.html| Planning to fix in Sprint 11
+
+2014-06-02 16:37:55,313[DEBUG][loadKnownBugs][src.baseTest:122)] [BUG PP-1159] | Broken link at https://app-staging.crittercism.com/privacy.html| Planning to fix in Sprint 11
+2014-06-02 16:38:06,520[ERROR][capture_screenshot][src.page_helpers.utils:134)] Screen shot on failure saved: ./logs//screenshots/test_todays_apploads2014-06-02_16-38-05-1401752285s.png with URL https://app-staging.crittercism.com/developers/analytics/519d53101386202089000007
+2014-06-02 16:38:06,520[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG <id>]   string to exception   Release number where this is expected to get fix
+
+2014-06-02 16:38:06,520[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG 12345]   Continue on assert    Test dynamic skip
+
+2014-06-02 16:38:06,520[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG PP-1159]   Broken link at https://app-staging.crittercism.com/tos-v3.html  Planning to fix in Sprint 11
+
+2014-06-02 16:38:06,520[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG PP-1159]   Broken link at https://app-staging.crittercism.com/privacy.html  Planning to fix in Sprint 11
+2014-06-02 16:38:07,188[ERROR][capture_screenshot][src.page_helpers.utils:134)] Screen shot on failure saved: ./logs//screenshots/test_todays_apploads2014-06-02_16-38-06-1401752286s.png with URL https://app-staging.crittercism.com/developers/analytics/519d53101386202089000007
+2014-06-02 16:38:07,188[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG <id>]   string to exception   Release number where this is expected to get fix
+
+2014-06-02 16:38:07,188[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG 12345]   Continue on assert    Test dynamic skip
+
+2014-06-02 16:38:07,188[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG PP-1159]   Broken link at https://app-staging.crittercism.com/tos-v3.html  Planning to fix in Sprint 11
+
+2014-06-02 16:38:07,188[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG PP-1159]   Broken link at https://app-staging.crittercism.com/privacy.html  Planning to fix in Sprint 11
+2014-06-02 16:38:07,890[ERROR][capture_screenshot][src.page_helpers.utils:134)] Screen shot on failure saved: ./logs//screenshots/test_todays_apploads2014-06-02_16-38-07-1401752287s.png with URL https://app-staging.crittercism.com/developers/analytics/519d53101386202089000007
+2014-06-02 16:38:07,890[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG <id>]   string to exception   Release number where this is expected to get fix
+
+2014-06-02 16:38:07,891[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG 12345]   Continue on assert    Test dynamic skip
+
+2014-06-02 16:38:07,891[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG PP-1159]   Broken link at https://app-staging.crittercism.com/tos-v3.html  Planning to fix in Sprint 11
+
+2014-06-02 16:38:07,891[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG PP-1159]   Broken link at https://app-staging.crittercism.com/privacy.html  Planning to fix in Sprint 11
+2014-06-02 16:38:12,239[ERROR][capture_screenshot][src.page_helpers.utils:134)] Screen shot on failure saved: ./logs//screenshots/test_todays_crashes2014-06-02_16-38-11-1401752291s.png with URL https://app-staging.crittercism.com/developers/analytics/519d53101386202089000007
+2014-06-02 16:38:12,239[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG <id>]   string to exception   Release number where this is expected to get fix
+
+2014-06-02 16:38:12,239[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG 12345]   Continue on assert    Test dynamic skip
+
+2014-06-02 16:38:12,239[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG PP-1159]   Broken link at https://app-staging.crittercism.com/tos-v3.html  Planning to fix in Sprint 11
+
+2014-06-02 16:38:12,239[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG PP-1159]   Broken link at https://app-staging.crittercism.com/privacy.html  Planning to fix in Sprint 11
+2014-06-02 16:38:12,865[ERROR][capture_screenshot][src.page_helpers.utils:134)] Screen shot on failure saved: ./logs//screenshots/test_todays_crashes2014-06-02_16-38-12-1401752292s.png with URL https://app-staging.crittercism.com/developers/analytics/519d53101386202089000007
+2014-06-02 16:38:12,866[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG <id>]   string to exception   Release number where this is expected to get fix
+
+2014-06-02 16:38:12,866[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG 12345]   Continue on assert    Test dynamic skip
+
+2014-06-02 16:38:12,866[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG PP-1159]   Broken link at https://app-staging.crittercism.com/tos-v3.html  Planning to fix in Sprint 11
+
+2014-06-02 16:38:12,866[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG PP-1159]   Broken link at https://app-staging.crittercism.com/privacy.html  Planning to fix in Sprint 11
+2014-06-02 16:38:13,488[ERROR][capture_screenshot][src.page_helpers.utils:134)] Screen shot on failure saved: ./logs//screenshots/test_todays_crashes2014-06-02_16-38-12-1401752292s.png with URL https://app-staging.crittercism.com/developers/analytics/519d53101386202089000007
+2014-06-02 16:38:13,488[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG <id>]   string to exception   Release number where this is expected to get fix
+
+2014-06-02 16:38:13,488[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG 12345]   Continue on assert    Test dynamic skip
+
+2014-06-02 16:38:13,488[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG PP-1159]   Broken link at https://app-staging.crittercism.com/tos-v3.html  Planning to fix in Sprint 11
+
+2014-06-02 16:38:13,488[DEBUG][canSkipped][src.multiple_assertions:30)] Splitting 3 [BUG PP-1159]   Broken link at https://app-staging.crittercism.com/privacy.html  Planning to fix in Sprint 11
+2014-06-02 16:38:17,046[INFO][tearDownClass][src.baseTest:35)] BASE:tearDownClass:Called once for each class instance. Can be overridden
+2014-06-02 16:38:17,046[INFO][tearDownClass][analytics:221)] Finished executing AnalyticsTestSuite
