@@ -26,7 +26,7 @@ def generate_list_of_accounts():
     return account_types
 
 
-@data_driven_test
+@data_driven_test()
 class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
     @classmethod
     def setUpClass(cls):
@@ -56,8 +56,6 @@ class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
         self.browser.find_element_by_id("email").send_keys(random_email)
         self.browser.find_element_by_id("password").send_keys(self.config.login.password)
 
-        #self.browser.find_element_by_xpath("//*[contains(@class,'grid_8 push_2')]").click()
-        #self.assertFalse(utils.is_url_broken(browser=self.browser,link=self.browser.current_url), " Oops page was found at " + self.browser.current_url)
         self.assertFalse(self.find_element_and_submit(by=By.XPATH, value="//*[contains(@class,'grid_8 push_2')]"),
                          " Broken link at " + self.browser.current_url)
         with self.multiple_assertions():
