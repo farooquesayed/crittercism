@@ -66,10 +66,10 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         empty_string = ""
         #data is a dummy string that will later be replaced with actual data
         with self.multiple_assertions():
-            self.assertNotEqual(first= utils.get_web_element(browser=self.browser, value="/html/body/div[3]/div/div[2]/div/div[3]/span").text,
+            self.assertNotEqual(first= self.get_web_element(value="/html/body/div[3]/div/div[2]/div/div[3]/span").text,
                                 second=empty_string,
                                 msg="DAU result does not appear")
-            self.assertNotEqual(first= utils.get_web_element(browser=self.browser, value="/html/body/div[3]/div/div[3]/div/div[3]/span").text,
+            self.assertNotEqual(first= self.get_web_element(value="/html/body/div[3]/div/div[3]/div/div[3]/span").text,
                                 second=empty_string,
                                 msg="MAU result does not appear")
 
@@ -81,17 +81,17 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
             2) tests list of crashes vs application loads by version
         """
         versions = []
-        versions.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div/div/div/div[2]/div[2]/strong").text)
-        versions.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div/div/div/div[2]/div[3]/strong").text)
+        versions.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div/div/div/div[2]/div[2]/strong").text)
+        versions.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div/div/div/div[2]/div[3]/strong").text)
 
         crashes = []
-        crashes.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div/div/div/div[2]/div[2]/span").text)
-        crashes.append(utils.get_web_element(browser=self.browser,
+        crashes.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div/div/div/div[2]/div[2]/span").text)
+        crashes.append(self.get_web_element(
 
-                                         value="/html/body/div[3]/div/div[4]/div/div/div/div[2]/div[3]/span").text)
+            value="/html/body/div[3]/div/div[4]/div/div/div/div[2]/div[3]/span").text)
         crash_table = dict(zip(versions, crashes))
         blank_data = {"1.0.0.0":"0.0%",
                       "0.4.2":"7.23%"}
@@ -105,16 +105,16 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
             3) tests list of crashes vs DAU by version
         """
         versions = []
-        versions.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div/div[2]/div/div[2]/div[2]/strong").text)
-        versions.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div/div[2]/div/div[2]/div[3]/strong").text)
+        versions.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div/div[2]/div/div[2]/div[2]/strong").text)
+        versions.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div/div[2]/div/div[2]/div[3]/strong").text)
 
         crashes = []
-        crashes.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div/div[2]/div/div[2]/div[2]/span").text)
-        crashes.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div/div[2]/div/div[2]/div[3]/span").text)
+        crashes.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div/div[2]/div/div[2]/div[2]/span").text)
+        crashes.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div/div[2]/div/div[2]/div[3]/span").text)
         crash_table = dict(zip(versions, crashes))
         blank_data = {"1.0.0.0":"0%",
                       "0.4.2":"62%"}
@@ -127,16 +127,16 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
             4) tests list of app loads by version
         """
         versions = []
-        versions.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div[2]/div/div/div[2]/div[2]/strong").text)
-        versions.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div[2]/div/div/div[2]/div[3]/strong").text)
+        versions.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div[2]/div/div/div[2]/div[2]/strong").text)
+        versions.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div[2]/div/div/div[2]/div[3]/strong").text)
 
         crashes = []
-        crashes.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div[2]/div/div/div[2]/div[2]/span").text)
-        crashes.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div[2]/div/div/div[2]/div[3]/span").text)
+        crashes.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div[2]/div/div/div[2]/div[2]/span").text)
+        crashes.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div[2]/div/div/div[2]/div[3]/span").text)
         crash_table = dict(zip(versions, crashes))
 
         blank_data = {"1.0.0.0":"89",
@@ -151,16 +151,16 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
             5) tests list of daily active users by version
         """
         versions = []
-        versions.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div[2]/div[2]/div/div[2]/div[2]/strong").text)
-        versions.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div[2]/div[2]/div/div[2]/div[3]/strong").text)
+        versions.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div[2]/div[2]/div/div[2]/div[2]/strong").text)
+        versions.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div[2]/div[2]/div/div[2]/div[3]/strong").text)
 
         crashes = []
-        crashes.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div[2]/div[2]/div/div[2]/div[2]/span").text)
-        crashes.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div[2]/div[2]/div/div[2]/div[3]/span").text)
+        crashes.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div[2]/div[2]/div/div[2]/div[2]/span").text)
+        crashes.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div[2]/div[2]/div/div[2]/div[3]/span").text)
         crash_table = dict(zip(versions, crashes))
         blank_data = {"1.0.0.0":"0",
                       "0.4.2":"0"}
@@ -173,16 +173,16 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
             6) tests list of crashes by version
         """
         versions = []
-        versions.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div[3]/div/div/div[2]/div[2]/strong").text)
-        versions.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div[3]/div/div/div[2]/div[3]/strong").text)
+        versions.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div[3]/div/div/div[2]/div[2]/strong").text)
+        versions.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div[3]/div/div/div[2]/div[3]/strong").text)
 
         crashes = []
-        crashes.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div[3]/div/div/div[2]/div[2]/span").text)
-        crashes.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div[3]/div/div/div[2]/div[3]/span").text)
+        crashes.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div[3]/div/div/div[2]/div[2]/span").text)
+        crashes.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div[3]/div/div/div[2]/div[3]/span").text)
         crash_table = dict(zip(versions, crashes))
         blank_data = {"1.0.0.0":"0",
                       "0.4.2":"0"}
@@ -194,16 +194,16 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
             7) tests list of users affected by at least one crash by version
         """
         versions = []
-        versions.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div[3]/div[2]/div/div[2]/div[2]/strong").text)
-        versions.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div[3]/div[2]/div/div[2]/div[3]/strong").text)
+        versions.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div[3]/div[2]/div/div[2]/div[2]/strong").text)
+        versions.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div[3]/div[2]/div/div[2]/div[3]/strong").text)
 
         crashes = []
-        crashes.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div[3]/div[2]/div/div[2]/div[2]/span").text)
-        crashes.append(utils.get_web_element(browser=self.browser,
-                                         value="/html/body/div[3]/div/div[4]/div[3]/div[2]/div/div[2]/div[3]/span").text)
+        crashes.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div[3]/div[2]/div/div[2]/div[2]/span").text)
+        crashes.append(self.get_web_element(
+            value="/html/body/div[3]/div/div[4]/div[3]/div[2]/div/div[2]/div[3]/span").text)
         crash_table = dict(zip(versions, crashes))
         blank_data = {"1.0.0.0":"0",
                       "0.4.2":"62"}
