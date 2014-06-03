@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a33f169e-2a8d-408e-a281-0f362145ff0b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/egeller.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/logs/analytics.log" afterPath="$PROJECT_DIR$/logs/analytics.log" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/trend_analysis/analytics.py" afterPath="$PROJECT_DIR$/tests/trend_analysis/analytics.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/logs/failed-test.txt" afterPath="$PROJECT_DIR$/logs/failed-test.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/logs/nosetests.xml" afterPath="$PROJECT_DIR$/logs/nosetests.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="crittercism.iws" />
@@ -55,8 +57,8 @@
       <file leaf-file-name="analytics.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tests/trend_analysis/analytics.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5403473" vertical-offset="5366" max-vertical-offset="6345">
-              <caret line="393" column="35" selection-start-line="393" selection-start-column="35" selection-end-line="393" selection-end-column="35" />
+            <state vertical-scroll-proportion="0.66292137" vertical-offset="6191" max-vertical-offset="7170">
+              <caret line="456" column="54" selection-start-line="456" selection-start-column="54" selection-end-line="456" selection-end-column="54" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -89,22 +91,10 @@
       <file leaf-file-name="crash_reports.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/crash_summary/crash_reports.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-26.538462" vertical-offset="0" max-vertical-offset="1335">
-              <caret line="46" column="8" selection-start-line="46" selection-start-column="8" selection-end-line="46" selection-end-column="8" />
+            <state vertical-scroll-proportion="-12.846154" vertical-offset="356" max-vertical-offset="1335">
+              <caret line="46" column="17" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="17" />
               <folding>
                 <element signature="e#25#38#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="baseTest.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/baseTest.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1350" max-vertical-offset="4080">
-              <caret line="197" column="15" selection-start-line="197" selection-start-column="15" selection-end-line="197" selection-end-column="15" />
-              <folding>
-                <element signature="e#0#29#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -499,7 +489,11 @@
       <created>1401817776004</created>
       <updated>1401817776004</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="fixed more xpaths">
+      <created>1401818331513</created>
+      <updated>1401818331513</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -544,7 +538,8 @@
     <MESSAGE value="updated analytics.py to conform to new selenium-like get_element function&#10;" />
     <MESSAGE value="Made xpaths less brittle" />
     <MESSAGE value="fixed some xpaths" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed some xpaths" />
+    <MESSAGE value="fixed more xpaths" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed more xpaths" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -568,34 +563,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/webtesting.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.6" vertical-offset="0" max-vertical-offset="405">
-          <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/crash_summary/crash_reports.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-26.538462" vertical-offset="0" max-vertical-offset="1335">
-          <caret line="46" column="8" selection-start-line="46" selection-start-column="8" selection-end-line="46" selection-end-column="8" />
-          <folding>
-            <element signature="e#25#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/baseTest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1350" max-vertical-offset="4080">
-          <caret line="197" column="15" selection-start-line="197" selection-start-column="15" selection-end-line="197" selection-end-column="15" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/login/login_page.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2625">
@@ -616,6 +583,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/config/webtesting.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.6" vertical-offset="0" max-vertical-offset="405">
+          <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tests/geo_location/network.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1005">
@@ -624,10 +599,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/baseTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33299285" vertical-offset="679" max-vertical-offset="4080">
+          <caret line="67" column="35" selection-start-line="67" selection-start-column="31" selection-end-line="67" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/crash_summary/crash_reports.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.846154" vertical-offset="356" max-vertical-offset="1335">
+          <caret line="46" column="17" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="17" />
+          <folding>
+            <element signature="e#25#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tests/trend_analysis/analytics.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5403473" vertical-offset="5366" max-vertical-offset="6345">
-          <caret line="393" column="35" selection-start-line="393" selection-start-column="35" selection-end-line="393" selection-end-column="35" />
+        <state vertical-scroll-proportion="0.66292137" vertical-offset="6191" max-vertical-offset="7170">
+          <caret line="456" column="54" selection-start-line="456" selection-start-column="54" selection-end-line="456" selection-end-column="54" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>

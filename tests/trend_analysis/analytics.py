@@ -402,6 +402,61 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
 
         self.assertNotEqual(crash_table, blank_data, "crashes by OS does not match given data")
 
+    @nose.plugins.attrib.attr(genre='analytics')
+    def test_todays_appload_crashes_os(self):
+        """
+            12) % of apploads that crash by OS
+        """
+        versions = []
+        versions.append(self.get_web_element(
+            value='//*[@id="crashes-ratio-os-container"]/../div[2]/div[2]/strong').text)
+        versions.append(self.get_web_element(
+            value='//*[@id="crashes-ratio-os-container"]/../div[2]/div[3]/strong').text)
+        versions.append(self.get_web_element(
+            value='//*[@id="crashes-ratio-os-container"]/../div[2]/div[4]/strong').text)
+        versions.append(self.get_web_element(
+            value='//*[@id="crashes-ratio-os-container"]/../div[2]/div[5]/strong').text)
+        versions.append(self.get_web_element(
+            value='//*[@id="crashes-ratio-os-container"]/../div[2]/div[6]/strong').text)
+
+        crashes = []
+        crashes.append(self.get_web_element(
+            value='//*[@id="crashes-ratio-os-container"]/../div[2]/div[2]/span').text)
+        crashes.append(self.get_web_element(
+            value='//*[@id="crashes-ratio-os-container"]/../div[2]/div[3]/span').text)
+        crashes.append(self.get_web_element(
+            value='//*[@id="crashes-ratio-os-container"]/../div[2]/div[4]/span').text)
+        crashes.append(self.get_web_element(
+            value='//*[@id="crashes-ratio-os-container"]/../div[2]/div[5]/span').text)
+        crashes.append(self.get_web_element(
+            value='//*[@id="crashes-ratio-os-container"]/../div[2]/div[6]/span').text)
+
+        crash_table = dict(zip(versions, crashes))
+        blank_data = {"ios 5.1.1":"",
+                      "ios 4.2.1":"",
+                      "6.1.4":"",
+                      "6.1.5":"",
+                      "7.0.1":""}
+
+        self.assertNotEqual(crash_table, blank_data, "crashes by OS does not match given data")
+
+    ###############TEST FILTER##################
+    @nose.plugins.attrib.attr(genre='analytics')
+    def test_date_filter(self):
+        """
+            13) test filters at top
+        """
+
+        fromPath='//*[@id="date-from"]'
+        toPath='//*[@id="date-to"]'
+        self.get_web_element(value=fromPath).send_keys("5/25/2014")
+        self.get_web_element(value=toPath).send_keys("6/2/2014")
+        self.find_element_and_click(value='/html/body/div[3]/div/div/form/input[3]')
+        self.browser.implicitly_wait(5)
+        self.assertEqual(self.get_web_element(value='//*[@id="dau-container"]/../div[3]/strong').text,
+                         second='Average DAU for 05/25/2014 - 06/02/2014',
+                         msg="filters did not appropriately refresh data")
+
     def tearDown(self):
        pass
 
