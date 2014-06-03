@@ -57,8 +57,8 @@
       <file leaf-file-name="analytics.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tests/trend_analysis/analytics.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3258427" vertical-offset="3851" max-vertical-offset="5190">
-              <caret line="278" column="57" selection-start-line="278" selection-start-column="57" selection-end-line="278" selection-end-column="57" />
+            <state vertical-scroll-proportion="0.8161389" vertical-offset="4121" max-vertical-offset="5220">
+              <caret line="328" column="4" selection-start-line="328" selection-start-column="4" selection-end-line="328" selection-end-column="4" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -493,7 +493,11 @@
       <created>1401754349993</created>
       <updated>1401754349993</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Made xpaths less brittle">
+      <created>1401817325025</created>
+      <updated>1401817325025</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -536,7 +540,8 @@
       <TodoPanelSettings />
     </option>
     <MESSAGE value="updated analytics.py to conform to new selenium-like get_element function&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated analytics.py to conform to new selenium-like get_element function&#10;" />
+    <MESSAGE value="Made xpaths less brittle" />
+    <option name="LAST_COMMIT_MESSAGE" value="Made xpaths less brittle" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -618,8 +623,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/trend_analysis/analytics.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3258427" vertical-offset="3851" max-vertical-offset="5190">
-          <caret line="278" column="57" selection-start-line="278" selection-start-column="57" selection-end-line="278" selection-end-column="57" />
+        <state vertical-scroll-proportion="0.8161389" vertical-offset="4121" max-vertical-offset="5220">
+          <caret line="328" column="4" selection-start-line="328" selection-start-column="4" selection-end-line="328" selection-end-column="4" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>

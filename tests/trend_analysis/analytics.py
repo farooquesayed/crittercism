@@ -268,15 +268,15 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
 
         crashes = []
         crashes.append(self.get_web_element(
-            value='//*[@id="crashes-device-container"]/../div[2]/div[2]/strong').text)
+            value='//*[@id="crashes-device-container"]/../div[2]/div[2]/span').text)
         crashes.append(self.get_web_element(
-            value='//*[@id="crashes-device-container"]/../div[2]/div[2]/strong').text)
+            value='//*[@id="crashes-device-container"]/../div[2]/div[3]/span').text)
         crashes.append(self.get_web_element(
-            value='//*[@id="crashes-device-container"]/../div[2]/div[2]/strong').text)
+            value='//*[@id="crashes-device-container"]/../div[2]/div[4]/span').text)
         crashes.append(self.get_web_element(
-            value='//*[@id="crashes-device-container"]/../div[2]/div[2]/strong').text)
+            value='//*[@id="crashes-device-container"]/../div[2]/div[5]/span').text)
         crashes.append(self.get_web_element(
-            value='//*[@id="crashes-device-container"]/../div[2]/div[2]/strong').text)
+            value='//*[@id="crashes-device-container"]/../div[2]/div[6]/span').text)
 
         crash_table = dict(zip(versions, crashes))
         blank_data = {"iPhone 4s":"",
@@ -294,36 +294,38 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         """
         versions = []
         versions.append(self.get_web_element(
-            value="/html/body/div[3]/div/div[5]/div[4]/div/div[2]/div[2]/strong").text)
+            value='//*[@id="crashes-ratio-device-container"]/../div[2]/div[2]/strong').text)
         versions.append(self.get_web_element(
-            value="/html/body/div[3]/div/div[5]/div[4]/div/div[2]/div[3]/strong").text)
+            value='//*[@id="crashes-ratio-device-container"]/../div[2]/div[3]/strong').text)
         versions.append(self.get_web_element(
-            value="/html/body/div[3]/div/div[5]/div[4]/div/div[2]/div[4]/strong").text)
+            value='//*[@id="crashes-ratio-device-container"]/../div[2]/div[4]/strong').text)
         versions.append(self.get_web_element(
-            value="/html/body/div[3]/div/div[5]/div[4]/div/div[2]/div[5]/strong").text)
+            value='//*[@id="crashes-ratio-device-container"]/../div[2]/div[5]/strong').text)
         versions.append(self.get_web_element(
-            value="/html/body/div[3]/div/div[5]/div[4]/div/div[2]/div[6]/strong").text)
+            value='//*[@id="crashes-ratio-device-container"]/../div[2]/div[6]/strong').text)
 
         crashes = []
         crashes.append(self.get_web_element(
-            value="/html/body/div[3]/div/div[5]/div[4]/div/div[2]/div[2]/strong").text)
+            value='//*[@id="crashes-ratio-device-container"]/../div[2]/div[2]/span').text)
         crashes.append(self.get_web_element(
-            value="/html/body/div[3]/div/div[5]/div[4]/div/div[2]/div[2]/strong").text)
+            value='//*[@id="crashes-ratio-device-container"]/../div[2]/div[3]/span').text)
         crashes.append(self.get_web_element(
-            value="/html/body/div[3]/div/div[5]/div[4]/div/div[2]/div[2]/strong").text)
+            value='//*[@id="crashes-ratio-device-container"]/../div[2]/div[4]/span').text)
         crashes.append(self.get_web_element(
-            value="/html/body/div[3]/div/div[5]/div[4]/div/div[2]/div[2]/strong").text)
+            value='//*[@id="crashes-ratio-device-container"]/../div[2]/div[5]/span').text)
         crashes.append(self.get_web_element(
-            value="/html/body/div[3]/div/div[5]/div[4]/div/div[2]/div[2]/strong").text)
+            value='//*[@id="crashes-ratio-device-container"]/../div[2]/div[6]/span').text)
 
         crash_table = dict(zip(versions, crashes))
-        blank_data = {"iPhone 4s":"0.0%",
-                      "iPhone 5 CDMA+LTE":"0.0%",
-                      "iPhone 4 CDMA":"0.0%",
-                      "2nd Gen iPad mini Retina, WiFi/Cellular":"0.0%",
-                      "2nd Gen iPad mini Retina, WiFi":"0,0%"}
+        blank_data = {"iPhone 4s":"",
+                      "iPhone 5 CDMA+LTE":"",
+                      "iPhone 4 CDMA":"",
+                      "2nd Gen iPad mini Retina, WiFi/Cellular":"",
+                      "2nd Gen iPad mini Retina, WiFi":""}
 
-        self.assertEqual(crash_table, blank_data, "Apploads that crashed by device does not match given data")
+        self.assertNotEqual(crash_table, blank_data, "Apploads that crashed by device does not match given data")
+
+    ##############BREAKDOWN BY OS#######################
 
     def tearDown(self):
        pass
