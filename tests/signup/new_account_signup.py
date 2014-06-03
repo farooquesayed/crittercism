@@ -26,7 +26,7 @@ def generate_list_of_accounts():
     return account_types
 
 
-@data_driven_test()
+@data_driven_test
 class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
     @classmethod
     def setUpClass(cls):
