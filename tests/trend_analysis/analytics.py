@@ -326,6 +326,81 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         self.assertNotEqual(crash_table, blank_data, "Apploads that crashed by device does not match given data")
 
     ##############BREAKDOWN BY OS#######################
+    @nose.plugins.attrib.attr(genre='analytics')
+    def test_todays_apploads_os(self):
+        """
+            11) # of apploads by OS
+        """
+        versions = []
+        versions.append(self.get_web_element(
+            value='//*[@id="app-load-os-container"]/../div[2]/div[2]/strong').text)
+        versions.append(self.get_web_element(
+            value='//*[@id="app-load-os-container"]/../div[2]/div[3]/strong').text)
+        versions.append(self.get_web_element(
+            value='//*[@id="app-load-os-container"]/../div[2]/div[4]/strong').text)
+        versions.append(self.get_web_element(
+            value='//*[@id="app-load-os-container"]/../div[2]/div[5]/strong').text)
+        versions.append(self.get_web_element(
+            value='//*[@id="app-load-os-container"]/../div[2]/div[6]/strong').text)
+
+        crashes = []
+        crashes.append(self.get_web_element(
+            value='//*[@id="app-load-os-container"]/../div[2]/div[2]/span').text)
+        crashes.append(self.get_web_element(
+            value='//*[@id="app-load-os-container"]/../div[2]/div[3]/span').text)
+        crashes.append(self.get_web_element(
+            value='//*[@id="app-load-os-container"]/../div[2]/div[4]/span').text)
+        crashes.append(self.get_web_element(
+            value='//*[@id="app-load-os-container"]/../div[2]/div[5]/span').text)
+        crashes.append(self.get_web_element(
+            value='//*[@id="app-load-os-container"]/../div[2]/div[6]/span').text)
+
+        crash_table = dict(zip(versions, crashes))
+        blank_data = {"ios 5.1.1":"",
+                      "ios 4.2.1":"",
+                      "6.1.4":"",
+                      "6.1.5":"",
+                      "7.0.1":""}
+
+        self.assertNotEqual(crash_table, blank_data, "Apploads by OS does not match given data")
+
+    @nose.plugins.attrib.attr(genre='analytics')
+    def test_todays_crashes_os(self):
+        """
+            12) # of crashes by OS
+        """
+        versions = []
+        versions.append(self.get_web_element(
+            value='//*[@id="crashes-os-container"]/../div[2]/div[2]/strong').text)
+        versions.append(self.get_web_element(
+            value='//*[@id="crashes-os-container"]/../div[2]/div[3]/strong').text)
+        versions.append(self.get_web_element(
+            value='//*[@id="crashes-os-container"]/../div[2]/div[4]/strong').text)
+        versions.append(self.get_web_element(
+            value='//*[@id="crashes-os-container"]/../div[2]/div[5]/strong').text)
+        versions.append(self.get_web_element(
+            value='//*[@id="crashes-os-container"]/../div[2]/div[6]/strong').text)
+
+        crashes = []
+        crashes.append(self.get_web_element(
+            value='//*[@id="crashes-os-container"]/../div[2]/div[2]/span').text)
+        crashes.append(self.get_web_element(
+            value='//*[@id="crashes-os-container"]/../div[2]/div[3]/span').text)
+        crashes.append(self.get_web_element(
+            value='//*[@id="crashes-os-container"]/../div[2]/div[4]/span').text)
+        crashes.append(self.get_web_element(
+            value='//*[@id="crashes-os-container"]/../div[2]/div[5]/span').text)
+        crashes.append(self.get_web_element(
+            value='//*[@id="crashes-os-container"]/../div[2]/div[6]/span').text)
+
+        crash_table = dict(zip(versions, crashes))
+        blank_data = {"ios 5.1.1":"",
+                      "ios 4.2.1":"",
+                      "6.1.4":"",
+                      "6.1.5":"",
+                      "7.0.1":""}
+
+        self.assertNotEqual(crash_table, blank_data, "crashes by OS does not match given data")
 
     def tearDown(self):
        pass
