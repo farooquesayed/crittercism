@@ -3,8 +3,6 @@ import unittest
 from nose.plugins.attrib import attr
 from selenium.webdriver.common.keys import Keys
 
-from src.page_helpers import utils
-
 
 __author__ = 'farooque'
 
@@ -29,7 +27,7 @@ class BillingSuite(baseTest.CrittercismTestCase):
 
     @attr(genre="billing", smoke=True)
     def test_billing_page(self):
-        self.assertFalse(utils.is_url_broken(browser=self.browser,link=page_url), " Oops page was found at " + page_url)
+        self.assertFalse(self.is_url_broken(link=page_url), " Oops page was found at " + page_url)
 
     @attr(genre="billing", smoke=True)
     def test_billing_plan(self):
