@@ -5,10 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a33f169e-2a8d-408e-a281-0f362145ff0b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/logs/analytics.log" afterPath="$PROJECT_DIR$/logs/analytics.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/trend_analysis/analytics.py" afterPath="$PROJECT_DIR$/tests/trend_analysis/analytics.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/logs/failed-test.txt" afterPath="$PROJECT_DIR$/logs/failed-test.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/logs/nosetests.xml" afterPath="$PROJECT_DIR$/logs/nosetests.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="crittercism.iws" />
@@ -493,7 +489,11 @@
       <created>1401818331513</created>
       <updated>1401818331513</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="added filter tests">
+      <created>1401821092641</created>
+      <updated>1401821092641</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -539,7 +539,8 @@
     <MESSAGE value="Made xpaths less brittle" />
     <MESSAGE value="fixed some xpaths" />
     <MESSAGE value="fixed more xpaths" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed more xpaths" />
+    <MESSAGE value="added filter tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="added filter tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
