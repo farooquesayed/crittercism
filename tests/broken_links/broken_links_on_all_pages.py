@@ -1,6 +1,6 @@
 import os
-import unittest2 as unittest
 
+import unittest2 as unittest
 from requests.exceptions import InvalidSchema, MissingSchema, ConnectionError
 
 
@@ -30,7 +30,7 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
             for link in utils.get_all_links(self.browser):
                 # This means either we are out of portal or already visited the link
                 # Short Circuiting if we get more then 500 links in total
-                if "crittercism.com" not in link or link in visited or visited.__len__() > 5000:
+                if self.config.common.url not in link or link in visited or visited.__len__() > 5000:
                     logger.debug("Skipping link %s because it is either visited or not a crittercism link or exceeded the threshold value of 500 in crawling" % link)
                     continue
 
@@ -61,7 +61,9 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
         super(BrokenLinkTestSuite, cls).setUpClass()
         pass
 
-    @unittest.skipIf(os.environ.get('TEST_TYPE','smoke') != Constants.NIGHTLY, "This will only run in nightly regression")
+    @unittest.skipIf(
+        (os.environ.get('TEST_TYPE', 'smoke') != "links" and os.environ.get('TEST_TYPE', 'smoke') != Constants.NIGHTLY),
+        "This will only run in nightly regression")
     def setUp(self):
         pass
 
