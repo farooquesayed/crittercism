@@ -1,12 +1,12 @@
 import time
 import random
-from selenium.webdriver.common.by import By
 
+from selenium.webdriver.common.by import By
 import unittest2 as unittest
 from nose.plugins.attrib import attr
 from selenium.webdriver.support.select import Select
-from src.constants import BrowserConstants
 
+from src.constants import BrowserConstants
 from src.data_driven_test_wrapper import ddt_list, data, data_driven_test
 
 
@@ -17,6 +17,7 @@ from src import baseTest
 from src.page_helpers import team
 from src import config
 from src.page_helpers import utils
+from src import constants
 
 page_url = config.CliConfig().common.url + "/developers/register-application"
 
@@ -38,20 +39,37 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
         counter = 0
         utils.login_to_yahoo(browser=self.browser)
 
-        while counter < 10 :
+        while counter < 50:
             if self.browser.find_elements_by_xpath('//*[contains(text(),"Added as a team member for ' + app_name + '")]').__len__():
-                self.assertFalse(utils.find_element_and_click(self.browser,By.XPATH,
-                                                '//*[contains(text(),"Added as a team member for ' + app_name + '")]'),
-                                        " Broken link at " + self.browser.current_url)
-
-                self.assertFalse(utils.find_element_and_click(self.browser, By.XPATH, '//a[contains(text(),"Click Here to")]'),
+                self.assertFalse(self.find_element_and_click(by=By.XPATH,
+                                                             value='//*[contains(text(),"Added as a team member for ' + app_name + '")]'),
                                  " Broken link at " + self.browser.current_url)
 
+                self.assertFalse(
+                    self.find_element_and_click(by=By.XPATH, value='//a[contains(text(),"Click Here to")]'),
+                    " Broken link at " + self.browser.current_url)
+                # Closing the current yahoo mail browser and click is yielding a new browser window
+                self.browser.close()
                 return True
             logger.debug("Email  not arrived. will try again after 10 seconds. So far %d seconds spent" % (counter * 10))
-            time.sleep(10) # Sleeping for email to arrive
+            time.sleep(5)  # Sleeping for email to arrive
             counter += 1
             self.browser.refresh()
+            time.sleep(5)  # Sleeping for email to arrive
+            if counter % 2 == 1:
+                #Now check in spam folder
+                self.find_element_and_click(by=By.ID, value="spam-label")
+                time.sleep(3)  # To Open the email
+                self.browser.find_element(by=By.XPATH, value="//*[@class='focusable neoFocusable enabled']").click()
+                time.sleep(3)  # TO Select the email
+                #Make it not a Spam becuase links are disabled in spam folder
+                self.find_element_and_click(by=By.ID, value="btn-not-spam")
+            else:
+                #Now check in inbox again
+                self.find_element_and_click(by=By.XPATH, value="//*[@class='inbox-label icon-text']")
+
+            logger.debug("Sleeping for 3 seconds for page to load")
+            time.sleep(3)
 
         return False
 
@@ -59,8 +77,10 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
 
         for handle in self.browser.window_handles:
             self.browser.switch_to_window(handle)
-            if "Crittercism " in self.browser.title :
+            if constants.CRITTERCISM in self.browser.title:
                 break # Got the window we are looking for
+
+        self.assertFalse(utils.is_url_broken(browser=self.browser), " Broken link at " + self.browser.current_url)
 
         with self.multiple_assertions():
             self.assertIn ("developers/app_settings/", self.browser.current_url, ("Not able to redirect to App-Setting page for role = %s" % role))
@@ -69,6 +89,7 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
     @classmethod
     def setUpClass(cls):
         super(AddTeamMemberSuite, cls).setUpClass()
+        utils.delete_all_yahoo_email(browser=cls.browser)
         pass
 
     def setUp(self):
@@ -76,8 +97,8 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
         self.browser.get(page_url)
 
         self.browser.find_element_by_id("app-name").send_keys(app_name)
-        self.assertFalse(utils.find_element_and_click(self.browser, By.ID, 'commit'),
-                                 " Broken link at " + self.browser.current_url)
+        self.assertFalse(self.find_element_and_click(by=By.ID, value='commit'), ("Broken link at %s" %
+                                                                                 self.browser.current_url))
 
         web_element = self.browser.find_element_by_xpath(
             '//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
@@ -89,11 +110,10 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
 
         # Remove existing permissions
         for item in self.browser.find_elements_by_xpath("//*[contains(text(),'Remove')]"):
-            self.assertFalse(utils.click(browser=self.browser, web_element=item), "Broken link at " + self.browser.current_url)
-
+            self.assertFalse(self.click(web_element=item), "Broken link at " + self.browser.current_url)
 
         for item in self.browser.find_elements_by_xpath("//*[contains(text(),'Revoke Invite')]"):
-            self.assertFalse(utils.click(browser=self.browser, web_element=item), "Broken link at " + self.browser.current_url)
+            self.assertFalse(self.click(web_element=item), "Broken link at " + self.browser.current_url)
 
     @attr(genre="invite-member")
     @data(generate_list_of_members_types())
@@ -104,8 +124,9 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
         self.browser.find_element_by_id("team_email").send_keys(self.config.login.test_user_engg)
         select = Select(self.browser.find_element_by_id("team_role"))
         select.select_by_visible_text(value)
-        self.assertFalse(utils.find_element_and_click(self.browser, By.NAME, 'add-team-member'),
-                                 " Broken link at " + self.browser.current_url)
+
+        self.assertFalse(self.find_element_and_click(by=By.NAME, value='add-team-member'),
+                         " Broken link at " + self.browser.current_url)
 
         #Get to yahoo mail to activate the link
         self.assertEqual(self.wait_for_email(), True, "Email not received waited until 10 mins")
@@ -120,8 +141,9 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
         self.browser.find_element_by_id("app-name").send_keys(app_name)
         #Inviting collabotor
         self.browser.find_element_by_id("team_members").send_keys(self.config.login.test_user_admin)
-        self.assertFalse(utils.find_element_and_submit(self.browser, By.ID, BrowserConstants.COMMIT),
-                                 " Broken link at " + self.browser.current_url)
+        self.assertFalse(self.find_element_and_submit(by=By.ID, value=BrowserConstants.COMMIT),
+                         " Broken link at " + self.browser.current_url)
+
         web_element = self.browser.find_element_by_xpath(
             '//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
         self.assertEquals(web_element.text, app_name, "App creation failed")

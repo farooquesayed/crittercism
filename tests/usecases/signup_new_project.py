@@ -1,12 +1,14 @@
 import random
+
 from nose.plugins.attrib import attr
 from selenium.webdriver.common.by import By
+
 from src import clogger
 from src import config
 from src import baseTest
 from src.constants import BrowserConstants
-from src.page_helpers import utils
 from src.page_helpers import team
+
 
 __author__ = 'fsayed'
 
@@ -37,14 +39,16 @@ class CustomerUseCasesSignUp(baseTest.SeleniumTestCase):
         self.browser.find_element_by_id("email").send_keys(random_email)
         self.browser.find_element_by_id("password").send_keys(self.config.login.password)
         # Hit the button to signup the user
-        utils.find_element_and_click(browser=self.browser, by=By.XPATH, value="//*[contains(@class,'grid_8 push_2')]")
+        self.assertFalse(self.find_element_and_click(by=By.XPATH, value="//*[contains(@class,'grid_8 push_2')]"),
+                         " Broken link at " + self.browser.current_url)
+
         # Start to create a new project
         app_name = "IOS-" + str(random.random())
         self.browser.find_element_by_id("app-name").send_keys(app_name)
-        self.assertFalse(utils.find_element_and_submit(self.browser, By.ID, BrowserConstants.COMMIT),
-                                 " Broken link at " + self.browser.current_url)
-        web_element = utils.get_web_element(browser=self.browser,by=By.XPATH,
-                                            value='//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
+        self.assertFalse(self.find_element_and_submit(by=By.ID, value=BrowserConstants.COMMIT),
+                         " Broken link at " + self.browser.current_url)
+        web_element = self.get_web_element(by=By.XPATH,
+                                           value='//*[@id="app-table"]/tbody/*/td[2]/a[contains(text(),"' + app_name + '")]')
 
         self.assertEquals(web_element.text, app_name, "App creation failed")
         #Delete the test project created

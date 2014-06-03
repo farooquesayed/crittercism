@@ -1,5 +1,8 @@
 __author__ = 'fsayed'
 
+CRITTERCISM = "Crittercism"
+
+
 class Constants(object):
     NIGHTLY = "nightly"
     pass

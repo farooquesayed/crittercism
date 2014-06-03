@@ -1,19 +1,16 @@
+__author__ = 'farooque'
+
 import random
 import unittest
-from selenium.webdriver.common.by import By
-from src.page_helpers import team
-from src.page_helpers import utils
-
-__author__ = 'farooque'
 
 import nose.plugins.attrib
 
-import src
-from src import baseTest
+from src import baseTest, clogger
 from src.data_driven_test_wrapper import ddt_list, data, data_driven_test
+from src.page_helpers import team
 
 
-logger = src.clogger.setup_custom_logger(__name__)
+logger = clogger.setup_custom_logger(__name__)
 
 
 def generate_list_of_crash_types():
@@ -59,7 +56,7 @@ class CrashReportTestSuite(baseTest.CrittercismTestCase):
 
         for period in self.browser.find_elements_by_xpath("//label/span[@class='ui-button-text']"):
             logger.debug("working on period %s" % period.text)
-            self.assertFalse(utils.click(browser=self.browser, web_element=period)," Broken link at " + self.browser.current_url)
+            self.assertFalse(self.click(web_element=period), " Broken link at " + self.browser.current_url)
             with self.multiple_assertions():
                 self.assertEqual(self.browser.find_element_by_id("stats-number-today").text,"0",
                                  ("Expecting No crash but found %s" % self.browser.find_element_by_id("stats-number-today").text) )

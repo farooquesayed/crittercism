@@ -18,7 +18,7 @@ __author__ = 'farooque'
 page_url = config.CliConfig().common.url + "/developers/logout"
 
 class LoginPageSuite(baseTest.SeleniumTestCase):
-
+    #TODO: Move this to Utils or BaseClass and combine into one function from team.py
     def wait_for_password_reset_email(self):
 
         counter = 0
@@ -26,14 +26,34 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
         while counter < 10 :
             if self.browser.find_elements_by_xpath('//*[contains(text(),"Reset Your Password")]').__len__():
                 self.browser.find_element_by_xpath('//*[contains(text(),"Reset Your Password")]').click()
-                self.assertFalse(utils.find_element_and_click(self.browser, By.XPATH, '//a[contains(text(),"Memory Blip")]'),
+                time.sleep(5)
+                self.assertFalse(self.find_element_and_click(by=By.XPATH, value='//a[contains(text(),"Memory Blip")]'),
                                  " Broken link at " + self.browser.current_url)
+
+                logger.debug("Closing the browser containing yahoo email")
+                #self.browser.close()
                 return True
             logger.debug("Email  not arrived. will try again after 10 seconds. So far %d seconds spent" % (counter * 10))
-            time.sleep(10) # Sleeping for email to arrive
+            time.sleep(5)  # Sleeping for email to arrive
             counter += 1
             self.browser.refresh()
-        return  False
+            time.sleep(5)  # Sleeping for email to arrive
+            if counter % 2 == 1:
+                #Now check in spam folder
+                self.find_element_and_click(by=By.ID, value="spam-label")
+                time.sleep(3)  # To Open the email
+                self.browser.find_element(by=By.XPATH, value="//*[@class='focusable neoFocusable enabled']").click()
+                time.sleep(3)  # TO Select the email
+                #Make it not a Spam becuase links are disabled in spam folder
+                self.find_element_and_click(by=By.ID, value="btn-not-spam")
+            else:
+                #Now check in inbox again
+                self.find_element_and_click(by=By.XPATH, value="//*[@class='inbox-label icon-text']")
+
+            logger.debug("Sleeping for 3 seconds for page to load")
+            time.sleep(3)
+
+        return False
 
 
     def validate_password_was_reset(self):
@@ -44,10 +64,18 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
 
         self.browser.find_element_by_id("pass").send_keys(self.config.login.test_user_password)
         self.browser.find_element_by_id("pass2").send_keys(self.config.login.test_user_password)
-        self.assertFalse(utils.find_element_and_submit(self.browser,By.ID,"commit"), " Broken link at " + self.browser.current_url)
+        self.assertFalse(self.find_element_and_submit(by=By.ID, value="commit"),
+                         " Broken link at " + self.browser.current_url)
 
         with self.multiple_assertions():
-            self.assertIn("developers",self.browser.current_url," Didn't login automatically after password change")
+            self.assertIn("developers/", self.browser.current_url, " Didn't login automatically after password change")
+            self.assertTrue(self.browser.find_elements_by_xpath("//*[contains(text(),'Register a New App')]").__len__(),
+                            "Didn't get redirected to New app register page")
+
+    @classmethod
+    def setUpClass(cls):
+        super(LoginPageSuite, cls).setUpClass()
+        utils.delete_all_yahoo_email(browser=cls.browser)
 
     def setUp(self):
         self.browser.get(page_url)
@@ -114,6 +142,7 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
 
     def login_from_crittercism(self):
         self.get_login_page()
+        self.browser.find_element_by_id("email").clear()
         self.browser.find_element_by_id("email").send_keys(self.config.login.username)
         self.browser.find_element_by_id("password").send_keys(self.config.login.password)
 
@@ -152,7 +181,8 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
         self.browser.get(forgot_password_link)
         self.browser.find_element_by_id("email").send_keys(self.config.login.test_user_engg)
         #self.browser.find_element_by_id("commit").submit()
-        self.assertFalse(utils.find_element_and_submit(browser=self.browser, by=By.ID, value="commit"), " Broken link at " + self.browser.current_url)
+        self.assertFalse(self.find_element_and_submit(by=By.ID, value="commit"),
+                         " Broken link at " + self.browser.current_url)
 
         self.assertIn("reset-password", self.browser.current_url, "It was not redirected to reset-password link")
         self.assertEqual(self.browser.find_elements_by_xpath("//*[contains(text(),'Reset Your Password')]").__len__(),1,
@@ -162,7 +192,15 @@ class LoginPageSuite(baseTest.SeleniumTestCase):
         self.assertEqual(self.wait_for_password_reset_email(), True, "Email not received waited until 10 mins")
         self.validate_password_was_reset()
 
+    def tearDown(self):
+        pass
 
+
+    @classmethod
+    def tearDownClass(cls):
+        super(LoginPageSuite, cls).tearDownClass()
+        logger.info("Finished executing SampleTestSuite")
+        pass
 
 
 if __name__ == '__main__':
