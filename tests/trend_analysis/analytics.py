@@ -10,20 +10,6 @@ __author__ = 'ethan'
 
 logger = src.clogger.setup_custom_logger(__name__)
 
-def generate_list_of_crash_types():
-    """
-
-
-
-    :rtype : object
-    :return:
-    """
-    crash_types = []
-    crash_types.append("all")
-    crash_types.append("resolved")
-    crash_types.append("known")
-    crash_types.append("unresolved")
-    return crash_types
 
 class AnalyticsTestSuite(baseTest.CrittercismTestCase):
     app_ids= []
