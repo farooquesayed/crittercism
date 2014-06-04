@@ -1,6 +1,6 @@
 import random
+import unittest
 
-from nose.plugins.attrib import attr
 from selenium.webdriver.common.by import By
 
 import nose.plugins.attrib
@@ -30,15 +30,18 @@ def generate_list_of_crash_types():
     crash_types.append("unresolved")
     return crash_types
 
+def generate_account_types():
+    account_types = []
+    account_types.append("basic")
+    account_types.append("pro")
+    account_types.append("ent")
+    account_types.append("pro_plus")
+    return account_types
 
-account_types = []
-account_types.append("basic")
-account_types.append("pro")
-account_types.append("ent")
-account_types.append("pro_plus")
-
-platform_types= []
-platform_types.append("IOS")
+def generate_platform_types():
+    platform_types= []
+    platform_types.append("IOS")
+    return platform_types
 
 class WrappingTestSuite(baseTest.CrittercismTestCase):
 
@@ -57,17 +60,14 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
 
 
         """
-        self.browser.get(self.config.common.url + "/developers/logout")
-        self.browser.get(self.config.common.url + "/signup")
         pass
 
     def sign_up_new_account(self, accnt):
-        __name__ + """[Test] Sign up user with all account types """
-
+        account_types = generate_account_types()
         self.browser.get(config.CliConfig().common.url + "/developers/logout")
-        self.browser.get(self.config.common.url + "/signup?plan=" + account_types[accnt])
+        self.browser.get(config.CliConfig().common.url + "/signup?plan=" + "ent")
         random_email = (self.config.login.test_user_engg).replace('@', str(random.random()) + '@')
-        self.browser.find_element_by_id("firstname").send_keys("test_user_" + account_types[accnt])
+        self.browser.find_element_by_id("firstname").send_keys("test_user_" + "ent")
         self.browser.find_element_by_id("lastname").send_keys("crittercism")
         self.browser.find_element_by_id("company").send_keys("crittercism")
         self.browser.find_element_by_id("phone").send_keys("123-456-7890")
@@ -76,8 +76,29 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         self.find_element_and_submit(by=By.XPATH, value="//*[contains(@class,'grid_8 push_2')]")
 
     def create_new_app(self, platform):
+        # platform:
+        #  0 = "IOS-", IOS
+        #  1 = "ANDRD-", Android
+        #  2 = "HTML-", HTML5
+        #  3 = "WIN-", Windows 8
         page_url = config.CliConfig().common.url + "/developers/register-application"
-        app_name = "IOS-" + str(random.random())
+        self.browser.get(page_url)
+
+
+        if platform == 0:
+            p_str = "IOS-"
+        elif platform == 1:
+            p_str = "ANDRD-"
+            self.find_element_and_click(value='/html/body/div[3]/div/form/div/div[6]/label[2]')
+        elif platform == 2:
+            p_str = "HTML-"
+            self.find_element_and_click(value='/html/body/div[3]/div/form/div/div[6]/label[3]')
+        elif platform == 3:
+            self.find_element_and_click(value='/html/body/div[3]/div/form/div/div[6]/label[4]')
+        else:
+            p_str = "IOS-"
+
+        app_name = p_str + str(random.random())
         self.browser.find_element_by_id("app-name").send_keys(app_name)
         self.assertFalse(self.find_element_and_submit(by=By.ID, value=BrowserConstants.COMMIT),
                          " Broken link at " + self.browser.current_url)
@@ -90,11 +111,30 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         """
             1)Create new enterprise account, generate a new iOS application, load wrapping page
         """
+        app_ids = []
+        self.browser.get(config.CliConfig().common.url + "/developers/logout")
 
         self.sign_up_new_account(2)
-        app_name = self.create_new_app("IOS")
-        app_id = team.get_id_from_app_name(this.browser, app_name)
-        self.browser.get(self.config.common.url + "developers/wrapping/" + app_id)
+        app_name = self.create_new_app(0)
+
+        app_ids = team.get_id_from_app_name(self.browser, app_name)
+        self.browser.get(self.config.common.url + "developers/wrapping/" + app_ids[0])
         self.browser.implicitly_wait(2)
-        self.assertEqual(self.browser.current_url, "https://app-staging.crittercism.com/developers/wrapping/" + app_id,
-                         "Enterprise users are not directed properly")
+        self.assertEqual(self.browser.current_url, "https://app-staging.crittercism.com/developers/wrapping/" + app_ids[0],
+                         "Expected wrapping page, and instead got %s" % self.browser.current_url)
+        team.delete_app_given_ids(browser=self.browser, app_ids=self.app_ids)
+
+
+    def tearDown(self):
+        pass
+
+
+    @classmethod
+    def tearDownClass(cls):
+
+        super(WrappingTestSuite, cls).tearDownClass()
+
+        pass
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)
