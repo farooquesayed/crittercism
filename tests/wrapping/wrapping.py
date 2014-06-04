@@ -154,7 +154,6 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
             1)log into enterprise account, generate a new iOS application, load wrapping page, wrap an app
         """
         #self.get_back_to_dashboard()
-        print os.getcwd()
         app_name = self.create_new_app(0)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
