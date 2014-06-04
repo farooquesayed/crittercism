@@ -1,43 +1,13 @@
-2014-06-04 16:11:44,557[INFO][__init__][src.config:119)] Running using cli config file './config/webtesting.conf'
-2014-06-04 16:11:44,585[DEBUG][setUpClass][src.baseTest:31)] SetupCLass for BaseTest
-2014-06-04 16:11:44,585[INFO][loadKnownBugs][src.baseTest:257)] Loading Known Failures from : ./config/knownBugs.txt
-2014-06-04 16:11:44,586[DEBUG][loadKnownBugs][src.baseTest:264)] [BUG <id>] | string to exception | Release number where this is expected to get fix
+2014-06-04 16:22:07,806[INFO][__init__][src.config:119)] Running using cli config file './config/webtesting.conf'
+2014-06-04 16:22:07,832[DEBUG][setUpClass][src.baseTest:31)] SetupCLass for BaseTest
+2014-06-04 16:22:07,832[INFO][loadKnownBugs][src.baseTest:257)] Loading Known Failures from : ./config/knownBugs.txt
+2014-06-04 16:22:07,833[DEBUG][loadKnownBugs][src.baseTest:264)] [BUG <id>] | string to exception | Release number where this is expected to get fix
 
-2014-06-04 16:11:44,586[DEBUG][loadKnownBugs][src.baseTest:264)] [BUG 12345] | Continue on assert  | Test dynamic skip
+2014-06-04 16:22:07,833[DEBUG][loadKnownBugs][src.baseTest:264)] [BUG 12345] | Continue on assert  | Test dynamic skip
 
-2014-06-04 16:11:44,586[DEBUG][loadKnownBugs][src.baseTest:264)] [BUG PP-1159] | Broken link at https://app-staging.crittercism.com/tos-v3.html| Planning to fix in Sprint 11
+2014-06-04 16:22:07,833[DEBUG][loadKnownBugs][src.baseTest:264)] [BUG PP-1159] | Broken link at https://app-staging.crittercism.com/tos-v3.html| Planning to fix in Sprint 11
 
-2014-06-04 16:11:44,586[DEBUG][loadKnownBugs][src.baseTest:264)] [BUG PP-1159] | Broken link at https://app-staging.crittercism.com/privacy.html| Planning to fix in Sprint 11
+2014-06-04 16:22:07,833[DEBUG][loadKnownBugs][src.baseTest:264)] [BUG PP-1159] | Broken link at https://app-staging.crittercism.com/privacy.html| Planning to fix in Sprint 11
 
-2014-06-04 16:11:44,586[DEBUG][loadKnownBugs][src.baseTest:264)] [BUG <null>] | Wrapping is not implemented in trial accounts
-2014-06-04 16:12:26,162[ERROR][capture_screenshot][src.baseTest:109)] Screen shot on failure saved: ./logs//screenshots/test_3_create_trial_new_ios2014-06-04_16-12-25-1401923545s.png with URL https://app-staging.crittercism.com/developers/upgrade/538fa7d434bc127cef000043
-2014-06-04 16:12:26,162[DEBUG][canSkipped][src.multiple_assertions:26)] Splitting 3 [BUG <id>]   string to exception   Release number where this is expected to get fix
-
-2014-06-04 16:12:26,162[DEBUG][canSkipped][src.multiple_assertions:26)] Splitting 3 [BUG 12345]   Continue on assert    Test dynamic skip
-
-2014-06-04 16:12:26,162[DEBUG][canSkipped][src.multiple_assertions:26)] Splitting 3 [BUG PP-1159]   Broken link at https://app-staging.crittercism.com/tos-v3.html  Planning to fix in Sprint 11
-
-2014-06-04 16:12:26,162[DEBUG][canSkipped][src.multiple_assertions:26)] Splitting 3 [BUG PP-1159]   Broken link at https://app-staging.crittercism.com/privacy.html  Planning to fix in Sprint 11
-
-2014-06-04 16:12:26,162[DEBUG][canSkipped][src.multiple_assertions:26)] Splitting 2 [BUG <null>]   Wrapping is not implemented in trial accounts
-2014-06-04 16:12:26,546[ERROR][capture_screenshot][src.baseTest:109)] Screen shot on failure saved: ./logs//screenshots/test_3_create_trial_new_ios2014-06-04_16-12-26-1401923546s.png with URL https://app-staging.crittercism.com/developers/upgrade/538fa7d434bc127cef000043
-2014-06-04 16:12:26,546[DEBUG][canSkipped][src.multiple_assertions:26)] Splitting 3 [BUG <id>]   string to exception   Release number where this is expected to get fix
-
-2014-06-04 16:12:26,546[DEBUG][canSkipped][src.multiple_assertions:26)] Splitting 3 [BUG 12345]   Continue on assert    Test dynamic skip
-
-2014-06-04 16:12:26,546[DEBUG][canSkipped][src.multiple_assertions:26)] Splitting 3 [BUG PP-1159]   Broken link at https://app-staging.crittercism.com/tos-v3.html  Planning to fix in Sprint 11
-
-2014-06-04 16:12:26,546[DEBUG][canSkipped][src.multiple_assertions:26)] Splitting 3 [BUG PP-1159]   Broken link at https://app-staging.crittercism.com/privacy.html  Planning to fix in Sprint 11
-
-2014-06-04 16:12:26,546[DEBUG][canSkipped][src.multiple_assertions:26)] Splitting 2 [BUG <null>]   Wrapping is not implemented in trial accounts
-2014-06-04 16:12:26,870[ERROR][capture_screenshot][src.baseTest:109)] Screen shot on failure saved: ./logs//screenshots/test_3_create_trial_new_ios2014-06-04_16-12-26-1401923546s.png with URL https://app-staging.crittercism.com/developers/upgrade/538fa7d434bc127cef000043
-2014-06-04 16:12:26,870[DEBUG][canSkipped][src.multiple_assertions:26)] Splitting 3 [BUG <id>]   string to exception   Release number where this is expected to get fix
-
-2014-06-04 16:12:26,870[DEBUG][canSkipped][src.multiple_assertions:26)] Splitting 3 [BUG 12345]   Continue on assert    Test dynamic skip
-
-2014-06-04 16:12:26,870[DEBUG][canSkipped][src.multiple_assertions:26)] Splitting 3 [BUG PP-1159]   Broken link at https://app-staging.crittercism.com/tos-v3.html  Planning to fix in Sprint 11
-
-2014-06-04 16:12:26,870[DEBUG][canSkipped][src.multiple_assertions:26)] Splitting 3 [BUG PP-1159]   Broken link at https://app-staging.crittercism.com/privacy.html  Planning to fix in Sprint 11
-
-2014-06-04 16:12:26,870[DEBUG][canSkipped][src.multiple_assertions:26)] Splitting 2 [BUG <null>]   Wrapping is not implemented in trial accounts
-2014-06-04 16:13:08,211[INFO][tearDownClass][src.baseTest:52)] BASE:tearDownClass:Called once for each class instance. Can be overridden
+2014-06-04 16:22:07,833[DEBUG][loadKnownBugs][src.baseTest:264)] [BUG <null>] | Wrapping is not implemented in trial accounts
+2014-06-04 16:23:22,037[INFO][tearDownClass][src.baseTest:52)] BASE:tearDownClass:Called once for each class instance. Can be overridden
