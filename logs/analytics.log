@@ -1,12 +1,12 @@
-2014-06-03 11:43:53,841[INFO][__init__][src.config:119)] Running using cli config file './config/webtesting.conf'
-2014-06-03 11:43:53,873[DEBUG][setUpClass][src.baseTest:31)] SetupCLass for BaseTest
-2014-06-03 11:43:53,873[INFO][loadKnownBugs][src.baseTest:257)] Loading Known Failures from : ./config/knownBugs.txt
-2014-06-03 11:43:53,873[DEBUG][loadKnownBugs][src.baseTest:264)] [BUG <id>] | string to exception | Release number where this is expected to get fix
+2014-06-03 17:41:44,721[INFO][__init__][src.config:119)] Running using cli config file './config/webtesting_ci.conf'
+2014-06-03 17:41:44,758[DEBUG][setUpClass][src.baseTest:31)] SetupCLass for BaseTest
+2014-06-03 17:41:44,758[INFO][loadKnownBugs][src.baseTest:257)] Loading Known Failures from : ./config/knownBugs.txt
+2014-06-03 17:41:44,759[DEBUG][loadKnownBugs][src.baseTest:264)] [BUG <id>] | string to exception | Release number where this is expected to get fix
 
-2014-06-03 11:43:53,873[DEBUG][loadKnownBugs][src.baseTest:264)] [BUG 12345] | Continue on assert  | Test dynamic skip
+2014-06-03 17:41:44,759[DEBUG][loadKnownBugs][src.baseTest:264)] [BUG 12345] | Continue on assert  | Test dynamic skip
 
-2014-06-03 11:43:53,873[DEBUG][loadKnownBugs][src.baseTest:264)] [BUG PP-1159] | Broken link at https://app-staging.crittercism.com/tos-v3.html| Planning to fix in Sprint 11
+2014-06-03 17:41:44,759[DEBUG][loadKnownBugs][src.baseTest:264)] [BUG PP-1159] | Broken link at https://app-staging.crittercism.com/tos-v3.html| Planning to fix in Sprint 11
 
-2014-06-03 11:43:53,874[DEBUG][loadKnownBugs][src.baseTest:264)] [BUG PP-1159] | Broken link at https://app-staging.crittercism.com/privacy.html| Planning to fix in Sprint 11
-2014-06-03 11:44:34,210[INFO][tearDownClass][src.baseTest:52)] BASE:tearDownClass:Called once for each class instance. Can be overridden
-2014-06-03 11:44:34,210[INFO][tearDownClass][analytics:467)] Finished executing AnalyticsTestSuite
+2014-06-03 17:41:44,759[DEBUG][loadKnownBugs][src.baseTest:264)] [BUG PP-1159] | Broken link at https://app-staging.crittercism.com/privacy.html| Planning to fix in Sprint 11
+2014-06-03 17:42:21,045[INFO][tearDownClass][src.baseTest:52)] BASE:tearDownClass:Called once for each class instance. Can be overridden
+2014-06-03 17:42:21,045[INFO][tearDownClass][analytics:460)] Finished executing AnalyticsTestSuite

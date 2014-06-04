@@ -1,17 +1,10 @@
-from datetime import time
-import inspect
-from selenium.webdriver.common.by import By
-
-import random
-import selenium.webdriver.common.keys
 import unittest2 as unittest
 import nose.plugins.attrib
 
 import src
 from src import baseTest
 from src.page_helpers import team
-from src.data_driven_test_wrapper import ddt_list, data, data_driven_test
-from src.page_helpers import utils
+
 
 __author__ = 'ethan'
 
@@ -43,7 +36,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         """
         super(AnalyticsTestSuite, cls).setUpClass()
         #cls.browser.get(cls.config.common.url + "/developers/analytics/52fb0fdb8b2e3365c6000008")
-        AnalyticsTestSuite.app_ids = team.get_id_from_app_name(browser=cls.browser, app_name="Crittercism Demo")
+        AnalyticsTestSuite.app_ids = team.get_id_from_app_name(browser=cls.browser, app_name="Cactii crash 'em high")
 
     def setUp(self):
         """
@@ -452,7 +445,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         self.get_web_element(value=fromPath).send_keys("5/25/2014")
         self.get_web_element(value=toPath).send_keys("6/2/2014")
         self.find_element_and_click(value='/html/body/div[3]/div/div/form/input[3]')
-        self.browser.implicitly_wait(5)
+        self.browser.implicitly_wait(2)
         self.assertEqual(self.get_web_element(value='//*[@id="dau-container"]/../div[3]/strong').text,
                          second='Average DAU for 05/25/2014 - 06/02/2014',
                          msg="filters did not appropriately refresh data")
