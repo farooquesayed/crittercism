@@ -1,7 +1,10 @@
 import random
 import unittest
+import os
 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 import nose.plugins.attrib
 
@@ -60,7 +63,7 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
 
 
         """
-        self.logout()
+        #self.logout()
         pass
 
     def sign_up_new_account(self, accnt):
@@ -124,14 +127,36 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         self.browser.implicitly_wait(1)
         utils.login(self.browser)
 
+    def upload_file(self,app_ids):
+        #upload!
+
+        self.find_element_and_click(value='//a[@class="e-appWrappingStart"]')
+        self.browser.implicitly_wait(3)
+        self.get_web_element(value='//input[@type="file"]').send_keys(os.getcwd()+"/bin/Cactus.ipa")
+        self.get_web_element(value='//input[@type="file"]').submit()
+
+        self.find_element_and_click(value='//div[@class="chosen-container chosen-container-single e-sdkSelect e-step2-attr chosen-container-single-nosearch"]')
+        self.find_element_and_click(value='//*[contains(text(), "(latest)"]')
+        self.find_element_and_click(value='//input[@value="Start Upload!"]')
+
+        patience= 10 #time to wait in seconds
+        try:
+            element = WebDriverWait(self, patience).until(EC.presence_of_element_located((By.ID, "success")))
+        except:
+            self.fail("upload timed out")
+            pass
+        finally:
+            team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
+            pass
+
     ###TESTS###
 
     @nose.plugins.attrib.attr(genre="wrapping")
-    def test_ent_new_ios(self):
+    def test_1_ent_new_ios(self):
         """
-            1)log into enterprise account, generate a new iOS application, load wrapping page
+            1)log into enterprise account, generate a new iOS application, load wrapping page, wrap an app
         """
-        self.get_back_to_dashboard()
+        #self.get_back_to_dashboard()
         app_name = self.create_new_app(0)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
@@ -141,12 +166,17 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
                          "Expected wrapping page, and instead got %s" % self.browser.current_url)
         team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
 
+
+
+
+
+
     @nose.plugins.attrib.attr(genre="wrapping")
-    def test_ent_new_android(self):
+    def test_2_ent_new_android(self):
         """
             2)log into enterprise account, generate a new Android application, load wrapping page
         """
-        self.get_back_to_dashboard()
+        self.browser.get(self.config.common.url + "/developers/")
         app_name = self.create_new_app(1)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
@@ -156,12 +186,14 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
                          "Loaded wrapping page for a non- iOS application")
         team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
 
+
+
     ################TRIAL LEVEL#####################
 
     #####TRIAL#####
 
     @nose.plugins.attrib.attr(genre="wrapping")
-    def test_create_trial_new_ios(self):
+    def test_3_create_trial_new_ios(self):
         """
             3)create trial account, generate a new iOS application, load wrapping page
         """
@@ -175,11 +207,11 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         self.browser.get(self.config.common.url + "/developers/wrapping/" + app_ids[0])
         self.browser.implicitly_wait(2)
         self.assertEqual(self.browser.current_url,self.config.common.url + "/developers/wrapping/" + app_ids[0],
-                         "got wrapping page for basic account")
+                         "should have received wrapping page for trial account")
         team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
 
     @nose.plugins.attrib.attr(genre="wrapping")
-    def test_create_trial_new_android(self):
+    def test_4_create_trial_new_android(self):
         """
             4)create trial account, generate a new Android application, load wrapping page
         """
@@ -198,13 +230,13 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
 
     ######BASIC LEVEL######
     @nose.plugins.attrib.attr(genre="wrapping")
-    def test_basic_new_ios(self):
+    def test_5_basic_new_ios(self):
         """
             5)log into basic account, generate a new iOS application, load wrapping page
         """
 
         self.logout()
-        utils.login(self.browser, username="ejgeller@stanford.edu", password="CritTest123")
+        utils.login(self.browser, username="tkerbosch+integration@crittercism.com", password="crittercism")
         app_name = self.create_new_app(0)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
@@ -215,14 +247,14 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
 
     @nose.plugins.attrib.attr(genre="wrapping")
-    def test_basic_new_android(self):
+    def test_6_basic_new_android(self):
         """
             6)log into basic account, generate a new android application, load wrapping page
         """
 
         self.logout()
-        utils.login(self.browser, username="ejgeller@stanford.edu", password="CritTest123")
-        app_name = self.create_new_app(0)
+        utils.login(self.browser, username="tkerbosch+integration@crittercism.com", password="crittercism")
+        app_name = self.create_new_app(1)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
         self.browser.get(self.config.common.url + "/developers/wrapping/" + app_ids[0])
