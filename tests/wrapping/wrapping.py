@@ -127,13 +127,13 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         self.browser.implicitly_wait(1)
         utils.login(self.browser)
 
-    def upload_file(self,app_ids):
+    def upload_file(self, app_ids):
         #upload!
 
         self.find_element_and_click(value='//a[@class="e-appWrappingStart"]')
         self.browser.implicitly_wait(3)
-        self.get_web_element(value='//input[@type="file"]').send_keys(os.getcwd()+"/bin/Cactus.ipa")
-        self.get_web_element(value='//input[@type="file"]').submit()
+        self.get_web_element(value='//input[@type="file"]').send_keys(os.getcwd() + "/bin/Cactus.ipa")
+        #self.get_web_element(value='//input[@type="file"]').submit()
 
         self.find_element_and_click(value='//div[@class="chosen-container chosen-container-single e-sdkSelect e-step2-attr chosen-container-single-nosearch"]')
         self.find_element_and_click(value='//*[contains(text(), "(latest)"]')
@@ -150,13 +150,13 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
             pass
 
     ###TESTS###
-
     @nose.plugins.attrib.attr(genre="wrapping")
     def test_1_ent_new_ios(self):
         """
             1)log into enterprise account, generate a new iOS application, load wrapping page, wrap an app
         """
         #self.get_back_to_dashboard()
+        print os.getcwd()
         app_name = self.create_new_app(0)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
@@ -164,12 +164,8 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         self.browser.implicitly_wait(2)
         self.assertEqual(self.browser.current_url, "https://app-staging.crittercism.com/developers/wrapping/" + app_ids[0],
                          "Expected wrapping page, and instead got %s" % self.browser.current_url)
+        self.upload_file(app_ids)
         team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
-
-
-
-
-
 
     @nose.plugins.attrib.attr(genre="wrapping")
     def test_2_ent_new_android(self):
@@ -189,9 +185,6 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
 
 
     ################TRIAL LEVEL#####################
-
-    #####TRIAL#####
-
     @nose.plugins.attrib.attr(genre="wrapping")
     def test_3_create_trial_new_ios(self):
         """

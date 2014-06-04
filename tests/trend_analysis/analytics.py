@@ -50,7 +50,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
 
     @nose.plugins.attrib.attr(genre='analytics')
     #@unittest.skip("Reason : why it is skipped")
-    def test_au_version(self):
+    def test_1_au_version(self):
         """
             1) Today's DAU and MAU
 
@@ -70,7 +70,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
 
     ######### BY VERSION ############
     @nose.plugins.attrib.attr(genre='analytics')
-    def test_todays_apploads_crashes_version(self):
+    def test_2_todays_apploads_crashes_version(self):
         """
             2) crashes vs application loads by version
         """
@@ -93,7 +93,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
 
 
     @nose.plugins.attrib.attr(genre='analytics')
-    def test_todays_dau_crashes_version(self):
+    def test_3_todays_dau_crashes_version(self):
         """
             3) crashes vs DAU by version
         """
@@ -115,7 +115,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         self.assertNotEqual(crash_table, blank_data, "Daily Active Users that crashed by version does not match given data")
 
     @nose.plugins.attrib.attr(genre='analytics')
-    def test_todays_apploads_version(self):
+    def test_4_todays_apploads_version(self):
         """
             4) app loads by version
         """
@@ -139,7 +139,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         self.assertNotEqual(crash_table, blank_data, "App loads by version does not match given data")
 
     @nose.plugins.attrib.attr(genre='analytics')
-    def test_todays_dau_version(self):
+    def test_5_todays_dau_version(self):
         """
             5) daily active users by version
         """
@@ -161,7 +161,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         self.assertNotEqual(crash_table, blank_data, "Daily Active Users by version does not match given data")
 
     @nose.plugins.attrib.attr(genre='analytics')
-    def test_todays_crashes_version(self):
+    def test_6_todays_crashes_version(self):
         """
             6) crashes by version
         """
@@ -182,7 +182,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         self.assertNotEqual(crash_table, blank_data, "Crashes by version does not match given data")
 
     @nose.plugins.attrib.attr(genre='analytics')
-    def test_todays_affected_users_version(self):
+    def test_7_todays_affected_users_version(self):
         """
             7) users affected by at least one crash by version
         """
@@ -205,7 +205,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
 
     ############ BY DEVICE ##############
     @nose.plugins.attrib.attr(genre='analytics')
-    def test_todays_apploads_device(self):
+    def test_8_todays_apploads_device(self):
         """
             8) App Loads by Device
         """
@@ -243,7 +243,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         self.assertNotEqual(crash_table, blank_data, "App loads by device does not match given data")
 
     @nose.plugins.attrib.attr(genre='analytics')
-    def test_todays_crashes_device(self):
+    def test_9_todays_crashes_device(self):
         """
             9) Crashes by Device
         """
@@ -281,7 +281,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         self.assertNotEqual(crash_table, blank_data, "Crashes by device does not match given data")
 
     @nose.plugins.attrib.attr(genre='analytics')
-    def test_todays_appload_crashes_device(self):
+    def test__10_todays_appload_crashes_device(self):
         """
             10) % of Apploads that Crashed by Device
         """
@@ -320,7 +320,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
 
     ##############BREAKDOWN BY OS#######################
     @nose.plugins.attrib.attr(genre='analytics')
-    def test_todays_apploads_os(self):
+    def test__11_todays_apploads_os(self):
         """
             11) # of apploads by OS
         """
@@ -358,7 +358,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         self.assertNotEqual(crash_table, blank_data, "Apploads by OS does not match given data")
 
     @nose.plugins.attrib.attr(genre='analytics')
-    def test_todays_crashes_os(self):
+    def test__12_todays_crashes_os(self):
         """
             12) # of crashes by OS
         """
@@ -396,9 +396,9 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         self.assertNotEqual(crash_table, blank_data, "crashes by OS does not match given data")
 
     @nose.plugins.attrib.attr(genre='analytics')
-    def test_todays_appload_crashes_os(self):
+    def test__13_todays_appload_crashes_os(self):
         """
-            12) % of apploads that crash by OS
+            13) % of apploads that crash by OS
         """
         versions = []
         versions.append(self.get_web_element(
@@ -435,9 +435,9 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
 
     ###############TEST FILTER##################
     @nose.plugins.attrib.attr(genre='analytics')
-    def test_date_filter(self):
+    def test__14_date_filter(self):
         """
-            13) test filters at top
+            14) test filters at top
         """
 
         fromPath='//*[@id="date-from"]'
