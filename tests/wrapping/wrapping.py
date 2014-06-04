@@ -10,7 +10,7 @@ from src import config
 from src import baseTest
 from src.constants import BrowserConstants
 from src.page_helpers import team
-
+from src.page_helpers import utils
 __author__ = 'egeller'
 
 logger = clogger.setup_custom_logger(__name__)
@@ -60,12 +60,16 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
 
 
         """
+        self.logout()
         pass
 
     def sign_up_new_account(self, accnt):
+        """
+            creates new account, returns nothing. Brings driver to dashboard for new account
+        """
         account_types = generate_account_types()
-        self.browser.get(self.config.common.url + "/developers/logout")
-        self.browser.implicitly_wait(3)
+        self.logout()
+        #self.browser.implicitly_wait(3)
         self.browser.get(self.config.common.url + "/signup?plan=" + account_types[accnt])
         random_email = (self.config.login.test_user_engg).replace('@', str(random.random()) + '@')
         self.browser.find_element_by_id("firstname").send_keys("test_user_" + account_types[accnt])
@@ -108,11 +112,19 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
 
 
     ############ENTERPRISE LEVEL#############
-    def get_back_to_dashboard(self):
+    def logout(self):
         self.browser.get(self.config.common.url + "/developers/logout")
-        self.browser.find_element_by_id('email').send_keys(config.CliConfig().login.username)
-        self.browser.find_element_by_name('password').send_keys(config.CliConfig().login.password)
-        self.browser.find_element_by_id('commit').submit()
+
+    def get_back_to_dashboard(self):
+        """
+            Get back to the enterprise account
+
+        """
+        self.logout()
+        self.browser.implicitly_wait(1)
+        utils.login(self.browser)
+
+    ###TESTS###
 
     @nose.plugins.attrib.attr(genre="wrapping")
     def test_ent_new_ios(self):
@@ -144,16 +156,17 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
                          "Loaded wrapping page for a non- iOS application")
         team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
 
-    ################BASIC LEVEL#####################
+    ################TRIAL LEVEL#####################
 
     #####TRIAL#####
 
     @nose.plugins.attrib.attr(genre="wrapping")
-    def test_create_basic_new_ios(self):
+    def test_create_trial_new_ios(self):
         """
-            3)create basic account, generate a new iOS application, load wrapping page
+            3)create trial account, generate a new iOS application, load wrapping page
         """
-        self.browser.get(self.config.common.url + "/developers/logout")
+
+        self.logout()
 
         self.sign_up_new_account(0)
         app_name = self.create_new_app(0)
@@ -161,16 +174,17 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         app_ids = team.get_id_from_app_name(self.browser, app_name)
         self.browser.get(self.config.common.url + "/developers/wrapping/" + app_ids[0])
         self.browser.implicitly_wait(2)
-        self.assertNotEqual(self.browser.current_url, "https://app-staging.crittercism.com/developers/wrapping/" + app_ids[0],
+        self.assertEqual(self.browser.current_url,self.config.common.url + "/developers/wrapping/" + app_ids[0],
                          "got wrapping page for basic account")
-        team.delete_app_given_ids(browser=self.browser, app_ids=self.app_ids)
+        team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
 
     @nose.plugins.attrib.attr(genre="wrapping")
-    def test_ent_new_android(self):
+    def test_create_trial_new_android(self):
         """
-            4)create basic account, generate a new Android application, load wrapping page
+            4)create trial account, generate a new Android application, load wrapping page
         """
-        self.browser.get(self.config.common.url + "/developers/logout")
+
+        self.logout()
 
         self.sign_up_new_account(0)
         app_name = self.create_new_app(1)
@@ -180,6 +194,41 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         self.browser.implicitly_wait(2)
         self.assertNotEqual(self.browser.current_url, "https://app-staging.crittercism.com/developers/wrapping/" + app_ids[0],
                          "Loaded wrapping page for a non- iOS application")
+        team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
+
+    ######BASIC LEVEL######
+    @nose.plugins.attrib.attr(genre="wrapping")
+    def test_basic_new_ios(self):
+        """
+            5)log into basic account, generate a new iOS application, load wrapping page
+        """
+
+        self.logout()
+        utils.login(self.browser, username="ejgeller@stanford.edu", password="CritTest123")
+        app_name = self.create_new_app(0)
+
+        app_ids = team.get_id_from_app_name(self.browser, app_name)
+        self.browser.get(self.config.common.url + "/developers/wrapping/" + app_ids[0])
+        self.browser.implicitly_wait(2)
+        self.assertNotEqual(self.browser.current_url, "https://app-staging.crittercism.com/developers/wrapping/" + app_ids[0],
+                         "Loaded wrapping page for a basic user")
+        team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
+
+    @nose.plugins.attrib.attr(genre="wrapping")
+    def test_basic_new_android(self):
+        """
+            6)log into basic account, generate a new android application, load wrapping page
+        """
+
+        self.logout()
+        utils.login(self.browser, username="ejgeller@stanford.edu", password="CritTest123")
+        app_name = self.create_new_app(0)
+
+        app_ids = team.get_id_from_app_name(self.browser, app_name)
+        self.browser.get(self.config.common.url + "/developers/wrapping/" + app_ids[0])
+        self.browser.implicitly_wait(2)
+        self.assertNotEqual(self.browser.current_url, "https://app-staging.crittercism.com/developers/wrapping/" + app_ids[0],
+                         "Loaded wrapping page for a non-iOS application with a basic user")
         team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
 
     def tearDown(self):

@@ -2,3 +2,4 @@
 [BUG 12345] | Continue on assert  | Test dynamic skip
 [BUG PP-1159] | Broken link at https://app-staging.crittercism.com/tos-v3.html| Planning to fix in Sprint 11
 [BUG PP-1159] | Broken link at https://app-staging.crittercism.com/privacy.html| Planning to fix in Sprint 11
+[BUG <null>] | Wrapping is not implemented in trial accounts
