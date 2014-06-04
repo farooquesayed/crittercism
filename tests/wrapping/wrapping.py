@@ -64,9 +64,9 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
 
     def sign_up_new_account(self, accnt):
         account_types = generate_account_types()
-        self.browser.get(config.CliConfig().common.url + "/developers/logout")
+        self.browser.get(self.config.common.url + "/developers/logout")
         self.browser.implicitly_wait(3)
-        self.browser.get(config.CliConfig().common.url + "/signup?plan=" + account_types[accnt])
+        self.browser.get(self.config.common.url + "/signup?plan=" + account_types[accnt])
         random_email = (self.config.login.test_user_engg).replace('@', str(random.random()) + '@')
         self.browser.find_element_by_id("firstname").send_keys("test_user_" + account_types[accnt])
         self.browser.find_element_by_id("lastname").send_keys("crittercism")
@@ -82,7 +82,7 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         #  1 = "ANDRD-", Android
         #  2 = "HTML-", HTML5
         #  3 = "WIN-", Windows 8
-        page_url = config.CliConfig().common.url + "/developers/register-application"
+        page_url = self.config.common.url + "/developers/register-application"
         self.browser.get(page_url)
 
 
@@ -108,12 +108,18 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
 
 
     ############ENTERPRISE LEVEL#############
+    def get_back_to_dashboard(self):
+        self.browser.get(self.config.common.url + "/developers/logout")
+        self.browser.find_element_by_id('email').send_keys(config.CliConfig().login.username)
+        self.browser.find_element_by_name('password').send_keys(config.CliConfig().login.password)
+        self.browser.find_element_by_id('commit').submit()
+
     @nose.plugins.attrib.attr(genre="wrapping")
     def test_ent_new_ios(self):
         """
             1)log into enterprise account, generate a new iOS application, load wrapping page
         """
-
+        self.get_back_to_dashboard()
         app_name = self.create_new_app(0)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
@@ -121,14 +127,14 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         self.browser.implicitly_wait(2)
         self.assertEqual(self.browser.current_url, "https://app-staging.crittercism.com/developers/wrapping/" + app_ids[0],
                          "Expected wrapping page, and instead got %s" % self.browser.current_url)
-        team.delete_app_given_ids(browser=self.browser, app_ids=self.app_ids)
+        team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
 
     @nose.plugins.attrib.attr(genre="wrapping")
     def test_ent_new_android(self):
         """
-            1)log into enterprise account, generate a new Android application, load wrapping page
+            2)log into enterprise account, generate a new Android application, load wrapping page
         """
-        self.browser.get(config.CliConfig().common.url + "/developers/logout")
+        self.get_back_to_dashboard()
         app_name = self.create_new_app(1)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
@@ -136,7 +142,7 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         self.browser.implicitly_wait(2)
         self.assertNotEqual(self.browser.current_url, "https://app-staging.crittercism.com/developers/wrapping/" + app_ids[0],
                          "Loaded wrapping page for a non- iOS application")
-        team.delete_app_given_ids(browser=self.browser, app_ids=self.app_ids)
+        team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
 
     ################BASIC LEVEL#####################
 
@@ -145,28 +151,28 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
     @nose.plugins.attrib.attr(genre="wrapping")
     def test_create_basic_new_ios(self):
         """
-            1)create basic account, generate a new iOS application, load wrapping page
+            3)create basic account, generate a new iOS application, load wrapping page
         """
-        self.browser.get(config.CliConfig().common.url + "/developers/logout")
+        self.browser.get(self.config.common.url + "/developers/logout")
 
-        self.sign_up_new_account(2)
+        self.sign_up_new_account(0)
         app_name = self.create_new_app(0)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
         self.browser.get(self.config.common.url + "/developers/wrapping/" + app_ids[0])
         self.browser.implicitly_wait(2)
-        self.assertEqual(self.browser.current_url, "https://app-staging.crittercism.com/developers/wrapping/" + app_ids[0],
-                         "Expected wrapping page, and instead got %s" % self.browser.current_url)
+        self.assertNotEqual(self.browser.current_url, "https://app-staging.crittercism.com/developers/wrapping/" + app_ids[0],
+                         "got wrapping page for basic account")
         team.delete_app_given_ids(browser=self.browser, app_ids=self.app_ids)
 
     @nose.plugins.attrib.attr(genre="wrapping")
     def test_ent_new_android(self):
         """
-            1)log into enterprise account, generate a new Android application, load wrapping page
+            4)create basic account, generate a new Android application, load wrapping page
         """
-        self.browser.get(config.CliConfig().common.url + "/developers/logout")
+        self.browser.get(self.config.common.url + "/developers/logout")
 
-        self.sign_up_new_account(2)
+        self.sign_up_new_account(0)
         app_name = self.create_new_app(1)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
@@ -174,7 +180,7 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         self.browser.implicitly_wait(2)
         self.assertNotEqual(self.browser.current_url, "https://app-staging.crittercism.com/developers/wrapping/" + app_ids[0],
                          "Loaded wrapping page for a non- iOS application")
-        team.delete_app_given_ids(browser=self.browser, app_ids=self.app_ids)
+        team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
 
     def tearDown(self):
         pass

@@ -3,7 +3,6 @@ S'failed'
 p2
 (lp3
 S'1'
-aS'2'
 aS'3'
 asS'source_names'
 p4
