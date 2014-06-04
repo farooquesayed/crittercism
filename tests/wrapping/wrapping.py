@@ -129,11 +129,10 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
 
     def upload_file(self, app_ids):
         #upload!
-
         self.find_element_and_click(value='//a[@class="e-appWrappingStart"]')
         self.browser.implicitly_wait(3)
         self.get_web_element(value='//input[@type="file"]').send_keys(os.getcwd() + "/bin/Cactus.ipa")
-        #self.get_web_element(value='//input[@type="file"]').submit()
+        self.get_web_element(value='//input[@type="file"]').submit()
 
         self.find_element_and_click(value='//div[@class="chosen-container chosen-container-single e-sdkSelect e-step2-attr chosen-container-single-nosearch"]')
         self.find_element_and_click(value='//*[contains(text(), "(latest)"]')
@@ -146,7 +145,6 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
             self.fail("upload timed out")
             pass
         finally:
-            team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
             pass
 
     ###TESTS###
@@ -164,7 +162,7 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         self.browser.implicitly_wait(2)
         self.assertEqual(self.browser.current_url, "https://app-staging.crittercism.com/developers/wrapping/" + app_ids[0],
                          "Expected wrapping page, and instead got %s" % self.browser.current_url)
-        self.upload_file(app_ids)
+        #self.upload_file(app_ids) #under construction
         team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
 
     @nose.plugins.attrib.attr(genre="wrapping")
