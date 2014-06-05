@@ -148,6 +148,7 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
 
     ######BASIC LEVEL######
+    #TODO: point to basic account info on config files
     @nose.plugins.attrib.attr(genre="wrapping")
     def test_5_basic_new_ios(self):
         """
