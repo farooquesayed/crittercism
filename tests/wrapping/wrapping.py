@@ -1,4 +1,3 @@
-import random
 import unittest
 import os
 
@@ -21,19 +20,6 @@ logger = clogger.setup_custom_logger(__name__)
 basic_username = "tkerbosch+integration@crittercism.com"
 basic_password = "crittercism"
 
-def generate_account_types():
-    account_types = []
-    account_types.append("basic")
-    account_types.append("pro")
-    account_types.append("ent")
-    account_types.append("pro_plus")
-    return account_types
-
-def generate_platform_types():
-    platform_types= []
-    platform_types.append("IOS")
-    return platform_types
-
 class WrappingTestSuite(baseTest.CrittercismTestCase):
 
     @classmethod
@@ -47,48 +33,11 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
 
     def setUp(self):
         """
-        Setup for the testcase
+            Setup for the testcase
 
 
         """
-        #self.logout()
         pass
-    #TODO: promote
-    def sign_up_new_account(self, accnt):
-        """
-            creates new account, returns nothing. Brings driver to dashboard for new account
-        """
-        account_types = generate_account_types()
-        self.logout()
-        #self.browser.implicitly_wait(3)
-        self.browser.get(self.config.common.url + "/signup?plan=" + account_types[accnt])
-        random_email = (self.config.login.test_user_engg).replace('@', str(random.random()) + '@')
-        self.browser.find_element_by_id("firstname").send_keys("test_user_" + account_types[accnt])
-        self.browser.find_element_by_id("lastname").send_keys("crittercism")
-        self.browser.find_element_by_id("company").send_keys("crittercism")
-        self.browser.find_element_by_id("phone").send_keys("123-456-7890")
-        self.browser.find_element_by_id("email").send_keys(random_email)
-        self.browser.find_element_by_id("password").send_keys(self.config.login.password)
-        self.find_element_and_submit(by=By.XPATH, value="//*[contains(@class,'grid_8 push_2')]")
-
-    #TODO: promote
-    def create_new_app(self, platform):
-
-        page_url = self.config.common.url + "/developers/register-application"
-        self.browser.get(page_url)
-
-        p_str = platform.PREFIX
-        self.find_element_and_click(value='//label[@for=' + platform.PLATFORM + ']')
-
-
-
-
-        app_name = p_str + str(random.random())
-        self.browser.find_element_by_id("app-name").send_keys(app_name)
-        self.assertFalse(self.find_element_and_submit(by=By.ID, value=constants.BrowserConstants.COMMIT),
-                         " Broken link at " + self.browser.current_url)
-        return app_name
-
 
     ############ENTERPRISE LEVEL#############
     def logout(self):
@@ -99,10 +48,11 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
             Get back to the enterprise account
 
         """
-        self.logout()
+        utils.logout(self)
         self.browser.implicitly_wait(1)
         utils.login(self.browser)
 
+    #####UNDER CONSTRUCTION#####
     def upload_file(self, app_ids):
         #upload!
         self.find_element_and_click(value='//a[@class="e-appWrappingStart"]')
@@ -122,6 +72,7 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
             pass
         finally:
             pass
+    ######END OF CONSTRUCTION######
 
     ###TESTS###
     @nose.plugins.attrib.attr(genre="wrapping")
@@ -130,14 +81,16 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
             1)log into enterprise account, generate a new iOS application, load wrapping page, wrap an app
         """
         #self.get_back_to_dashboard()
-        app_name = self.create_new_app(constants.IOS)
+        app_name = utils.create_new_app(self, constants.IOS)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
         self.browser.get(self.config.common.url + "/developers/wrapping/" + app_ids[0])
         self.browser.implicitly_wait(2)
         self.assertEqual(self.browser.current_url, "https://app-staging.crittercism.com/developers/wrapping/" + app_ids[0],
                          "Expected wrapping page, and instead got %s" % self.browser.current_url)
-        #self.upload_file(app_ids) #under construction
+        #####UNDER CONSTRUCTION#####
+        #self.upload_file(app_ids)
+        #####END OF CONSTRUCTION#####
         team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
 
     @nose.plugins.attrib.attr(genre="wrapping")
@@ -146,7 +99,7 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
             2)log into enterprise account, generate a new Android application, load wrapping page
         """
         self.browser.get(self.config.common.url + "/developers/")
-        app_name = self.create_new_app(constants.ANDROID)
+        app_name = utils.create_new_app(self, constants.ANDROID)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
         self.browser.get(self.config.common.url + "/developers/wrapping/" + app_ids[0])
@@ -164,10 +117,10 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
             3)create trial account, generate a new iOS application, load wrapping page
         """
 
-        self.logout()
+        utils.logout(self)
 
-        self.sign_up_new_account(0)
-        app_name = self.create_new_app(constants.IOS)
+        utils.sign_up_new_account(self, 0)
+        app_name = utils.create_new_app(self, constants.IOS)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
         self.browser.get(self.config.common.url + "/developers/wrapping/" + app_ids[0])
@@ -182,10 +135,10 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
             4)create trial account, generate a new Android application, load wrapping page
         """
 
-        self.logout()
+        utils.logout(self)
 
-        self.sign_up_new_account(0)
-        app_name = self.create_new_app(constants.ANDROID)
+        utils.sign_up_new_account(self, 0)
+        app_name = utils.create_new_app(self, constants.ANDROID)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
         self.browser.get(self.config.common.url + "/developers/wrapping/" + app_ids[0])
@@ -201,9 +154,9 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
             5)log into basic account, generate a new iOS application, load wrapping page
         """
 
-        self.logout()
-        utils.login(self.browser, username=basic_username, password=basic_password)
-        app_name = self.create_new_app(constants.IOS)
+        utils.logout(self)
+        utils.login(self.browser, username=self.config.login.basic_username, password=self.config.login.basic_password)
+        app_name = utils.create_new_app(self, constants.IOS)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
         self.browser.get(self.config.common.url + "/developers/wrapping/" + app_ids[0])
@@ -218,9 +171,9 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
             6)log into basic account, generate a new android application, load wrapping page
         """
 
-        self.logout()
+        utils.logout(self)
         utils.login(self.browser, username=basic_username, password=basic_password)
-        app_name = self.create_new_app(constants.ANDROID)
+        app_name = utils.create_new_app(self, constants.ANDROID)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
         self.browser.get(self.config.common.url + "/developers/wrapping/" + app_ids[0])
