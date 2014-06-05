@@ -156,7 +156,7 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         """
 
         utils.logout(self)
-        utils.login(self.browser, username=self.config.login.basic_username, password=self.config.login.basic_password)
+        utils.login(self.browser, username=basic_username, password=basic_password)
         app_name = utils.create_new_app(self, constants.IOS)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
