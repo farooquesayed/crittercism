@@ -1,3 +1,4 @@
+import time
 import random
 
 from selenium.webdriver.common.by import By
@@ -28,6 +29,8 @@ class RegisterApplication(baseTest.CrittercismTestCase):
 
     def setUp(self):
         self.browser.get(page_url)
+        time.sleep(3)
+        pass
 
     @attr(genre='register-application', smoke=True)
     def test_verify_new_app_page_default_parameter_platform(self):
@@ -153,7 +156,8 @@ class RegisterApplication(baseTest.CrittercismTestCase):
     def test_privacy_link(self):
         __name__ + """ [Test] Verify privacy link while Registering a new app """
 
-        privacy_link = config.CliConfig().common.url + "/privacy.html"
+        #privacy_link = config.CliConfig().common.url + "/privacy-policy/"
+        privacy_link = "www.crittercism.com/privacy-policy/"
         self.assertFalse(self.is_url_broken(link=privacy_link), " Broken link at " + privacy_link)
 
     @attr(genre='register-application')
@@ -161,7 +165,8 @@ class RegisterApplication(baseTest.CrittercismTestCase):
     def test_tos_link(self):
         __name__ + """ [Test] Verify privacy link while Registering a new app """
 
-        tos_link = config.CliConfig().common.url + "/tos-v3.html"
+        #tos_link = config.CliConfig().common.url + "/terms-services/"
+        tos_link = "www.crittercism.com/terms-services/"
         self.assertFalse(self.is_url_broken(link=tos_link), " Broken link at " + tos_link)
 
 

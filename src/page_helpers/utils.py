@@ -78,6 +78,7 @@ def login(browser=None, username=config.CliConfig().login.username, password=con
             utils.login(self.browser)
     """
     browser.get(config.CliConfig().common.url + "/developers/login")
+    browser.find_element_by_id('email').clear()
     browser.find_element_by_id('email').send_keys(username)
     browser.find_element_by_name('password').send_keys(password)
     browser.find_element_by_id('commit').submit()

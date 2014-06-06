@@ -67,6 +67,8 @@ class NewAccountSignUpTestSuite(baseTest.SeleniumTestCase):
                              "IOS button is not selected")
             self.assertIn("/developers/register_application", self.browser.current_url,
                           "Register New App is not in address bar")
+            #TODO: Search for the link for privacy and TOS page
+
             self.validate_user_profile(random_email, value)
 
     @attr(genre='signup', smoke=True)
