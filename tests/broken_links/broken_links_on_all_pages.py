@@ -45,8 +45,8 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
                     if link != self.browser.current_url:
                         self.browser.get(link)
                     #Needs to login instead any of the link redirect us to login page
-                    if "login" in self.browser.current_url and self.browser.find_elements_by_id('email').__len__() > 1:
-                        utils.login()
+                    if "login" in self.browser.current_url and self.browser.find_elements_by_id('email').__len__() > 0:
+                        utils.login(browser=self.browser)
 
                     element = self.browser.find_elements_by_xpath(
                         '//*[contains(text(),"Well, this is embarrassing - you found a broken link.")]').__len__()

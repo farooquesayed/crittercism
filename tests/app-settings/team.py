@@ -80,7 +80,7 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
             if constants.CRITTERCISM in self.browser.title:
                 break # Got the window we are looking for
 
-        self.assertFalse(utils.is_url_broken(browser=self.browser), " Broken link at " + self.browser.current_url)
+        self.assertFalse(self.is_url_broken(), " Broken link at " + self.browser.current_url)
 
         with self.multiple_assertions():
             self.assertIn ("developers/app_settings/", self.browser.current_url, ("Not able to redirect to App-Setting page for role = %s" % role))
@@ -153,8 +153,8 @@ class AddTeamMemberSuite(baseTest.CrittercismTestCase):
 
 
     def tearDown(self):
-        app_ids = team.get_id_from_app_name(browser=self.browser, app_name=app_name)
-        self.assertEquals(True, team.delete_app_given_ids(browser=self.browser, app_ids=app_ids), "Deleting App failed")
+        #app_ids = team.get_id_from_app_name(browser=self.browser, app_name=app_name)
+        #self.assertEquals(True, team.delete_app_given_ids(browser=self.browser, app_ids=app_ids), "Deleting App failed")
         pass
 
     @classmethod

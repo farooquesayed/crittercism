@@ -16,6 +16,7 @@ import src.constants as constants
 from src import multiple_assertions
 from src import clogger
 from src import config
+from src.page_helpers import utils
 
 
 logger = clogger.setup_custom_logger(__name__)
@@ -61,11 +62,11 @@ class SeleniumTestCase(BaseCliTest):
     def setUpClass(cls):
         super(SeleniumTestCase, cls).setUpClass()
 
-        if os.environ.get("BROWSER", "chrome") == "firefox":
+        if os.environ.get("BROWSER", "firefox") == "firefox":
             cls.browser = webdriver.Remote(config.CliConfig().common.selenium_hub_url, DesiredCapabilities.FIREFOX)
-        elif os.environ.get("BROWSER", "chrome") == "chrome":
+        elif os.environ.get("BROWSER", "firefox") == "chrome":
             cls.browser = webdriver.Remote(config.CliConfig().common.selenium_hub_url, DesiredCapabilities.CHROME)
-        elif os.environ.get("BROWSER", "chrome") == "safari":
+        elif os.environ.get("BROWSER", "firefox") == "safari":
             cls.browser = webdriver.Remote(config.CliConfig().common.selenium_hub_url, DesiredCapabilities.SAFARI)
 
         cls.browser.implicitly_wait(5)
@@ -85,8 +86,8 @@ class SeleniumTestCase(BaseCliTest):
             if link != self.browser.current_url and link != "":
                 self.browser.get(link)
             #Needs to login instead any of the link redirect us to login page
-            #if "login" in browser.current_url and browser.find_elements_by_id('email').__len__() > 1:
-            #    login()
+            if "login" in self.browser.current_url and self.browser.find_elements_by_id('email').__len__() > 0:
+                utils.login(browser=self.browser)
 
             element = self.browser.find_elements_by_xpath(
                 '//*[contains(text(),"Well, this is embarrassing - you found a broken link.")]').__len__()
@@ -244,6 +245,7 @@ class CrittercismTestCase(SeleniumTestCase):
         super(CrittercismTestCase, cls).setUpClass()
         #======= login to portal =========
         cls.browser.get(config.CliConfig().common.url + "/developers/login")
+        cls.browser.find_element_by_id('email').clear()
         cls.browser.find_element_by_id('email').send_keys(config.CliConfig().login.username)
         cls.browser.find_element_by_name('password').send_keys(config.CliConfig().login.password)
         cls.browser.find_element_by_id('commit').submit()
