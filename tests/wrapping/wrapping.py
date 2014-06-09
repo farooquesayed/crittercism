@@ -20,10 +20,6 @@ __author__ = 'egeller'
 
 logger = clogger.setup_custom_logger(__name__)
 
-basic_username = "tkerbosch+integration@crittercism.com"
-basic_password = "crittercism"
-
-
 class WrappingTestSuite(baseTest.CrittercismTestCase):
     @classmethod
     def setUpClass(cls):
