@@ -1,5 +1,6 @@
 from selenium.webdriver.support import ui
-from yopenstackqe_tests.common.utils.common_utils import wait_for_event
+
+from src.common_utils import wait_for_event
 
 
 class Waiter(object):
