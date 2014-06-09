@@ -27,3 +27,9 @@ class HTML(object):
 class WINDOWS(object):
     PLATFORM = '"platform-wp"'
     PREFIX = "WP-"
+
+class ACCOUNT_TYPES(object):
+    BASIC = "basic"
+    PRO = "pro"
+    ENTERPRISE = "ent"
+    PROPLUS = "pro_plus"
