@@ -34,6 +34,14 @@ class LoginConfig(BaseConfig):
         return self.get("password", "CritPass123")
 
     @property
+    def basic_username(self):
+        return self.get("basic_username", "tkerbosch+integration@crittercism.com")
+
+    @property
+    def basic_password(self):
+        return self.get("basic_password", "crittercism")
+
+    @property
     def test_user_engg(self):
         return self.get("test_user_engg", "critterrism.eng@gmail.com")
 

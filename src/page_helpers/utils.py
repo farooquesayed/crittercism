@@ -1,6 +1,4 @@
 import time
-import random
-import src.constants as constants
 from selenium.webdriver.common.by import By
 
 
@@ -84,44 +82,7 @@ def login(browser=None, username=config.CliConfig().login.username, password=con
     browser.find_element_by_name('password').send_keys(password)
     browser.find_element_by_id('commit').submit()
 
-def logout(self):
-        self.browser.get(self.config.common.url + "/developers/logout")
 
-
-def sign_up_new_account(self, accnt):
-    def generate_account_types():
-        account_types= []
-        account_types.append("basic")
-        account_types.append("pro")
-        account_types.append("ent")
-        account_types.append("pro_plus")
-        return account_types
-
-    account_types = generate_account_types()
-    logout(self)
-    # self.browser.implicitly_wait(3)
-    self.browser.get(self.config.common.url + "/signup?plan=" + accnt)
-    random_email = (self.config.login.test_user_engg).replace('@', str(random.random()) + '@')
-    self.browser.find_element_by_id("firstname").send_keys("test_user_" + accnt)
-    self.browser.find_element_by_id("lastname").send_keys("crittercism")
-    self.browser.find_element_by_id("company").send_keys("crittercism")
-    self.browser.find_element_by_id("phone").send_keys("123-456-7890")
-    self.browser.find_element_by_id("email").send_keys(random_email)
-    self.browser.find_element_by_id("password").send_keys(self.config.login.password)
-    self.find_element_and_submit(by=By.XPATH, value="//*[contains(@class,'grid_8 push_2')]")
-
-
-def create_new_app(self, platform):
-    page_url = self.config.common.url + "/developers/register-application"
-    self.browser.get(page_url)
-
-    p_str = platform.PREFIX
-    self.find_element_and_click(value='//label[@for=' + platform.PLATFORM + ']')
-    app_name = p_str + str(random.random())
-    self.browser.find_element_by_id("app-name").send_keys(app_name)
-    self.assertFalse(self.find_element_and_submit(by=By.ID, value=constants.BrowserConstants.COMMIT),
-                     " Broken link at " + self.browser.current_url)
-    return app_name
 
 def delete_all_yahoo_email(browser=None):
     """

@@ -20,10 +20,6 @@ __author__ = 'egeller'
 
 logger = clogger.setup_custom_logger(__name__)
 
-basic_username = "tkerbosch+integration@crittercism.com"
-basic_password = "crittercism"
-
-
 class WrappingTestSuite(baseTest.CrittercismTestCase):
     @classmethod
     def setUpClass(cls):
@@ -51,7 +47,7 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
             Get back to the enterprise account
 
         """
-        utils.logout(self)
+        self.logout()
         self.browser.implicitly_wait(1)
         utils.login(self.browser)
 
@@ -67,12 +63,12 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         upload_dialog.send_keys(dialog_text_input)
         upload_dialog.send_keys(keys.ENTER)
 
-    # ####UNDER CONSTRUCTION#####
+    #####UNDER CONSTRUCTION#####
     def upload_file(self, app_ids):
-        patience = 10  #time to wait in seconds
+        patience = 10  # time to wait in seconds
         ipa_path = os.getcwd() + "/bin/Cactus.ipa"
 
-        #upload!
+        # upload!
         self.browser.implicitly_wait(2)
         self.find_element_and_click(value='//a[@class="e-appWrappingStart"]')
         self.browser.implicitly_wait(3)
@@ -105,13 +101,13 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
             1)log into enterprise account, generate a new iOS application, load wrapping page, wrap an app
         """
         #self.get_back_to_dashboard()
-        app_name = utils.create_new_app(self, constants.IOS)
+        app_name = self.create_new_app(constants.IOS)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
         self.browser.get(self.config.common.url + "/developers/wrapping/" + app_ids[0])
         self.browser.implicitly_wait(2)
         self.assertEqual(self.browser.current_url,
-                         "https://app-staging.crittercism.com/developers/wrapping/" + app_ids[0],
+                         self.config.common.url + "/developers/wrapping/" + app_ids[0],
                          "Expected wrapping page, and instead got %s" % self.browser.current_url)
         #####UNDER CONSTRUCTION#####
         #self.upload_file(app_ids)
@@ -124,13 +120,13 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
             2)log into enterprise account, generate a new Android application, load wrapping page
         """
         self.browser.get(self.config.common.url + "/developers/")
-        app_name = utils.create_new_app(self, constants.ANDROID)
+        app_name = self.create_new_app(constants.ANDROID)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
         self.browser.get(self.config.common.url + "/developers/wrapping/" + app_ids[0])
         self.browser.implicitly_wait(2)
         self.assertNotEqual(self.browser.current_url,
-                            "https://app-staging.crittercism.com/developers/wrapping/" + app_ids[0],
+                            self.config.common.url + "/developers/wrapping/" + app_ids[0],
                             "Loaded wrapping page for a non- iOS application")
         team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
 
@@ -142,10 +138,10 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
             3)create trial account, generate a new iOS application, load wrapping page
         """
 
-        utils.logout(self)
+        self.logout()
 
-        utils.sign_up_new_account(self, constants.ACCOUNT_TYPES.ENTERPRISE)
-        app_name = utils.create_new_app(self, constants.IOS)
+        self.sign_up_new_account(constants.ACCOUNT_TYPES.ENTERPRISE)
+        app_name = self.create_new_app(constants.IOS)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
         self.browser.get(self.config.common.url + "/developers/wrapping/" + app_ids[0])
@@ -160,16 +156,16 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
             4)create trial account, generate a new Android application, load wrapping page
         """
 
-        utils.logout(self)
+        self.logout()
 
-        utils.sign_up_new_account(self, constants.ACCOUNT_TYPES.ENTERPRISE)
-        app_name = utils.create_new_app(self, constants.ANDROID)
+        self.sign_up_new_account(constants.ACCOUNT_TYPES.ENTERPRISE)
+        app_name = self.create_new_app(constants.ANDROID)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
         self.browser.get(self.config.common.url + "/developers/wrapping/" + app_ids[0])
         self.browser.implicitly_wait(2)
         self.assertNotEqual(self.browser.current_url,
-                            "https://app-staging.crittercism.com/developers/wrapping/" + app_ids[0],
+                            self.config.common.url + "/developers/wrapping/" + app_ids[0],
                             "Loaded wrapping page for a non- iOS application")
         team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
 
@@ -181,15 +177,15 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
             5)log into basic account, generate a new iOS application, load wrapping page
         """
 
-        utils.logout(self)
-        utils.login(self.browser, username=basic_username, password=basic_password)
-        app_name = utils.create_new_app(self, constants.IOS)
+        self.logout()
+        utils.login(self.browser, username=self.config.login.basic_username, password=self.config.login.basic_password)
+        app_name = self.create_new_app(constants.IOS)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
         self.browser.get(self.config.common.url + "/developers/wrapping/" + app_ids[0])
         self.browser.implicitly_wait(2)
         self.assertNotEqual(self.browser.current_url,
-                            "https://app-staging.crittercism.com/developers/wrapping/" + app_ids[0],
+                            self.config.common.url + "/developers/wrapping/" + app_ids[0],
                             "Loaded wrapping page for a basic user")
         team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
 
@@ -199,15 +195,15 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
             6)log into basic account, generate a new android application, load wrapping page
         """
 
-        utils.logout(self)
-        utils.login(self.browser, username=basic_username, password=basic_password)
-        app_name = utils.create_new_app(self, constants.ANDROID)
+        self.logout()
+        utils.login(self.browser, username=self.config.login.basic_username, password=self.config.login.basic_password)
+        app_name = self.create_new_app(constants.ANDROID)
 
         app_ids = team.get_id_from_app_name(self.browser, app_name)
         self.browser.get(self.config.common.url + "/developers/wrapping/" + app_ids[0])
         self.browser.implicitly_wait(2)
         self.assertNotEqual(self.browser.current_url,
-                            "https://app-staging.crittercism.com/developers/wrapping/" + app_ids[0],
+                            self.config.common.url + "/developers/wrapping/" + app_ids[0],
                             "Loaded wrapping page for a non-iOS application with a basic user")
         team.delete_app_given_ids(browser=self.browser, app_ids=app_ids)
 
