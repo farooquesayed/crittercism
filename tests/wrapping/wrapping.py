@@ -38,7 +38,7 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         """
         pass
 
-    # ###########ENTERPRISE LEVEL#############
+    ############ENTERPRISE LEVEL#############
     def logout(self):
         self.browser.get(self.config.common.url + "/developers/logout")
 
