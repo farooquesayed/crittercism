@@ -186,6 +186,7 @@ export CONFIG_FILE
 export TEST_TYPE
 export LOG_DIR
 export BROWSER
+export PORT
 
 #Start the Selenium Hub
 startSeleniumHub

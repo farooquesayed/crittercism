@@ -86,12 +86,7 @@ class CommonConfig(BaseConfig):
     @property
     def selenium_hub_url(self):
         """ Data used while Running test """
-        return self.get("selenium_hub_url", "http://localhost:4444/wd/hub")
-
-    @property
-    def selenium_hub_port(self):
-        """ Data used while Running test """
-        return self.get("selenium_hub_port", "4444")
+        return self.get("selenium_hub_url", None)
 
     @property
     def plan_type(self):
