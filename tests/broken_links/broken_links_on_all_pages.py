@@ -30,8 +30,9 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
             for link in utils.get_all_links(self.browser):
                 # This means either we are out of portal or already visited the link
                 # Short Circuiting if we get more then 500 links in total
-                if self.config.common.url not in link or link in visited or visited.__len__() > 5000:
-                    logger.debug("Skipping link %s because it is either visited or not a crittercism link or exceeded the threshold value of 500 in crawling" % link)
+                if self.config.common.url not in link or link in visited:
+                    logger.debug(
+                        "Skipping link %s because it is either visited or not a crittercism link in crawling" % link)
                     continue
 
                 visited.add(link)
