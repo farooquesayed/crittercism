@@ -32,7 +32,7 @@ class AlertTestSuite(baseTest.CrittercismTestCase):
 
         """
         super(AlertTestSuite, cls).setUpClass()
-        cls.app_ids.append(team.get_id_from_app_name(self.browser, "Cactii crash 'em high"))
+        cls.app_ids.append(team.get_id_from_app_name(cls.browser, "Cactii crash 'em high")[0])
 
 
     def setUp(self):
@@ -41,7 +41,7 @@ class AlertTestSuite(baseTest.CrittercismTestCase):
 
 
         """
-        self.browser.get(self.config.common.url + "/developers/alerts" + self.app_ids[0])
+        self.browser.get(self.config.common.url + "/developers/alerts/" + self.app_ids[0])
         pass
 
 
