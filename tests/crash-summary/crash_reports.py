@@ -58,14 +58,17 @@ class CrashReportTestSuite(baseTest.CrittercismTestCase):
             logger.debug("working on period %s" % period.text)
             self.assertFalse(self.click(web_element=period), " Broken link at " + self.browser.current_url)
             with self.multiple_assertions():
-                self.assertEqual(self.browser.find_element_by_id("stats-number-today").text,"0",
-                                 ("Expecting No crash but found %s" % self.browser.find_element_by_id("stats-number-today").text) )
+                self.assertEqual(self.browser.find_element_by_id("stats-number-today").text, "0",
+                                 ("Expecting No crash but found %s" % self.browser.find_element_by_id(
+                                     "stats-number-today").text))
 
-                self.assertEqual(self.browser.find_element_by_id("stats-number-week").text,"0",
-                                 ("Expecting No crash but found %s" % self.browser.find_element_by_id("stats-number-week").text) )
+                self.assertEqual(self.browser.find_element_by_id("stats-number-week").text, "0",
+                                 ("Expecting No crash but found %s" % self.browser.find_element_by_id(
+                                     "stats-number-week").text))
 
-                self.assertEqual(self.browser.find_element_by_id("stats-number-all-time").text,"0",
-                                 ("Expecting No crash but found %s" % self.browser.find_element_by_id("stats-number-all-time").text) )
+                self.assertEqual(self.browser.find_element_by_id("stats-number-all-time").text, "0",
+                                 ("Expecting No crash but found %s" % self.browser.find_element_by_id(
+                                     "stats-number-all-time").text))
 
 
     def tearDown(self):
@@ -78,6 +81,7 @@ class CrashReportTestSuite(baseTest.CrittercismTestCase):
         super(CrashReportTestSuite, cls).tearDownClass()
 
         pass
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -8,10 +8,10 @@ __author__ = 'farooque'
 from src import baseTest
 from src import config
 
-page_url =  config.CliConfig().common.url + '/developers/network/52fb0fdb8b2e3365c6000008/location/world/service/youtube/latency'
+page_url = config.CliConfig().common.url + '/developers/network/52fb0fdb8b2e3365c6000008/location/world/service/youtube/latency'
+
 
 class NetworkTestSuite(baseTest.CrittercismTestCase):
-
     @classmethod
     def setUpClass(cls):
         super(NetworkTestSuite, cls).setUpClass()
@@ -24,6 +24,7 @@ class NetworkTestSuite(baseTest.CrittercismTestCase):
         __name__ + """[Test] Find all Broken Links from Developers landing page """
 
         pass
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

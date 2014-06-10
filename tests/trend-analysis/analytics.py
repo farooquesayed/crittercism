@@ -12,7 +12,7 @@ logger = src.clogger.setup_custom_logger(__name__)
 
 
 class AnalyticsTestSuite(baseTest.CrittercismTestCase):
-    app_ids= []
+    app_ids = []
 
     @classmethod
     def setUpClass(cls):
@@ -45,10 +45,10 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         empty_string = ""
         #data is a dummy string that will later be replaced with actual data
         with self.multiple_assertions():
-            self.assertNotEqual(first= self.get_web_element(value='//*[@id="dau-container"]/../div[3]/strong').text,
+            self.assertNotEqual(first=self.get_web_element(value='//*[@id="dau-container"]/../div[3]/strong').text,
                                 second=empty_string,
                                 msg="DAU result does not appear")
-            self.assertNotEqual(first= self.get_web_element(value='//*[@id="dau-container"]/../div[3]/span').text,
+            self.assertNotEqual(first=self.get_web_element(value='//*[@id="dau-container"]/../div[3]/span').text,
                                 second=empty_string,
                                 msg="MAU result does not appear")
 
@@ -64,7 +64,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         versions.append(self.get_web_element(
             value='//*[@id="crashes-ratio-container"]/../div[2]/div[2]/strong').text)
         #versions.append(self.get_web_element(
-         #   value='//*[@id="crashes-ratio-container"]/../div[2]/div[3]/strong').text)
+        #   value='//*[@id="crashes-ratio-container"]/../div[2]/div[3]/strong').text)
 
         crashes = []
         crashes.append(self.get_web_element(
@@ -72,8 +72,8 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         #crashes.append(self.get_web_element(
         #    value='//*[@id="crashes-ratio-container"]/../div[2]/div[3]/span').text)
         crash_table = dict(zip(versions, crashes))
-        blank_data = {"1.0.0.0":"",
-                      "0.4.2":""}
+        blank_data = {"1.0.0.0": "",
+                      "0.4.2": ""}
 
         self.assertFalse(crash_table == blank_data, "Listed apploads data does not match given data")
 
@@ -95,10 +95,11 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         #crashes.append(self.get_web_element(
         #    value='//*[@id="affected-users-ratio-container"]/../div[2]/div[3]/span').text)
         crash_table = dict(zip(versions, crashes))
-        blank_data = {"1.0.0.0":"",
-                      "0.4.2":""}
+        blank_data = {"1.0.0.0": "",
+                      "0.4.2": ""}
 
-        self.assertNotEqual(crash_table, blank_data, "Daily Active Users that crashed by version does not match given data")
+        self.assertNotEqual(crash_table, blank_data,
+                            "Daily Active Users that crashed by version does not match given data")
 
     @nose.plugins.attrib.attr(genre='analytics')
     def test_4_todays_apploads_version(self):
@@ -118,9 +119,8 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         #    value='//*[@id="app-load-version-container"]/../div[2]/div[3]/span').text)
         crash_table = dict(zip(versions, crashes))
 
-        blank_data = {"1.0.0.0":"",
-                      "0.4.2":""}
-
+        blank_data = {"1.0.0.0": "",
+                      "0.4.2": ""}
 
         self.assertNotEqual(crash_table, blank_data, "App loads by version does not match given data")
 
@@ -141,8 +141,8 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         #crashes.append(self.get_web_element(
         #    value='//*[@id="dau-version-container"]/../div[2]/div[3]/span').text)
         crash_table = dict(zip(versions, crashes))
-        blank_data = {"1.0.0.0":"",
-                      "0.4.2":""}
+        blank_data = {"1.0.0.0": "",
+                      "0.4.2": ""}
 
         self.assertNotEqual(crash_table, blank_data, "Daily Active Users by version does not match given data")
 
@@ -163,8 +163,8 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         #crashes.append(self.get_web_element(
         #    value='//*[@id="crashes-version-container"]/../div[2]/div[3]/span').text)
         crash_table = dict(zip(versions, crashes))
-        blank_data = {"1.0.0.0":"",
-                      "0.4.2":""}
+        blank_data = {"1.0.0.0": "",
+                      "0.4.2": ""}
         self.assertNotEqual(crash_table, blank_data, "Crashes by version does not match given data")
 
     @nose.plugins.attrib.attr(genre='analytics')
@@ -184,8 +184,8 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         #crashes.append(self.get_web_element(
         #    value='//*[@id="affected-users-version-container"]/../div[2]/div[2]/span').text)
         crash_table = dict(zip(versions, crashes))
-        blank_data = {"1.0.0.0":"",
-                      "0.4.2":""}
+        blank_data = {"1.0.0.0": "",
+                      "0.4.2": ""}
 
         self.assertNotEqual(crash_table, blank_data, "Affected users by version does not match given data")
 
@@ -220,11 +220,11 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
             value='//*[@id="app-load-device-container"]/../div[2]/div[6]/span').text)
 
         crash_table = dict(zip(versions, crashes))
-        blank_data = {"iPhone 4s":"",
-                      "iPhone 5 CDMA+LTE":"",
-                      "iPhone 4 CDMA":"",
-                      "2nd Gen iPad mini Retina, WiFi/Cellular":"",
-                      "2nd Gen iPad mini Retina, WiFi":""}
+        blank_data = {"iPhone 4s": "",
+                      "iPhone 5 CDMA+LTE": "",
+                      "iPhone 4 CDMA": "",
+                      "2nd Gen iPad mini Retina, WiFi/Cellular": "",
+                      "2nd Gen iPad mini Retina, WiFi": ""}
 
         self.assertNotEqual(crash_table, blank_data, "App loads by device does not match given data")
 
@@ -258,11 +258,11 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
             value='//*[@id="crashes-device-container"]/../div[2]/div[6]/span').text)
 
         crash_table = dict(zip(versions, crashes))
-        blank_data = {"iPhone 4s":"",
-                      "iPhone 5 CDMA+LTE":"",
-                      "iPhone 4 CDMA":"",
-                      "2nd Gen iPad mini Retina, WiFi/Cellular":"",
-                      "2nd Gen iPad mini Retina, WiFi":""}
+        blank_data = {"iPhone 4s": "",
+                      "iPhone 5 CDMA+LTE": "",
+                      "iPhone 4 CDMA": "",
+                      "2nd Gen iPad mini Retina, WiFi/Cellular": "",
+                      "2nd Gen iPad mini Retina, WiFi": ""}
 
         self.assertNotEqual(crash_table, blank_data, "Crashes by device does not match given data")
 
@@ -296,11 +296,11 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
             value='//*[@id="crashes-ratio-device-container"]/../div[2]/div[6]/span').text)
 
         crash_table = dict(zip(versions, crashes))
-        blank_data = {"iPhone 4s":"",
-                      "iPhone 5 CDMA+LTE":"",
-                      "iPhone 4 CDMA":"",
-                      "2nd Gen iPad mini Retina, WiFi/Cellular":"",
-                      "2nd Gen iPad mini Retina, WiFi":""}
+        blank_data = {"iPhone 4s": "",
+                      "iPhone 5 CDMA+LTE": "",
+                      "iPhone 4 CDMA": "",
+                      "2nd Gen iPad mini Retina, WiFi/Cellular": "",
+                      "2nd Gen iPad mini Retina, WiFi": ""}
 
         self.assertNotEqual(crash_table, blank_data, "Apploads that crashed by device does not match given data")
 
@@ -335,11 +335,11 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
             value='//*[@id="app-load-os-container"]/../div[2]/div[6]/span').text)
 
         crash_table = dict(zip(versions, crashes))
-        blank_data = {"ios 5.1.1":"",
-                      "ios 4.2.1":"",
-                      "6.1.4":"",
-                      "6.1.5":"",
-                      "7.0.1":""}
+        blank_data = {"ios 5.1.1": "",
+                      "ios 4.2.1": "",
+                      "6.1.4": "",
+                      "6.1.5": "",
+                      "7.0.1": ""}
 
         self.assertNotEqual(crash_table, blank_data, "Apploads by OS does not match given data")
 
@@ -373,11 +373,11 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
             value='//*[@id="crashes-os-container"]/../div[2]/div[6]/span').text)
 
         crash_table = dict(zip(versions, crashes))
-        blank_data = {"ios 5.1.1":"",
-                      "ios 4.2.1":"",
-                      "6.1.4":"",
-                      "6.1.5":"",
-                      "7.0.1":""}
+        blank_data = {"ios 5.1.1": "",
+                      "ios 4.2.1": "",
+                      "6.1.4": "",
+                      "6.1.5": "",
+                      "7.0.1": ""}
 
         self.assertNotEqual(crash_table, blank_data, "crashes by OS does not match given data")
 
@@ -411,11 +411,11 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
             value='//*[@id="crashes-ratio-os-container"]/../div[2]/div[6]/span').text)
 
         crash_table = dict(zip(versions, crashes))
-        blank_data = {"ios 5.1.1":"",
-                      "ios 4.2.1":"",
-                      "6.1.4":"",
-                      "6.1.5":"",
-                      "7.0.1":""}
+        blank_data = {"ios 5.1.1": "",
+                      "ios 4.2.1": "",
+                      "6.1.4": "",
+                      "6.1.5": "",
+                      "7.0.1": ""}
 
         self.assertNotEqual(crash_table, blank_data, "crashes by OS does not match given data")
 
@@ -426,8 +426,8 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
             14) test filters at top
         """
 
-        fromPath='//*[@id="date-from"]'
-        toPath='//*[@id="date-to"]'
+        fromPath = '//*[@id="date-from"]'
+        toPath = '//*[@id="date-to"]'
         self.get_web_element(value=fromPath).send_keys("5/25/2014")
         self.get_web_element(value=toPath).send_keys("6/2/2014")
         self.find_element_and_click(value='/html/body/div[3]/div/div/form/input[3]')
@@ -437,7 +437,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
                          msg="filters did not appropriately refresh data")
 
     def tearDown(self):
-       pass
+        pass
 
 
     @classmethod

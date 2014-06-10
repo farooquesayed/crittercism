@@ -2,6 +2,7 @@ from datetime import datetime
 import inspect
 import os
 import re
+import random
 
 from requests.exceptions import InvalidSchema, MissingSchema, ConnectionError
 from selenium import webdriver
@@ -10,9 +11,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import ui as selenium_ui
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-import random
 import src.constants as constants
-
 from src import multiple_assertions
 from src import clogger
 from src import config
@@ -197,34 +196,6 @@ class SeleniumTestCase(BaseCliTest):
             self.capture_screenshot()
             raise AssertionError(("Not able to find the web element to click"))
 
-    def logout(self):
-        self.browser.get(self.config.common.url + "/developers/logout")
-
-    def sign_up_new_account(self, accnt):
-
-        self.logout()
-        # self.browser.implicitly_wait(3)
-        self.browser.get(self.config.common.url + "/signup?plan=" + accnt)
-        random_email = (self.config.login.test_user_engg).replace('@', str(random.random()) + '@')
-        self.browser.find_element_by_id("firstname").send_keys("test_user_" + accnt)
-        self.browser.find_element_by_id("lastname").send_keys("crittercism")
-        self.browser.find_element_by_id("company").send_keys("crittercism")
-        self.browser.find_element_by_id("phone").send_keys("123-456-7890")
-        self.browser.find_element_by_id("email").send_keys(random_email)
-        self.browser.find_element_by_id("password").send_keys(self.config.login.password)
-        self.find_element_and_submit(by=By.XPATH, value="//*[contains(@class,'grid_8 push_2')]")
-
-    def create_new_app(self, platform):
-        page_url = self.config.common.url + "/developers/register-application"
-        self.browser.get(page_url)
-
-        p_str = platform.PREFIX
-        self.find_element_and_click(value='//label[@for=' + platform.PLATFORM + ']')
-        app_name = p_str + str(random.random())
-        self.browser.find_element_by_id("app-name").send_keys(app_name)
-        self.assertFalse(self.find_element_and_submit(by=By.ID, value=constants.BrowserConstants.COMMIT),
-                         " Broken link at " + self.browser.current_url)
-        return app_name
 
     @classmethod
     def tearDownClass(cls):
@@ -250,15 +221,43 @@ class CrittercismTestCase(SeleniumTestCase):
         cls.browser.find_element_by_name('password').send_keys(config.CliConfig().login.password)
         cls.browser.find_element_by_id('commit').submit()
 
-    @classmethod
-    def tearDownClass(cls):
-        super(CrittercismTestCase, cls).tearDownClass()
-
     def setUp(self):
         super(CrittercismTestCase, self).setUp()
 
+    def logout(self):
+        self.browser.get(self.config.common.url + "/developers/logout")
+
+    def sign_up_new_account(self, plan_type="basic"):
+        self.logout()
+        # self.browser.implicitly_wait(3)
+        self.browser.get(self.config.common.url + "/signup?plan=" + plan_type)
+        random_email = (self.config.login.test_user_engg).replace('@', str(random.random()) + '@')
+        self.browser.find_element_by_id("firstname").send_keys("test_user_" + plan_type)
+        self.browser.find_element_by_id("lastname").send_keys("crittercism")
+        self.browser.find_element_by_id("company").send_keys("crittercism")
+        self.browser.find_element_by_id("phone").send_keys("123-456-7890")
+        self.browser.find_element_by_id("email").send_keys(random_email)
+        self.browser.find_element_by_id("password").send_keys(self.config.login.password)
+        self.find_element_and_submit(by=By.XPATH, value="//*[contains(@class,'grid_8 push_2')]")
+
+    def create_new_app(self, platform=None):
+        page_url = self.config.common.url + "/developers/register-application"
+        self.browser.get(page_url)
+
+        p_str = platform.PREFIX
+        self.find_element_and_click(value='//label[@for=' + platform.PLATFORM + ']')
+        app_name = p_str + str(random.random())
+        self.browser.find_element_by_id("app-name").send_keys(app_name)
+        self.assertFalse(self.find_element_and_submit(by=By.ID, value=constants.BrowserConstants.COMMIT),
+                         " Broken link at " + self.browser.current_url)
+        return app_name
+
     def tearDown(self):
         pass
+
+    @classmethod
+    def tearDownClass(cls):
+        super(CrittercismTestCase, cls).tearDownClass()
 
 
 def Singleton(self):
