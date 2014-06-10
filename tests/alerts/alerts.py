@@ -1,3 +1,4 @@
+import re
 import unittest
 import os
 import threading
@@ -21,6 +22,7 @@ from src.page_helpers import alert_mgmt
 __author__ = 'egeller'
 
 logger = clogger.setup_custom_logger(__name__)
+
 
 class AlertTestSuite(baseTest.CrittercismTestCase):
     app_ids = []
@@ -55,23 +57,28 @@ class AlertTestSuite(baseTest.CrittercismTestCase):
 
         alert_type = random.randint(0, 11)
 
-        alert_name = alert_mgmt.create_new_alert(self, app_id=self.app_ids[0], alert_type=alert_type, threshold=threshold)
+        alert_list = alert_mgmt.create_new_alert(self, app_id=self.app_ids[0], alert_type=alert_type,
+                                                 threshold=threshold)
+        alert_name = alert_list[0]
+        threshold = alert_list[1]
+        #self.setUp()
 
-        self.setUp()
-
-        alert_detail = self.get_web_element(value='(//div[@class="span10 detail"])[1]')
+        alert_detail = '(//div[@class="span10 detail"])[1]'
 
         with self.multiple_assertions():
-            bold_elements = '(/span[@class="bold"])['
-            self.assertEqual(alert_detail.find_element_by_xpath(bold_elements + 1 + ']').text, alert_name,
+            bold_elements = alert_detail + '//span[@class="bold"]['
+            pattern = re.compile('[^\d|^\.]+')
+            self.assertEqual(self.get_web_element(value= bold_elements + '1' + ']').text, alert_name,
                              msg="alert_type was not properly displayed!")
-            self.assertEqual(alert_detail.find_element_by_xpath(bold_elements + 2 + ']').text, str(threshold),
-                                                                msg="threshold was not properly displayed!")
-            self.assertEqual(alert_detail.find_element_by_xpath(bold_elements + 7 + ']').text, "Nellian Solaiappan",
+            self.assertEqual(
+                pattern.sub('', self.get_web_element(value= bold_elements + '2' + ']').text),
+                str(threshold),
+                             msg="threshold was not properly displayed!")
+            self.assertEqual(self.get_web_element(value= bold_elements + '7' + ']').text, "Nellian Solaiappan",
                              msg="alert assignee was not properly displayed!")
+        alert_mgmt.delete_alert(self, idx=0)
 
-
-
+    #TODO: test Alert Integrations
 
     def tearDown(self):
         pass
@@ -79,7 +86,6 @@ class AlertTestSuite(baseTest.CrittercismTestCase):
 
     @classmethod
     def tearDownClass(cls):
-
         super(AlertTestSuite, cls).tearDownClass()
 
         pass
