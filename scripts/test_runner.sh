@@ -16,7 +16,7 @@ PARALLEL_PROCESS=
 CI="NO"
 VERBOSITY=
 OUTPUT_STRING="Running "
-PORT=4444
+PORT=$RANDOM
 
 
 ###########################Function Defination #########################
@@ -28,7 +28,7 @@ function removeOldLogFiles() {
 
 function startSeleniumHub() {
 
-     PORT=$(grep selenium_hub_port ${CONFIG_FILE} | sed 's/selenium_hub_port=//')
+     #PORT=$(grep selenium_hub_port ${CONFIG_FILE} | sed 's/selenium_hub_port=//')
      if [ "X${CI}" == "XNO" ] ; then
          #Read the port number from config file to start the hub
 	     echo "Starting the Selenium standalone server in background on port : ${PORT}"
