@@ -1,14 +1,15 @@
 import unittest2 as unittest
 import nose.plugins.attrib
 
-import src
+from src import clogger
 from src import baseTest
 from src.page_helpers import team
+from src import config
 
 
 __author__ = 'ethan'
 
-logger = src.clogger.setup_custom_logger(__name__)
+logger = clogger.setup_custom_logger(__name__)
 
 
 class AnalyticsTestSuite(baseTest.CrittercismTestCase):
@@ -22,7 +23,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
         """
         super(AnalyticsTestSuite, cls).setUpClass()
         #cls.browser.get(cls.config.common.url + "/developers/analytics/52fb0fdb8b2e3365c6000008")
-        AnalyticsTestSuite.app_ids = team.get_id_from_app_name(browser=cls.browser, app_name="Cactii crash 'em high")
+        AnalyticsTestSuite.app_ids = team.get_id_from_app_name(browser=cls.browser, app_name= config.CliConfig().apps.android_with_data)
 
     def setUp(self):
         """

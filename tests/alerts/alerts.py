@@ -17,6 +17,7 @@ from src.constants import ALERT_TYPES
 from src.page_helpers import team
 from src.page_helpers import utils
 from src.page_helpers import alert_mgmt
+from src import config
 
 
 __author__ = 'egeller'
@@ -34,7 +35,8 @@ class AlertTestSuite(baseTest.CrittercismTestCase):
 
         """
         super(AlertTestSuite, cls).setUpClass()
-        cls.app_ids.append(team.get_id_from_app_name(cls.browser, "Cactii crash 'em high")[0])
+        app_name = config.CliConfig().apps.android_with_data
+        cls.app_ids.append(team.get_id_from_app_name(cls.browser, app_name)[0])
 
 
     def setUp(self):
@@ -76,7 +78,7 @@ class AlertTestSuite(baseTest.CrittercismTestCase):
                              msg="threshold was not properly displayed!")
             self.assertEqual(self.get_web_element(value= bold_elements + '7' + ']').text, "Nellian Solaiappan",
                              msg="alert assignee was not properly displayed!")
-        alert_mgmt.delete_alert(self, idx=0)
+        alert_mgmt.delete_alert(self, app_id=self.app_ids[0], idx=0)
 
     #TODO: test Alert Integrations
 

@@ -5,13 +5,14 @@ import random
 
 __author__ = 'egeller'
 
-def alert_setup(suite=None, app_id='52fb11934002051d02000004'):
+def alert_setup(suite=None, app_id=None):
+    suite.assertTrue(app_id, "ERROR: Must assign app_id in alert_mgmt functions!")
     suite.browser.get(suite.config.common.url + "/developers/alerts/" + app_id)
     waiter = Waiter(driver=suite.browser)
     waiter.wait_until_visible_by_xpath(xpath='//span[contains(@class, createAlertLink)]',
                                        timeout=waiter.timeout, pool_period=waiter.pool_period)
 
-def create_new_alert(suite=None, app_id='52fb11934002051d02000004', alert_type= ALERT_TYPES.APP_LOADS, threshold=1):
+def create_new_alert(suite=None, app_id=None, alert_type= ALERT_TYPES.APP_LOADS, threshold=1):
     """
         :return 0: alert name, 1: threshold
     """
@@ -29,7 +30,7 @@ def create_new_alert(suite=None, app_id='52fb11934002051d02000004', alert_type= 
 
     return [alert_name, str(threshold)]
 
-def delete_alert(suite=None, app_id='52fb11934002051d02000004', idx=0):
+def delete_alert(suite=None, app_id=None, idx=0):
     alert_setup(suite, app_id)
     div_str_idx = '//div[contains(@class, "moduleContents")]/div[' + str(idx + 1)
     suite.find_element_and_click(value=div_str_idx +']//a[contains(text(), "Delete")]')
