@@ -22,8 +22,9 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
 
         """
         super(AnalyticsTestSuite, cls).setUpClass()
-        #cls.browser.get(cls.config.common.url + "/developers/analytics/52fb0fdb8b2e3365c6000008")
-        AnalyticsTestSuite.app_ids = team.get_id_from_app_name(browser=cls.browser, app_name= config.CliConfig().apps.android_with_data)
+        # cls.browser.get(cls.config.common.url + "/developers/analytics/52fb0fdb8b2e3365c6000008")
+        AnalyticsTestSuite.app_ids = team.get_id_from_app_name(browser=cls.browser,
+                                                               app_name=config.CliConfig().apps.android_with_data)
 
     def setUp(self):
         """
@@ -36,7 +37,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
 
 
     @nose.plugins.attrib.attr(genre='analytics')
-    #@unittest.skip("Reason : why it is skipped")
+    # @unittest.skip("Reason : why it is skipped")
     def test_1_au_version(self):
         """
             1) Today's DAU and MAU
@@ -55,7 +56,7 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
 
             pass
 
-    ######### BY VERSION ############
+    # ######## BY VERSION ############
     @nose.plugins.attrib.attr(genre='analytics')
     def test_2_todays_apploads_crashes_version(self):
         """
