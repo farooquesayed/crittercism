@@ -16,7 +16,7 @@ PARALLEL_PROCESS=
 CI="NO"
 VERBOSITY=
 OUTPUT_STRING="Running "
-PORT=$RANDOM
+PORT=$(($RANDOM + 2000)) # First 2000 ports are reserved somehow and increasing the number by 2k
 
 
 ###########################Function Defination #########################
