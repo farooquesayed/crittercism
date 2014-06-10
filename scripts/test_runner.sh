@@ -16,6 +16,7 @@ PARALLEL_PROCESS=
 CI="NO"
 VERBOSITY=
 OUTPUT_STRING="Running "
+PORT=4444
 
 
 ###########################Function Defination #########################
@@ -27,20 +28,30 @@ function removeOldLogFiles() {
 
 function startSeleniumHub() {
 
+     PORT=$(grep selenium_hub_port ${CONFIG_FILE} | sed 's/selenium_hub_port=//')
      if [ "X${CI}" == "XNO" ] ; then
          #Read the port number from config file to start the hub
-         port=$(grep selenium_hub_port ${CONFIG_FILE} | sed 's/selenium_hub_port=//')
-	     echo "Starting the Selenium standalone server in background on port : ${port}"
-         hubresponse=$(java -jar ${DIR}/bin/selenium-server-standalone-2.41.0.jar -port ${port} -Dwebdriver.chrome.driver=${DIR}/bin/chromedriver 2>&1 > ${LOG_DIR}/seleniumhub_${port}_${TEST_TYPE}.log) &
-         echo ${hubresponse} >>  ${LOG_DIR}/seleniumhub_${port}_${TEST_TYPE}.log
+	     echo "Starting the Selenium standalone server in background on port : ${PORT}"
+         hubresponse=$(java -jar ${DIR}/bin/selenium-server-standalone-2.41.0.jar -port ${PORT} -Dwebdriver.chrome.driver=${DIR}/bin/chromedriver 2>&1 > ${LOG_DIR}/seleniumhub_${PORT}_${TEST_TYPE}.log) &
+         echo ${hubresponse} >>  ${LOG_DIR}/seleniumhub_${PORT}_${TEST_TYPE}.log
          sleep 5
      fi
 }
 
+function isSeleniumServerRunning(){
+
+    # Make sure selenium Server is running before starting the test
+    if [ $(echo quit | telnet 0 ${PORT} 2>&1 | grep -c 'Connection refused') == "1" ] ; then
+        echo "[FATAL]: Selenium Server not running at localhost:${PORT}. Hence quitting the test";
+        exit 1
+    fi
+    echo "Selenium Server is running on localhost:${PORT}"
+
+}
 function runTest() {
     # Create the log folder incase it is not present
     mkdir -p ${LOG_DIR}/screenshots
-    
+    isSeleniumServerRunning
     #EXEC_CMD="${BIN} ${DIR} --with-xunit --xunit-file=$LOG_DIR/nosetests.xml $TEST_TYPE_ARG  ${PARALLEL_PROCESS_ARG} -v --debug-log=$LOG_DIR/debug.log"
     EXEC_CMD="${BIN} ${DIR}/tests/*/*py --with-xunit --xunit-file=$LOG_DIR/nosetests.xml $TEST_TYPE_ARG  ${PARALLEL_PROCESS_ARG} -v "
     echo "Executing test on ${BROWSER} : ${EXEC_CMD}"
@@ -54,9 +65,7 @@ function runTest() {
 function stopSeleniumHub() {
 
      if [ "X${CI}" == "XNO" ] ; then
-         #Read the port number from config file to start the hub
-         port=$(grep selenium_hub_port ${CONFIG_FILE} | sed 's/selenium_hub_port=//')
-         ps aux |grep java.*${port}|grep -v grep|awk '{print $2}' | xargs kill -15
+         ps aux |grep java.*${PORT}|grep -v grep|awk '{print $2}' | xargs kill -15
      fi
 }
 
@@ -187,7 +196,7 @@ if [ "X${GENRE}" == "Xfailed" ] ; then
       reRunFailedTest
       reRunFailedTest
       reRunFailedTest
-      exit 1
+      exit 0
 fi
 
 # Remove the log files from previous runs
@@ -200,4 +209,4 @@ runTest
 stopSeleniumHub
 
 # Masking the return code from nose test as we want the test failure to be yellow in hudson instead of RED
-#exit 0;
+exit 0;
