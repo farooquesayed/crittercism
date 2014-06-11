@@ -29,8 +29,6 @@ class AnalyticsTestSuite(baseTest.CrittercismTestCase):
     def setUp(self):
         """
         Setup for the testcase
-
-
         """
         self.browser.get(self.config.common.url + "/developers/analytics/" + AnalyticsTestSuite.app_ids[0])
         pass

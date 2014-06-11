@@ -1,7 +1,5 @@
-from src import config
 from src.constants import ALERT_TYPES
 from src.wait_utils import Waiter
-import random
 
 __author__ = 'egeller'
 

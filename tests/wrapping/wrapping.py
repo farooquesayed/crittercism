@@ -210,6 +210,7 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
     def tearDown(self):
         pass
 
+    #TODO: create Pro tests for wrapping page (should deny wrapping)
 
     @classmethod
     def tearDownClass(cls):
