@@ -39,9 +39,10 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
                 logger.debug("Working on url '%s'" % (link[0]))
                 try:
                     resp = session.get(link[0])
-                    logger.debug("Got the response code %s from url %s" % (resp.status_code, link[0]))
+                    logger.debug(
+                        "Got the response code %s from url %s from page %s" % (resp.status_code, link[0], link[1]))
                     self.assertTrue((resp.status_code not in [500, 404]),
-                                    ("Return code %s URL %s" % (resp.status_code, link[0])))
+                                    ("Return code %s URL %s from page %s" % (resp.status_code, link[0], link[1])))
 
                     if link[0] != self.browser.current_url:
                         self.browser.get(link[0])
