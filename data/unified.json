@@ -1,0 +1,21 @@
+[
+    {
+        "appLoads": {
+            "appID": "519d53101386202089000007",
+            "appVersion": "1.0.0.0",
+            "carrier": "ATT",
+            "crPlatform": "windows",
+            "crVersion": "4.2.1",
+            "deviceID": "feea2aef084430ff1fb8e541f47647257a69b87e189d89c8df612345678",
+            "deviceModel": "XDeviceEmulator",
+            "locale": "en-U",
+            "osName": "wp",
+            "osVersion": "8.0.9903.0",
+            "platformSpecificData": {
+                "bundleIdentifier": "SomeOrg.AppName"
+            }
+        },
+        "count": 1,
+        "current": true
+    }
+]
