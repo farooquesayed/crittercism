@@ -45,7 +45,7 @@ def _suppress_log_assertion_errors(assertion_method):
         except AssertionError:
             exc_info = sys.exc_info()
             self.capture_screenshot()
-            if canSkipped(exc_info[1].message):
+            if canSkipped(exc_info[1].message) == False:
                 logger.error('Assertion error:\n %s', exc_info[1])
             if not self._suppress_assertions or always_raise:
                 raise exc_info[0], exc_info[1], exc_info[2]
