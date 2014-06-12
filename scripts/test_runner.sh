@@ -51,9 +51,11 @@ function isSeleniumServerRunning(){
 function runTest() {
     # Create the log folder incase it is not present
     mkdir -p ${LOG_DIR}/screenshots
-    isSeleniumServerRunning
+    if [ "X${CI}" == "XNO" ] ; then
+        isSeleniumServerRunning
+    fi
     #EXEC_CMD="${BIN} ${DIR} --with-xunit --xunit-file=$LOG_DIR/nosetests.xml $TEST_TYPE_ARG  ${PARALLEL_PROCESS_ARG} -v --debug-log=$LOG_DIR/debug.log"
-    EXEC_CMD="${BIN} ${DIR}/tests/*/*py --with-xunit --xunit-file=$LOG_DIR/nosetests.xml $TEST_TYPE_ARG  ${PARALLEL_PROCESS_ARG} -v "
+    EXEC_CMD="${BIN} ${DIR}/tests*/*/*py --with-xunit --xunit-file=$LOG_DIR/nosetests.xml $TEST_TYPE_ARG  ${PARALLEL_PROCESS_ARG} -v "
     echo "Executing test on ${BROWSER} : ${EXEC_CMD}"
     echo "${OUTPUT_STRING} [${TEST_TYPE} test] ..."
     

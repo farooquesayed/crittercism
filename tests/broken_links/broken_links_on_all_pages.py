@@ -5,7 +5,6 @@ from requests.exceptions import InvalidSchema, MissingSchema, ConnectionError
 
 
 __author__ = 'farooque'
-
 import nose.plugins.attrib
 import requests
 
@@ -96,6 +95,7 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
         super(BrokenLinkTestSuite, cls).tearDownClass()
         logger.info("Finished executing BrokenLinkTestSuite")
         pass
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

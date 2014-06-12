@@ -45,6 +45,10 @@ class BaseCliTest(multiple_assertions.TestCaseWithMultipleAssertions):
 
         return "test_method_name_not_found"
 
+    def capture_screenshot(self):
+        #Place holder in base class as there is no browser to capture the screen shots
+        pass;
+
 
     def tearDown(self):
         logger.info(">> BASE:TEARDOWN Override me in the tests suite <<")
@@ -61,7 +65,8 @@ class SeleniumTestCase(BaseCliTest):
     def setUpClass(cls):
         super(SeleniumTestCase, cls).setUpClass()
 
-        hub_url = config.CliConfig().common.selenium_hub_url or "http://localhost:" + os.environ.get("PORT") + "/wd/hub"
+        hub_url = config.CliConfig().common.selenium_hub_url or "http://localhost:" + os.environ.get("PORT",
+                                                                                                     "") + "/wd/hub"
 
         if os.environ.get("BROWSER", "firefox") == "firefox":
             cls.browser = webdriver.Remote(hub_url, DesiredCapabilities.FIREFOX)
