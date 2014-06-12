@@ -38,7 +38,7 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
         """
         pass
 
-    # ###########ENTERPRISE LEVEL#############
+    ############ENTERPRISE LEVEL#############
     def logout(self):
         self.browser.get(self.config.common.url + "/developers/logout")
 
@@ -210,6 +210,7 @@ class WrappingTestSuite(baseTest.CrittercismTestCase):
     def tearDown(self):
         pass
 
+    #TODO: create Pro tests for wrapping page (should deny wrapping)
 
     @classmethod
     def tearDownClass(cls):

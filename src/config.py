@@ -93,6 +93,19 @@ class CommonConfig(BaseConfig):
         """ Data used while Running test """
         return self.get("plan_type", "Basic")
 
+class AppsConfig(BaseConfig):
+    SECTION_NAME = "apps"
+
+    @property
+    def android_with_data(self):
+        """Android app name with data"""
+        return self.get("android_with_data", "Cactii crash 'em high")
+
+    @property
+    def ios_with_data(self):
+        """iOS app name with data"""
+        return self.get("ios_with_data", "Crittercism Demo")
+
 def Singleton(self):
     """Simple wrapper for classes that should only have a single instance"""
     instances = {}
@@ -125,6 +138,7 @@ class CliConfig:
 
         self.common = CommonConfig(self._conf)
         self.login = LoginConfig(self._conf)
+        self.apps = AppsConfig(self._conf)
         self.knownFailureList = []
 
 

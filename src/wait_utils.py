@@ -1,5 +1,4 @@
 from selenium.webdriver.support import ui
-
 from src.common_utils import wait_for_event
 
 
@@ -78,6 +77,39 @@ class Waiter(object):
 
         def element_visible(driver):
             return driver.find_element_by_css_selector(css).is_displayed()
+
+        self.wait.until_not(element_visible)
+
+        if timeout:
+            self.wait._timeout = self.timeout
+        if pool_period:
+            self.wait._poll = self.pool_period
+
+    def wait_until_visible_by_xpath(self, xpath, timeout=None, pool_period=None):
+        if timeout:
+            self.wait._timeout = timeout
+        if pool_period:
+            self.wait._poll = pool_period
+
+        def element_visible(driver):
+            return driver.find_element_by_xpath(xpath).is_displayed()
+
+        self.wait.until(element_visible)
+
+        if timeout:
+            self.wait._timeout = self.timeout
+        if pool_period:
+            self.wait._poll = self.pool_period
+
+    def wait_until_not_visible_by_xpath(
+            self, xpath, timeout=None, pool_period=None):
+        if timeout:
+            self.wait._timeout = timeout
+        if pool_period:
+            self.wait._poll = pool_period
+
+        def element_visible(driver):
+            return driver.find_element_by_xpath(xpath).is_displayed()
 
         self.wait.until_not(element_visible)
 
