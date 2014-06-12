@@ -30,28 +30,28 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
             for link in utils.get_all_links(self.browser):
                 # This means either we are out of portal or already visited the link
                 # Short Circuiting if we get more then 500 links in total
-                if self.config.common.url not in link or link in visited:
+                if self.config.common.url not in link[0] or link[0] in visited:
                     logger.debug(
-                        "Skipping link %s because it is either visited or not a crittercism link in crawling" % link)
+                        "Skipping link %s because it is either visited or not a crittercism link in crawling" % link[0])
                     continue
 
-                visited.add(link)
-                logger.debug("Going to  '%s'" % link)
+                visited.add(link[0])
+                logger.debug("Working on url '%s'" % (link[0]))
                 try:
-                    resp = session.get(link)
-                    logger.debug("Got the response code %s from ursl %s" % (resp.status_code, link))
+                    resp = session.get(link[0])
+                    logger.debug("Got the response code %s from url %s" % (resp.status_code, link[0]))
                     self.assertTrue((resp.status_code not in [500, 404]),
-                                    ("Return code %s URL %s" % (resp.status_code, link)))
+                                    ("Return code %s URL %s" % (resp.status_code, link[0])))
 
-                    if link != self.browser.current_url:
-                        self.browser.get(link)
+                    if link[0] != self.browser.current_url:
+                        self.browser.get(link[0])
                     #Needs to login instead any of the link redirect us to login page
                     if "login" in self.browser.current_url and self.browser.find_elements_by_id('email').__len__() > 0:
                         utils.login(browser=self.browser)
 
                     element = self.browser.find_elements_by_xpath(
                         '//*[contains(text(),"Well, this is embarrassing - you found a broken link.")]').__len__()
-                    self.assertEqual(element, 0, "Found a broken Link : " + link)
+                    self.assertEqual(element, 0, "Found a broken Link at : " + link[0] + " from page :" + link[1])
                     # call itself if the link contains crittercism else it will crawl the entire web :)
                     self.assert_on_broken_links()
                 except (InvalidSchema, MissingSchema, ConnectionError):
@@ -77,7 +77,7 @@ class BrokenLinkTestSuite(baseTest.CrittercismTestCase):
         self.browser.get(page_url)
         self.assert_on_broken_links()
 
-    @nose.plugins.attrib.attr(genre='links')
+    @nose.plugins.attrib.attr(genre='links1')
     def test_broken_links_support_page(self):
         __name__ + """[Test] Find all Broken Links from support landing page """
 

@@ -1,10 +1,9 @@
 import time
+
 from selenium.webdriver.common.by import By
 
 
 __author__ = 'farooque'
-
-from requests.exceptions import InvalidSchema, MissingSchema, ConnectionError
 
 from src import clogger, config
 
@@ -26,41 +25,17 @@ def get_all_links(browser=None):
     links.add(browser.current_url)
     for link in browser.find_elements_by_xpath('//a'):
         try:
-            url = link.get_attribute("href")
+            href = link.get_attribute("href")
         except:
             continue
-        if url is not None and "crittercism" in url:
-            logger.debug("Link is %s" % url)
-            links.add(url)
+        if href is None:
+            continue
+
+        logger.debug("href is %s from page %s" % (href, browser.current_url))
+
+        links.add((href, browser.current_url ))
 
     return links
-
-
-def is_url_broken_deleteme(browser=None, link=""):
-    """
-        Checks if the URL supplied or current page is broken or not
-
-        :Args:
-         - browser = Current instance of browser to check for broken links
-         - link = Optional Value: if not passed then current page is used to test
-
-        :Usage:
-            utils.is_url_broken(self.browser)
-    """
-    try:
-        # Navigate to the link if it is not there already
-        if link != browser.current_url and link != "":
-            browser.get(link)
-        #Needs to login instead any of the link redirect us to login page
-        if "login" in browser.current_url and browser.find_elements_by_id('email').__len__() > 1:
-            login()
-
-        element = browser.find_elements_by_xpath(
-            '//*[contains(text(),"Well, this is embarrassing - you found a broken link.")]').__len__()
-        return element
-    except (InvalidSchema, MissingSchema, ConnectionError):
-        logger.error("Hit an exception while traversing the URL")
-        return True
 
 
 def login(browser=None, username=config.CliConfig().login.username, password=config.CliConfig().login.password):
@@ -81,8 +56,6 @@ def login(browser=None, username=config.CliConfig().login.username, password=con
     browser.find_element_by_id('email').send_keys(username)
     browser.find_element_by_name('password').send_keys(password)
     browser.find_element_by_id('commit').submit()
-
-
 
 def delete_all_yahoo_email(browser=None):
     """
