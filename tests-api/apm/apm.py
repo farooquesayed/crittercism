@@ -63,7 +63,7 @@ class APMTestSuite(baseTest.BaseCliTest):
     @classmethod
     def create_session(self, token_url, client_id, username, password):
         client = LegacyApplicationClient(client_id)
-        CritterAPISession = OAuth2Session(client_id, client, ['all'], None, None, None, None, None, None, None)
+        CritterAPISession = OAuth2Session(client_id, client, ['all'])
         CritterAPISession.fetch_token(token_url=token_url, username=username, password=password, auth=(client_id, None))
         return CritterAPISession
 
