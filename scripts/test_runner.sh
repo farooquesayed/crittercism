@@ -3,6 +3,7 @@
 # Copyright (C) Crittercism Inc. All Rights Reserved
 #
 ######################################################
+# This is the test branch
 #Exports to python test framework
 CONFIG_FILE=
 export TEST_TYPE=
